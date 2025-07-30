@@ -278,7 +278,7 @@ export default function DiaryPage() {
                       AI가 보정한 추억
                     </h3>
                   </div>
-                  <div className="glass rounded-2xl p-6 border-2" style={{ borderColor: 'var(--accent-purple)', borderOpacity: 0.3 }}>
+                  <div className="glass rounded-2xl p-6" style={{ border: '2px solid rgba(175, 82, 222, 0.3)' }}>
                     <p className="leading-relaxed whitespace-pre-wrap text-lg font-light" style={{ color: 'var(--text-primary)' }}>
                       {enhancedText}
                     </p>
@@ -376,7 +376,7 @@ export default function DiaryPage() {
                     AI 감성 일기
                   </h3>
                 </div>
-                <div className="glass-subtle p-6 rounded-2xl border-2" style={{ borderColor: 'var(--accent-purple)', borderOpacity: 0.3 }}>
+                <div className="glass-subtle p-6 rounded-2xl" style={{ border: '2px solid rgba(175, 82, 222, 0.3)' }}>
                   <p className="leading-relaxed whitespace-pre-wrap text-lg font-light" style={{ color: 'var(--text-primary)' }}>
                     {todaysDiary.ai_content}
                   </p>

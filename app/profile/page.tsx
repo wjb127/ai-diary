@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Calendar, BookOpen, Sparkles, BarChart3 } from 'lucide-react'
-import { safeDiaryOperations, Diary, isSupabaseConfigured } from '@/lib/supabase'
+import { safeDiaryOperations, Diary } from '@/lib/supabase'
 
 export default function ProfilePage() {
   const [diaries, setDiaries] = useState<Diary[]>([])

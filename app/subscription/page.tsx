@@ -5,9 +5,23 @@ import { Crown, Check, Sparkles, BookOpen, Infinity, Zap } from 'lucide-react'
 import SubscriptionModal from '@/components/SubscriptionModal'
 
 // Toss Payments 타입 정의
+interface TossPaymentsInstance {
+  payment: (options: { customerKey: string }) => PaymentInstance
+}
+
+interface PaymentInstance {
+  requestBillingAuth: (options: {
+    method: string
+    successUrl: string
+    failUrl: string
+    customerEmail: string
+    customerName: string
+  }) => Promise<void>
+}
+
 declare global {
   interface Window {
-    TossPayments: any
+    TossPayments: (clientKey: string) => TossPaymentsInstance
   }
 }
 
@@ -15,8 +29,7 @@ export default function SubscriptionPage() {
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('monthly')
   const [showModal, setShowModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [tossPayments, setTossPayments] = useState<any>(null)
-  const [payment, setPayment] = useState<any>(null)
+  const [payment, setPayment] = useState<PaymentInstance | null>(null)
 
   const plans = {
     free: {
@@ -76,7 +89,6 @@ export default function SubscriptionPage() {
         const tossPaymentsInstance = window.TossPayments(clientKey)
         const paymentInstance = tossPaymentsInstance.payment({ customerKey })
         
-        setTossPayments(tossPaymentsInstance)
         setPayment(paymentInstance)
       }
     }
