@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Save, Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
-import { supabase, Diary } from '@/lib/supabase'
+import { safeDiaryOperations, Diary, isSupabaseConfigured } from '@/lib/supabase'
 
 export default function DiaryPage() {
   const [selectedDate, setSelectedDate] = useState(new Date())
@@ -56,22 +56,8 @@ export default function DiaryPage() {
   }
 
   const loadDiaryForDate = async (date: Date) => {
-    try {
-      const dateStr = formatDateForDB(date)
-      const { data, error } = await supabase
-        .from('diaries')
-        .select('*')
-        .gte('created_at', `${dateStr}T00:00:00.000Z`)
-        .lt('created_at', `${dateStr}T23:59:59.999Z`)
-        .order('created_at', { ascending: false })
-        .limit(1)
-
-      if (error) throw error
-      setTodaysDiary(data && data.length > 0 ? data[0] : null)
-    } catch (error) {
-      console.error('일기 로딩 오류:', error)
-      setTodaysDiary(null)
-    }
+    const diary = await safeDiaryOperations.getDiaryByDate(date)
+    setTodaysDiary(diary)
   }
 
   const saveDiary = async () => {
@@ -80,28 +66,27 @@ export default function DiaryPage() {
       return
     }
 
-    try {
-      const { data, error } = await supabase
-        .from('diaries')
-        .insert({
-          title,
-          original_content: originalText,
-          ai_content: enhancedText,
-          created_at: selectedDate.toISOString(),
-        })
-        .select()
+    if (!isSupabaseConfigured()) {
+      alert('데모 모드입니다. 실제 저장을 위해서는 Supabase 설정이 필요합니다.')
+      return
+    }
 
-      if (error) throw error
+    const success = await safeDiaryOperations.saveDiary({
+      title,
+      original_content: originalText,
+      ai_content: enhancedText,
+      created_at: selectedDate.toISOString(),
+    })
 
+    if (success) {
       alert('일기가 저장되었습니다!')
       setTitle('')
       setOriginalText('')
       setEnhancedText('')
       setShowCreateForm(false)
       loadDiaryForDate(selectedDate)
-    } catch (error) {
-      console.error('일기 저장 오류:', error)
-      alert('일기 저장 중 오류가 발생했습니다.')
+    } else {
+      alert('일기 저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.')
     }
   }
 

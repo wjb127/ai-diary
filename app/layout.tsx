@@ -9,6 +9,26 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "AI 일기장",
   description: "AI가 도와주는 특별한 일기장",
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'AI 일기장',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    siteName: 'AI 일기장',
+    title: 'AI 일기장',
+    description: 'AI와 함께 만드는 아름다운 추억 일기장',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'AI 일기장',
+    description: 'AI와 함께 만드는 아름다운 추억 일기장',
+  },
 };
 
 export const viewport: Viewport = {
