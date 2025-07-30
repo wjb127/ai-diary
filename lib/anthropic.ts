@@ -30,11 +30,11 @@ ${originalText}
 
   try {
     console.log('Anthropic API 호출 시작...')
-    console.log('사용 모델: claude-3-5-sonnet-20241022')
+    console.log('사용 모델: claude-sonnet-4-20250514')
     console.log('원본 텍스트 길이:', originalText.length)
     
     const response = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
+      model: 'claude-sonnet-4-20250514',
       max_tokens: 1000,
       messages: [
         {
