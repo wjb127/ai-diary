@@ -83,10 +83,12 @@ export default function DiaryPage() {
   }, [])
 
   useEffect(() => {
-    // 오늘 날짜이고 일기가 없으면 자동으로 작성 모드로
-    if (formatDateForDB(selectedDate) === formatDateForDB(new Date()) && !todaysDiary) {
+    // 선택된 날짜에 일기가 없으면 자동으로 작성 모드로 (모든 날짜 가능)
+    if (!todaysDiary) {
+      console.log('터미널 로그: 일기 없음, 작성 모드 활성화 -', formatDateForDB(selectedDate))
       setIsNewDiary(true)
     } else {
+      console.log('터미널 로그: 일기 존재, 일기 보기 모드 -', todaysDiary.title)
       setIsNewDiary(false)
     }
   }, [selectedDate, todaysDiary])
@@ -167,6 +169,7 @@ export default function DiaryPage() {
   const changeDate = (days: number) => {
     const newDate = new Date(selectedDate)
     newDate.setDate(newDate.getDate() + days)
+    console.log('터미널 로그: 날짜 변경 -', formatDateForDB(newDate))
     setSelectedDate(newDate)
   }
 
@@ -227,9 +230,8 @@ export default function DiaryPage() {
             <button
               onClick={() => changeDate(1)}
               className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-              disabled={formatDateForDB(selectedDate) >= formatDateForDB(new Date())}
             >
-              <ChevronRight size={20} className={formatDateForDB(selectedDate) >= formatDateForDB(new Date()) ? 'text-gray-300' : 'text-gray-600'} />
+              <ChevronRight size={20} className="text-gray-600" />
             </button>
           </div>
         </div>
@@ -365,16 +367,35 @@ export default function DiaryPage() {
             </div>
           </div>
         ) : (
-          /* 과거 날짜 일기가 없는 경우 */
+          /* 선택된 날짜에 일기가 없는 경우 - 모든 날짜에 작성 가능 */
           <div className="text-center py-12">
             <div className="bg-white rounded-xl p-8 shadow-sm">
               <Calendar size={48} className="mx-auto text-gray-400 mb-4" />
               <h3 className="text-lg font-semibold text-gray-700 mb-2">
-                이 날의 일기가 없습니다
+                {formatDateForDB(selectedDate) === formatDateForDB(new Date()) 
+                  ? "오늘의 일기를 작성해보세요" 
+                  : formatDateForDB(selectedDate) > formatDateForDB(new Date())
+                    ? "미래의 일기를 미리 작성해보세요"
+                    : "이 날의 일기를 작성해보세요"}
               </h3>
-              <p className="text-gray-500">
-                다른 날짜를 선택해주세요
+              <p className="text-gray-500 mb-6">
+                {formatDateForDB(selectedDate) === formatDateForDB(new Date())
+                  ? "오늘 있었던 특별한 순간을 기록해보세요"
+                  : formatDateForDB(selectedDate) > formatDateForDB(new Date())
+                    ? "계획이나 기대를 미리 적어보는 것도 좋아요"
+                    : "그날의 기억을 되살려 일기로 남겨보세요"}
               </p>
+              
+              <button
+                onClick={() => {
+                  console.log('터미널 로그: 일기 작성 버튼 클릭 -', formatDateForDB(selectedDate))
+                  // 작성 모드는 이미 활성화되어 있으므로 스크롤만 이동
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                일기 작성하기
+              </button>
             </div>
           </div>
         )}
