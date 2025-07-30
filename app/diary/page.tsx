@@ -211,58 +211,58 @@ export default function DiaryPage() {
 
   return (
     <div className="pb-20 min-h-screen relative">
-      {/* 날짜 선택 헤더 - Glassmorphism */}
+      {/* 날짜 선택 헤더 - 모바일 최적화 */}
       <div className="glass-strong sticky top-0 z-40 backdrop-blur-xl">
-        <div className="px-6 py-6">
+        <div className="px-4 sm:px-6 py-4 sm:py-6">
           <div className="flex items-center justify-between">
             <button
               onClick={() => changeDate(-1)}
-              className="glass-subtle p-3 rounded-2xl hover:glass transition-all duration-300 transform hover:scale-110"
+              className="glass-subtle p-2.5 sm:p-3 rounded-xl sm:rounded-2xl hover:glass transition-all duration-300 transform hover:scale-110 active:scale-95 touch-target"
             >
-              <ChevronLeft size={20} style={{ color: 'var(--text-primary)' }} />
+              <ChevronLeft size={18} className="sm:w-5 sm:h-5" style={{ color: 'var(--text-primary)' }} />
             </button>
             
-            <div className="text-center">
-              <h1 className="text-2xl font-light tracking-tight" style={{ color: 'var(--text-primary)' }}>AI 일기장</h1>
-              <p className="text-sm font-light mt-1" style={{ color: 'var(--text-secondary)' }}>{formatDateDisplay(selectedDate)}</p>
+            <div className="text-center flex-1 mx-4">
+              <h1 className="text-lg sm:text-2xl font-medium sm:font-light tracking-tight" style={{ color: 'var(--text-primary)' }}>AI 일기장</h1>
+              <p className="text-xs sm:text-sm font-normal sm:font-light mt-0.5 sm:mt-1" style={{ color: 'var(--text-secondary)' }}>{formatDateDisplay(selectedDate)}</p>
             </div>
             
             <button
               onClick={() => changeDate(1)}
-              className="glass-subtle p-3 rounded-2xl hover:glass transition-all duration-300 transform hover:scale-110"
+              className="glass-subtle p-2.5 sm:p-3 rounded-xl sm:rounded-2xl hover:glass transition-all duration-300 transform hover:scale-110 active:scale-95 touch-target"
             >
-              <ChevronRight size={20} style={{ color: 'var(--text-primary)' }} />
+              <ChevronRight size={18} className="sm:w-5 sm:h-5" style={{ color: 'var(--text-primary)' }} />
             </button>
           </div>
         </div>
       </div>
 
-      <div className="px-6 py-8">
-        {/* 새 일기 작성 모드 */}
+      <div className="px-4 sm:px-6 py-6 sm:py-8">
+        {/* 새 일기 작성 모드 - 모바일 최적화 */}
         {isNewDiary && !todaysDiary ? (
-          <div className="glass-strong rounded-3xl p-8">
-            <div className="space-y-6">
+          <div className="glass-strong rounded-2xl sm:rounded-3xl p-6 sm:p-8">
+            <div className="space-y-5 sm:space-y-6">
               {/* 제목 입력 */}
               <input
                 type="text"
                 placeholder="일기 제목을 입력하세요"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full p-4 glass-subtle rounded-2xl focus:outline-none focus:glass text-lg font-light placeholder-gray-400 transition-all duration-300"
+                className="w-full p-3 sm:p-4 glass-readable rounded-xl sm:rounded-2xl focus:outline-none focus:glass text-base sm:text-lg font-normal sm:font-light placeholder-gray-400 transition-all duration-300"
                 style={{ color: 'var(--text-primary)', backgroundColor: 'transparent' }}
                 autoFocus
               />
               
-              {/* 텍스트 에디터 */}
+              {/* 텍스트 에디터 - 모바일 최적화 */}
               <div className="relative">
                 <textarea
                   value={originalText}
                   onChange={(e) => setOriginalText(e.target.value)}
                   placeholder="오늘 있었던 일을 자유롭게 적어주세요.\n\n예시) 오늘은 친구들과 카페에서 수다를 떨었다. 오랜만에 만나서 정말 좋았고, 맛있는 디저트도 먹었다."
-                  className="w-full h-80 p-6 glass-subtle rounded-2xl resize-none focus:outline-none focus:glass leading-relaxed text-lg font-light placeholder-gray-400 transition-all duration-300"
+                  className="w-full h-64 sm:h-80 p-4 sm:p-6 glass-readable rounded-xl sm:rounded-2xl resize-none focus:outline-none focus:glass leading-relaxed text-base sm:text-lg font-normal sm:font-light placeholder-gray-400 transition-all duration-300"
                   style={{ color: 'var(--text-primary)', backgroundColor: 'transparent' }}
                 />
-                <div className="absolute bottom-4 right-4 text-sm font-light" style={{ color: 'var(--text-secondary)' }}>
+                <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 text-xs sm:text-sm font-normal sm:font-light" style={{ color: 'var(--text-secondary)' }}>
                   {originalText.length}자
                 </div>
               </div>
@@ -286,24 +286,15 @@ export default function DiaryPage() {
                 </div>
               )}
               
-              {/* 버튼 영역 */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                <button
-                  onClick={saveDiary}
-                  disabled={!title.trim() || !originalText.trim()}
-                  className="flex-1 flex items-center justify-center px-8 py-4 glass rounded-2xl hover:glass-strong disabled:opacity-50 transition-all duration-300 transform hover:scale-105 text-lg font-medium"
-                  style={{ color: 'var(--accent-blue)' }}
-                >
-                  저장하기
-                </button>
-                
+              {/* 버튼 영역 - 모바일 최적화 */}
+              <div className="flex flex-col gap-3 sm:gap-4 pt-4 sm:pt-6">
                 <button
                   onClick={enhanceDiary}
                   disabled={isLoading || !originalText.trim()}
-                  className="flex-1 flex items-center justify-center px-8 py-4 glass rounded-2xl hover:glass-strong disabled:opacity-50 transition-all duration-300 transform hover:scale-105 active:scale-95 text-lg font-medium group"
+                  className="w-full flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 glass rounded-xl sm:rounded-2xl hover:glass-strong disabled:opacity-50 transition-all duration-300 transform hover:scale-105 active:scale-95 text-base sm:text-lg font-medium group btn-mobile touch-target"
                   style={{ color: 'var(--accent-purple)' }}
                 >
-                  <Sparkles className="mr-3 group-hover:rotate-12 transition-transform duration-300" size={24} />
+                  <Sparkles className="mr-2 sm:mr-3 group-hover:rotate-12 transition-transform duration-300" size={20} />
                   {isLoading ? (
                     <span className="flex items-center">
                       <span className="animate-pulse">추억 보정 중</span>
@@ -312,6 +303,15 @@ export default function DiaryPage() {
                   ) : (
                     'AI 추억보정'
                   )}
+                </button>
+                
+                <button
+                  onClick={saveDiary}
+                  disabled={!title.trim() || !originalText.trim()}
+                  className="w-full flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 glass rounded-xl sm:rounded-2xl hover:glass-strong disabled:opacity-50 transition-all duration-300 transform hover:scale-105 active:scale-95 text-base sm:text-lg font-medium btn-mobile touch-target"
+                  style={{ color: 'var(--accent-blue)' }}
+                >
+                  저장하기
                 </button>
               </div>
             </div>

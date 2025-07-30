@@ -141,123 +141,135 @@ export default function SubscriptionPage() {
   }
 
   return (
-    <div className="pb-20 min-h-screen bg-gray-50">
-      {/* 헤더 */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="px-4 py-6 text-center">
-          <Crown className="mx-auto text-yellow-500 mb-3" size={32} />
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">구독 플랜</h1>
-          <p className="text-gray-600">더 많은 추억을 아름답게 보관하세요</p>
+    <div className="pb-20 min-h-screen relative">
+      {/* 헤더 - 모바일 최적화 */}
+      <div className="glass-strong sticky top-0 z-40 backdrop-blur-xl">
+        <div className="px-4 sm:px-6 py-6 sm:py-8 text-center">
+          <div className="glass-subtle rounded-2xl p-3 sm:p-4 inline-block mb-3 sm:mb-4">
+            <Crown style={{ color: 'var(--accent-purple)' }} size={28} className="sm:w-8 sm:h-8" />
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-medium sm:font-light mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>구독 플랜</h1>
+          <p className="text-base sm:text-lg font-normal sm:font-light" style={{ color: 'var(--text-secondary)' }}>더 많은 추억을 아름답게 보관하세요</p>
         </div>
       </div>
 
-      <div className="px-4 py-6">
-        {/* 현재 플랜 상태 */}
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
+      <div className="px-4 sm:px-6 py-6 sm:py-8">
+        {/* 현재 플랜 상태 - 모바일 최적화 */}
+        <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 mb-6 sm:mb-8" style={{ border: '2px solid rgba(0, 122, 255, 0.3)' }}>
           <div className="flex items-center">
-            <div className="bg-blue-100 rounded-full p-2 mr-3">
-              <BookOpen className="text-blue-600" size={20} />
+            <div className="glass-subtle rounded-2xl p-2.5 sm:p-3 mr-3 sm:mr-4">
+              <BookOpen style={{ color: 'var(--accent-blue)' }} size={20} className="sm:w-6 sm:h-6" />
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-blue-800">현재 무료 플랜 사용 중</h3>
-              <p className="text-sm text-blue-600">이번 달 AI 사용: 2/5회</p>
+              <h3 className="font-semibold text-base sm:text-lg mb-1 tracking-tight" style={{ color: 'var(--text-primary)' }}>현재 무료 플랜 사용 중</h3>
+              <p className="text-sm sm:text-base font-normal" style={{ color: 'var(--text-secondary)' }}>이번 달 AI 사용: 2/5회</p>
             </div>
           </div>
         </div>
 
-        {/* 무료 플랜 */}
-        <div className="bg-white rounded-xl p-6 shadow-sm mb-4">
-          <div className="flex items-center justify-between mb-4">
+        {/* 무료 플랜 - 모바일 최적화 */}
+        <div className="glass-strong rounded-xl sm:rounded-2xl p-5 sm:p-6 mb-4 sm:mb-6">
+          <div className="flex items-center justify-between mb-4 sm:mb-5">
             <div>
-              <h3 className="text-lg font-semibold">{plans.free.name}</h3>
-              <div className="flex items-baseline">
-                <span className="text-2xl font-bold">무료</span>
+              <h3 className="text-base sm:text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{plans.free.name}</h3>
+              <div className="flex items-baseline mt-1">
+                <span className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>무료</span>
               </div>
             </div>
-            <div className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm">
-              현재 플랜
+            <div className="glass-subtle px-3 py-1.5 rounded-full">
+              <span className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>현재 플랜</span>
             </div>
           </div>
           
-          <div className="space-y-3 mb-4">
+          <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-5">
             {plans.free.features.map((feature, index) => (
               <div key={index} className="flex items-center">
-                <Check size={16} className="text-green-600 mr-3" />
-                <span className="text-sm text-gray-700">{feature}</span>
+                <div className="glass-subtle rounded-xl p-1.5 mr-3 flex-shrink-0">
+                  <Check size={14} style={{ color: 'var(--accent-blue)' }} />
+                </div>
+                <span className="text-sm sm:text-base font-normal" style={{ color: 'var(--text-primary)' }}>{feature}</span>
               </div>
             ))}
           </div>
 
-          <div className="border-t pt-3">
-            <p className="text-xs text-gray-500 mb-2">제한사항:</p>
+          <div className="border-t border-white/20 pt-3 sm:pt-4">
+            <p className="text-xs sm:text-sm font-medium mb-2 sm:mb-3" style={{ color: 'var(--text-light)' }}>제한사항:</p>
             {plans.free.limitations.map((limitation, index) => (
-              <div key={index} className="flex items-center mb-1">
-                <div className="w-4 h-4 rounded-full bg-gray-300 mr-3 flex items-center justify-center">
+              <div key={index} className="flex items-center mb-2">
+                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-gray-400/50 mr-3 flex items-center justify-center flex-shrink-0">
                   <div className="w-1 h-1 bg-white rounded-full"></div>
                 </div>
-                <span className="text-xs text-gray-500">{limitation}</span>
+                <span className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-light)' }}>{limitation}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* 플랜 선택 토글 */}
-        <div className="bg-white rounded-xl p-4 shadow-sm mb-4">
-          <div className="flex bg-gray-100 rounded-lg p-1">
+        {/* 플랜 선택 토글 - 모바일 최적화 */}
+        <div className="glass-strong rounded-xl sm:rounded-2xl p-4 sm:p-5 mb-4 sm:mb-6">
+          <div className="flex glass-subtle rounded-lg p-1">
             <button
               onClick={() => setSelectedPlan('monthly')}
-              className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
+              className={`flex-1 py-2.5 sm:py-3 px-4 sm:px-5 rounded-lg text-sm sm:text-base font-medium transition-all duration-300 touch-target ${
                 selectedPlan === 'monthly'
-                  ? 'bg-white text-gray-800 shadow-sm'
-                  : 'text-gray-600'
+                  ? 'glass-strong shadow-sm transform scale-105'
+                  : 'hover:glass'
               }`}
+              style={{ color: selectedPlan === 'monthly' ? 'var(--text-primary)' : 'var(--text-secondary)' }}
             >
               월간 결제
             </button>
             <button
               onClick={() => setSelectedPlan('yearly')}
-              className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors relative ${
+              className={`flex-1 py-2.5 sm:py-3 px-4 sm:px-5 rounded-lg text-sm sm:text-base font-medium transition-all duration-300 relative touch-target ${
                 selectedPlan === 'yearly'
-                  ? 'bg-white text-gray-800 shadow-sm'
-                  : 'text-gray-600'
+                  ? 'glass-strong shadow-sm transform scale-105'
+                  : 'hover:glass'
               }`}
+              style={{ color: selectedPlan === 'yearly' ? 'var(--text-primary)' : 'var(--text-secondary)' }}
             >
               연간 결제
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1 rounded">
+              <span className="absolute -top-1 -right-1 glass-subtle px-2 py-0.5 rounded-full text-xs font-medium" style={{ color: 'var(--accent-pink)', backgroundColor: 'rgba(255, 45, 146, 0.2)' }}>
                 17% 할인
               </span>
             </button>
           </div>
         </div>
 
-        {/* 프리미엄 플랜 */}
-        <div className="bg-gradient-to-br from-purple-50 to-blue-50 border-2 border-purple-200 rounded-xl p-6 shadow-sm mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <div className="flex items-center mb-2">
-                <Crown className="text-yellow-500 mr-2" size={20} />
-                <h3 className="text-lg font-semibold">{plans.premium.name}</h3>
+        {/* 프리미엄 플랜 - 모바일 최적화 */}
+        <div className="glass-strong rounded-xl sm:rounded-2xl p-5 sm:p-6 mb-6 sm:mb-8" style={{ border: '2px solid rgba(175, 82, 222, 0.3)' }}>
+          <div className="flex items-center justify-between mb-4 sm:mb-5">
+            <div className="flex-1">
+              <div className="flex items-center mb-2 sm:mb-3">
+                <div className="glass-subtle rounded-xl p-2 mr-3">
+                  <Crown style={{ color: 'var(--accent-purple)' }} size={20} className="sm:w-6 sm:h-6" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-semibold tracking-tight" style={{ color: 'var(--text-primary)' }}>{plans.premium.name}</h3>
               </div>
-              <div className="flex items-baseline">
-                <span className="text-2xl font-bold">₩{getCurrentPrice().toLocaleString()}</span>
-                <span className="text-gray-600 ml-1">
+              <div className="flex items-baseline mb-1 sm:mb-2">
+                <span className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>₩{getCurrentPrice().toLocaleString()}</span>
+                <span className="text-base sm:text-lg font-normal ml-2" style={{ color: 'var(--text-secondary)' }}>
                   {selectedPlan === 'monthly' ? '/월' : '/년'}
                 </span>
               </div>
               {selectedPlan === 'yearly' && (
-                <p className="text-sm text-purple-600">월 ₩{getMonthlyEquivalent().toLocaleString()} 상당</p>
+                <p className="text-sm sm:text-base font-medium" style={{ color: 'var(--accent-purple)' }}>월 ₩{getMonthlyEquivalent().toLocaleString()} 상당</p>
               )}
             </div>
-            <div className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium">
-              추천
+            <div className="glass-subtle px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
+              <span className="text-sm sm:text-base font-medium" style={{ color: 'var(--accent-purple)' }}>
+                추천
+              </span>
             </div>
           </div>
           
-          <div className="space-y-3 mb-6">
+          <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
             {plans.premium.features.map((feature, index) => (
               <div key={index} className="flex items-center">
-                <Check size={16} className="text-purple-600 mr-3" />
-                <span className="text-sm text-gray-700">{feature}</span>
+                <div className="glass-subtle rounded-xl p-1.5 mr-3 flex-shrink-0">
+                  <Check size={14} style={{ color: 'var(--accent-purple)' }} />
+                </div>
+                <span className="text-sm sm:text-base font-normal" style={{ color: 'var(--text-primary)' }}>{feature}</span>
               </div>
             ))}
           </div>
@@ -265,51 +277,67 @@ export default function SubscriptionPage() {
           <button 
             onClick={() => setShowModal(true)}
             disabled={isLoading}
-            className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 disabled:bg-gray-400 transition-colors"
+            className="w-full flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 glass rounded-xl sm:rounded-2xl hover:glass-strong disabled:opacity-50 transition-all duration-300 transform hover:scale-105 active:scale-95 text-base sm:text-lg font-medium btn-mobile touch-target"
+            style={{ color: 'var(--accent-purple)' }}
           >
-            {isLoading ? '처리 중...' : '프리미엄으로 업그레이드'}
+            {isLoading ? (
+              <span className="flex items-center">
+                <span className="animate-pulse">처리 중</span>
+                <span className="ml-2 animate-bounce">...</span>
+              </span>
+            ) : (
+              '프리미엄으로 업그레이드'
+            )}
           </button>
         </div>
 
-        {/* 특징 설명 */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="bg-white rounded-xl p-4 shadow-sm text-center">
-            <Infinity className="mx-auto text-blue-600 mb-2" size={24} />
-            <h4 className="font-medium text-gray-800 mb-1">무제한 사용</h4>
-            <p className="text-xs text-gray-600">AI 변환 횟수 제한 없음</p>
+        {/* 특징 설명 - 모바일 최적화 */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
+          <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 text-center group hover:glass-strong transition-all duration-300 transform hover:scale-105">
+            <div className="glass-subtle rounded-xl p-2.5 sm:p-3 inline-block mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">
+              <Infinity style={{ color: 'var(--accent-blue)' }} size={20} className="sm:w-6 sm:h-6" />
+            </div>
+            <h4 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>무제한 사용</h4>
+            <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>AI 변환 횟수 제한 없음</p>
           </div>
-          <div className="bg-white rounded-xl p-4 shadow-sm text-center">
-            <Sparkles className="mx-auto text-purple-600 mb-2" size={24} />
-            <h4 className="font-medium text-gray-800 mb-1">고급 AI</h4>
-            <p className="text-xs text-gray-600">더 섬세한 감성 표현</p>
+          <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 text-center group hover:glass-strong transition-all duration-300 transform hover:scale-105">
+            <div className="glass-subtle rounded-xl p-2.5 sm:p-3 inline-block mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">
+              <Sparkles style={{ color: 'var(--accent-purple)' }} size={20} className="sm:w-6 sm:h-6" />
+            </div>
+            <h4 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>고급 AI</h4>
+            <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>더 섬세한 감성 표현</p>
           </div>
-          <div className="bg-white rounded-xl p-4 shadow-sm text-center">
-            <BookOpen className="mx-auto text-green-600 mb-2" size={24} />
-            <h4 className="font-medium text-gray-800 mb-1">무제한 저장</h4>
-            <p className="text-xs text-gray-600">모든 추억을 영구보관</p>
+          <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 text-center group hover:glass-strong transition-all duration-300 transform hover:scale-105">
+            <div className="glass-subtle rounded-xl p-2.5 sm:p-3 inline-block mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">
+              <BookOpen style={{ color: 'var(--accent-blue)' }} size={20} className="sm:w-6 sm:h-6" />
+            </div>
+            <h4 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>무제한 저장</h4>
+            <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>모든 추억을 영구보관</p>
           </div>
-          <div className="bg-white rounded-xl p-4 shadow-sm text-center">
-            <Zap className="mx-auto text-yellow-600 mb-2" size={24} />
-            <h4 className="font-medium text-gray-800 mb-1">빠른 처리</h4>
-            <p className="text-xs text-gray-600">우선 순위 처리</p>
+          <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 text-center group hover:glass-strong transition-all duration-300 transform hover:scale-105">
+            <div className="glass-subtle rounded-xl p-2.5 sm:p-3 inline-block mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">
+              <Zap style={{ color: 'var(--accent-purple)' }} size={20} className="sm:w-6 sm:h-6" />
+            </div>
+            <h4 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>빠른 처리</h4>
+            <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>우선 순위 처리</p>
           </div>
         </div>
 
-        {/* FAQ */}
-        <div className="bg-white rounded-xl p-6 shadow-sm">
-          <h3 className="font-semibold text-gray-800 mb-4">자주 묻는 질문</h3>
-          <div className="space-y-4">
-            <div>
-              <h4 className="font-medium text-gray-700 mb-1">언제든 해지할 수 있나요?</h4>
-              <p className="text-sm text-gray-600">네, 언제든지 구독을 해지할 수 있습니다. 해지 후에도 결제 기간 끝까지 서비스를 이용할 수 있어요.</p>
+        {/* FAQ - 모바일 최적화 */}
+        <div className="glass-strong rounded-xl sm:rounded-2xl p-5 sm:p-6">
+          <h3 className="font-semibold text-lg sm:text-xl mb-4 sm:mb-6 tracking-tight" style={{ color: 'var(--text-primary)' }}>자주 묻는 질문</h3>
+          <div className="space-y-4 sm:space-y-5">
+            <div className="glass-subtle rounded-xl p-4 sm:p-5">
+              <h4 className="font-semibold text-sm sm:text-base mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>언제든 해지할 수 있나요?</h4>
+              <p className="text-sm sm:text-base font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>네, 언제든지 구독을 해지할 수 있습니다. 해지 후에도 결제 기간 끝까지 서비스를 이용할 수 있어요.</p>
             </div>
-            <div>
-              <h4 className="font-medium text-gray-700 mb-1">데이터는 안전한가요?</h4>
-              <p className="text-sm text-gray-600">모든 일기 데이터는 암호화되어 안전하게 보관됩니다. 개인정보는 절대 제3자와 공유되지 않아요.</p>
+            <div className="glass-subtle rounded-xl p-4 sm:p-5">
+              <h4 className="font-semibold text-sm sm:text-base mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>데이터는 안전한가요?</h4>
+              <p className="text-sm sm:text-base font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>모든 일기 데이터는 암호화되어 안전하게 보관됩니다. 개인정보는 절대 제3자와 공유되지 않아요.</p>
             </div>
-            <div>
-              <h4 className="font-medium text-gray-700 mb-1">무료 플랜으로 돌아갈 수 있나요?</h4>
-              <p className="text-sm text-gray-600">물론입니다. 언제든지 무료 플랜으로 다운그레이드할 수 있어요.</p>
+            <div className="glass-subtle rounded-xl p-4 sm:p-5">
+              <h4 className="font-semibold text-sm sm:text-base mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>무료 플랜으로 돌아갈 수 있나요?</h4>
+              <p className="text-sm sm:text-base font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>물론입니다. 언제든지 무료 플랜으로 다운그레이드할 수 있어요.</p>
             </div>
           </div>
         </div>

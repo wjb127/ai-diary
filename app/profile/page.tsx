@@ -69,12 +69,19 @@ export default function ProfilePage() {
 
   if (isLoading) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded mb-4"></div>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="h-64 bg-gray-200 rounded"></div>
-            <div className="h-64 bg-gray-200 rounded"></div>
+      <div className="pb-20 min-h-screen relative">
+        <div className="px-4 sm:px-6 py-8 sm:py-12">
+          <div className="animate-pulse space-y-6 sm:space-y-8">
+            <div className="glass-strong rounded-xl sm:rounded-2xl p-6 sm:p-8">
+              <div className="h-6 sm:h-8 glass-subtle rounded mb-4"></div>
+              <div className="grid grid-cols-2 gap-4 sm:gap-6">
+                <div className="h-20 sm:h-24 glass-readable rounded-xl"></div>
+                <div className="h-20 sm:h-24 glass-readable rounded-xl"></div>
+                <div className="h-20 sm:h-24 glass-readable rounded-xl"></div>
+                <div className="h-20 sm:h-24 glass-readable rounded-xl"></div>
+              </div>
+            </div>
+            <div className="glass-strong rounded-xl sm:rounded-2xl h-64 sm:h-80"></div>
           </div>
         </div>
       </div>
@@ -82,135 +89,160 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="pb-20 min-h-screen bg-gray-50">
-      {/* 헤더 */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="px-4 py-6 text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">프로필</h1>
-          <p className="text-gray-600">나의 일기 작성 현황을 확인해보세요</p>
+    <div className="pb-20 min-h-screen relative">
+      {/* 헤더 - 모바일 최적화 */}
+      <div className="glass-strong sticky top-0 z-40 backdrop-blur-xl">
+        <div className="px-4 sm:px-6 py-6 sm:py-8 text-center">
+          <div className="glass-subtle rounded-2xl p-3 sm:p-4 inline-block mb-3 sm:mb-4">
+            <BarChart3 style={{ color: 'var(--accent-blue)' }} size={28} className="sm:w-8 sm:h-8" />
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-medium sm:font-light mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>프로필</h1>
+          <p className="text-base sm:text-lg font-normal sm:font-light" style={{ color: 'var(--text-secondary)' }}>나의 일기 작성 현황을 확인해보세요</p>
         </div>
       </div>
 
-      <div className="px-4 py-6">
+      <div className="px-4 sm:px-6 py-6 sm:py-8">
 
-        {/* 통계 카드 */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="bg-white rounded-xl p-4 shadow-sm">
+        {/* 통계 카드 - 모바일 최적화 */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
+          <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 group hover:glass-strong transition-all duration-300 transform hover:scale-105">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-600">총 일기 수</p>
-                <p className="text-xl font-bold text-blue-600">{stats.totalDiaries}</p>
+              <div className="flex-1">
+                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: 'var(--text-light)' }}>총 일기 수</p>
+                <p className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--accent-blue)' }}>{stats.totalDiaries}</p>
               </div>
-              <BookOpen className="text-blue-600" size={24} />
+              <div className="glass-subtle rounded-xl p-2 sm:p-2.5 group-hover:scale-110 transition-transform duration-300">
+                <BookOpen style={{ color: 'var(--accent-blue)' }} size={20} className="sm:w-6 sm:h-6" />
+              </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-4 shadow-sm">
+          <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 group hover:glass-strong transition-all duration-300 transform hover:scale-105">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-600">이번 달</p>
-                <p className="text-xl font-bold text-green-600">{stats.thisMonthDiaries}</p>
+              <div className="flex-1">
+                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: 'var(--text-light)' }}>이번 달</p>
+                <p className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--accent-blue)' }}>{stats.thisMonthDiaries}</p>
               </div>
-              <Calendar className="text-green-600" size={24} />
+              <div className="glass-subtle rounded-xl p-2 sm:p-2.5 group-hover:scale-110 transition-transform duration-300">
+                <Calendar style={{ color: 'var(--accent-blue)' }} size={20} className="sm:w-6 sm:h-6" />
+              </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-4 shadow-sm">
+          <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 group hover:glass-strong transition-all duration-300 transform hover:scale-105">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-600">평균 원본 단어</p>
-                <p className="text-xl font-bold text-purple-600">{stats.averageWordsOriginal}</p>
+              <div className="flex-1">
+                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: 'var(--text-light)' }}>평균 원본 단어</p>
+                <p className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--accent-purple)' }}>{stats.averageWordsOriginal}</p>
               </div>
-              <BarChart3 className="text-purple-600" size={24} />
+              <div className="glass-subtle rounded-xl p-2 sm:p-2.5 group-hover:scale-110 transition-transform duration-300">
+                <BarChart3 style={{ color: 'var(--accent-purple)' }} size={20} className="sm:w-6 sm:h-6" />
+              </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-4 shadow-sm">
+          <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 group hover:glass-strong transition-all duration-300 transform hover:scale-105">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-600">평균 AI 단어</p>
-                <p className="text-xl font-bold text-pink-600">{stats.averageWordsEnhanced}</p>
+              <div className="flex-1">
+                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: 'var(--text-light)' }}>평균 AI 단어</p>
+                <p className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--accent-pink)' }}>{stats.averageWordsEnhanced}</p>
               </div>
-              <Sparkles className="text-pink-600" size={24} />
+              <div className="glass-subtle rounded-xl p-2 sm:p-2.5 group-hover:scale-110 transition-transform duration-300">
+                <Sparkles style={{ color: 'var(--accent-pink)' }} size={20} className="sm:w-6 sm:h-6" />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* 월별 차트 및 최근 일기 */}
-        <div className="space-y-6">
-          <div className="bg-white rounded-xl p-6 shadow-sm">
-            <h2 className="text-lg font-semibold mb-4 flex items-center">
-              <BarChart3 className="mr-2 text-blue-600" size={18} />
+        {/* 월별 차트 및 최근 일기 - 모바일 최적화 */}
+        <div className="space-y-6 sm:space-y-8">
+          <div className="glass-strong rounded-xl sm:rounded-2xl p-5 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center tracking-tight" style={{ color: 'var(--text-primary)' }}>
+              <div className="glass-subtle rounded-xl p-2 mr-3">
+                <BarChart3 style={{ color: 'var(--accent-blue)' }} size={18} className="sm:w-5 sm:h-5" />
+              </div>
               월별 일기 작성 현황
             </h2>
-            <div className="space-y-3">
+            <div className="space-y-3 sm:space-y-4">
               {getMonthlyData().map(({ month, count }) => (
-                <div key={month} className="flex items-center">
-                  <span className="text-sm text-gray-600 w-16">{month}</span>
-                  <div className="flex-1 mx-3">
-                    <div className="bg-gray-200 rounded-full h-2">
+                <div key={month} className="flex items-center group">
+                  <span className="text-sm sm:text-base font-medium w-16 sm:w-20" style={{ color: 'var(--text-secondary)' }}>{month}</span>
+                  <div className="flex-1 mx-3 sm:mx-4">
+                    <div className="glass-subtle rounded-full h-2 sm:h-3 overflow-hidden">
                       <div
-                        className="bg-blue-600 h-2 rounded-full"
+                        className="h-full rounded-full transition-all duration-500 group-hover:scale-105"
                         style={{
+                          background: 'var(--accent-blue)',
                           width: `${Math.min((count / Math.max(...getMonthlyData().map(d => d.count))) * 100, 100)}%`
                         }}
                       ></div>
                     </div>
                   </div>
-                  <span className="text-sm font-semibold text-blue-600">{count}</span>
+                  <span className="text-sm sm:text-base font-bold min-w-[2rem] text-right" style={{ color: 'var(--accent-blue)' }}>{count}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-sm">
-            <h2 className="text-lg font-semibold mb-4 flex items-center">
-              <Calendar className="mr-2 text-green-600" size={18} />
+          <div className="glass-strong rounded-xl sm:rounded-2xl p-5 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center tracking-tight" style={{ color: 'var(--text-primary)' }}>
+              <div className="glass-subtle rounded-xl p-2 mr-3">
+                <Calendar style={{ color: 'var(--accent-blue)' }} size={18} className="sm:w-5 sm:h-5" />
+              </div>
               최근 일기
             </h2>
-            <div className="space-y-3">
+            <div className="space-y-3 sm:space-y-4">
               {diaries.slice(0, 5).map((diary) => (
-                <div key={diary.id} className="border-l-4 border-green-600 pl-3">
-                  <h3 className="font-medium text-gray-800 truncate text-sm">{diary.title}</h3>
-                  <p className="text-xs text-gray-600 truncate">{diary.original_content}</p>
-                  <p className="text-xs text-gray-400">
+                <div key={diary.id} className="glass-subtle rounded-xl sm:rounded-2xl p-3 sm:p-4 group hover:glass-strong transition-all duration-300 transform hover:scale-105" style={{ borderLeft: '4px solid var(--accent-blue)' }}>
+                  <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 truncate tracking-tight" style={{ color: 'var(--text-primary)' }}>{diary.title}</h3>
+                  <p className="text-xs sm:text-sm mb-2 sm:mb-3 truncate leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{diary.original_content}</p>
+                  <p className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-light)' }}>
                     {new Date(diary.created_at).toLocaleDateString('ko-KR')}
                   </p>
                 </div>
               ))}
               {diaries.length === 0 && (
-                <div className="text-center py-8">
-                  <p className="text-gray-500 text-sm mb-2">아직 작성된 일기가 없습니다.</p>
-                  <p className="text-gray-400 text-xs">일기 탭에서 첫 번째 일기를 작성해보세요!</p>
+                <div className="text-center py-8 sm:py-12">
+                  <div className="glass-subtle rounded-3xl p-6 sm:p-8 max-w-sm mx-auto">
+                    <div className="glass-readable rounded-2xl p-4 mb-4 sm:mb-6 inline-block">
+                      <BookOpen size={32} className="sm:w-10 sm:h-10" style={{ color: 'var(--text-secondary)' }} />
+                    </div>
+                    <p className="text-base sm:text-lg font-medium mb-2 sm:mb-3" style={{ color: 'var(--text-primary)' }}>아직 작성된 일기가 없습니다.</p>
+                    <p className="text-sm sm:text-base font-normal" style={{ color: 'var(--text-secondary)' }}>일기 탭에서 첫 번째 일기를 작성해보세요!</p>
+                  </div>
                 </div>
               )}
             </div>
           </div>
 
-          {/* 일기 작성 팁 */}
-          <div className="bg-white rounded-xl p-6 shadow-sm">
-            <h2 className="text-lg font-semibold mb-4">일기 작성 팁</h2>
-            <div className="space-y-4">
-              <div className="flex items-start">
-                <div className="bg-blue-100 rounded-full p-2 mr-3 mt-1">
-                  <BookOpen className="text-blue-600" size={14} />
-                </div>
-                <div>
-                  <h4 className="font-medium mb-1 text-sm">꾸준히 작성하기</h4>
-                  <p className="text-xs text-gray-600">
-                    매일 조금씩이라도 작성하면 더 풍부한 추억을 만들 수 있어요
-                  </p>
+          {/* 일기 작성 팁 - 모바일 최적화 */}
+          <div className="glass-strong rounded-xl sm:rounded-2xl p-5 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 tracking-tight" style={{ color: 'var(--text-primary)' }}>일기 작성 팁</h2>
+            <div className="space-y-4 sm:space-y-5">
+              <div className="glass-subtle rounded-xl sm:rounded-2xl p-4 sm:p-5 group hover:glass-strong transition-all duration-300">
+                <div className="flex items-start">
+                  <div className="glass-readable rounded-xl p-2.5 sm:p-3 mr-3 sm:mr-4 mt-1 group-hover:scale-110 transition-transform duration-300">
+                    <BookOpen style={{ color: 'var(--accent-blue)' }} size={16} className="sm:w-5 sm:h-5" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base tracking-tight" style={{ color: 'var(--text-primary)' }}>꾸준히 작성하기</h4>
+                    <p className="text-xs sm:text-sm font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                      매일 조금씩이라도 작성하면 더 풍부한 추억을 만들 수 있어요
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-start">
-                <div className="bg-purple-100 rounded-full p-2 mr-3 mt-1">
-                  <Sparkles className="text-purple-600" size={14} />
-                </div>
-                <div>
-                  <h4 className="font-medium mb-1 text-sm">감정도 함께 적기</h4>
-                  <p className="text-xs text-gray-600">
-                    그때의 기분이나 느낌을 함께 적으면 AI가 더 감성적으로 표현해줘요
-                  </p>
+              <div className="glass-subtle rounded-xl sm:rounded-2xl p-4 sm:p-5 group hover:glass-strong transition-all duration-300">
+                <div className="flex items-start">
+                  <div className="glass-readable rounded-xl p-2.5 sm:p-3 mr-3 sm:mr-4 mt-1 group-hover:scale-110 transition-transform duration-300">
+                    <Sparkles style={{ color: 'var(--accent-purple)' }} size={16} className="sm:w-5 sm:h-5" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base tracking-tight" style={{ color: 'var(--text-primary)' }}>감정도 함께 적기</h4>
+                    <p className="text-xs sm:text-sm font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                      그때의 기분이나 느낌을 함께 적으면 AI가 더 감성적으로 표현해줘요
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
