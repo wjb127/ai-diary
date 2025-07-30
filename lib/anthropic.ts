@@ -61,10 +61,10 @@ ${originalText}
     console.error('오류 타입:', error instanceof Error ? error.constructor.name : typeof error)
     console.error('오류 메시지:', error instanceof Error ? error.message : error)
     if (error instanceof Error && 'status' in error) {
-      console.error('API 상태 코드:', (error as any).status)
+      console.error('API 상태 코드:', (error as Error & { status: unknown }).status)
     }
     if (error instanceof Error && 'response' in error) {
-      console.error('API 응답:', (error as any).response)
+      console.error('API 응답:', (error as Error & { response: unknown }).response)
     }
     console.error('전체 오류:', error)
     

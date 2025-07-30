@@ -6,6 +6,7 @@ export interface Diary {
   original_content: string
   ai_content: string
   created_at: string
+  updated_at: string
 }
 
 // Supabase 설정이 없을 경우 기본값 처리
@@ -45,13 +46,13 @@ export const safeSupabaseOperation = async <T>(
     console.error('오류 타입:', error instanceof Error ? error.constructor.name : typeof error)
     console.error('오류 메시지:', error instanceof Error ? error.message : error)
     if (error && typeof error === 'object' && 'code' in error) {
-      console.error('오류 코드:', (error as any).code)
+      console.error('오류 코드:', (error as Record<string, unknown>).code)
     }
     if (error && typeof error === 'object' && 'details' in error) {
-      console.error('오류 상세:', (error as any).details)
+      console.error('오류 상세:', (error as Record<string, unknown>).details)
     }
     if (error && typeof error === 'object' && 'hint' in error) {
-      console.error('오류 힌트:', (error as any).hint)
+      console.error('오류 힌트:', (error as Record<string, unknown>).hint)
     }
     console.error('전체 오류 객체:', error)
     return fallbackValue

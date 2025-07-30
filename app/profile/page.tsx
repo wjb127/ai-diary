@@ -31,14 +31,16 @@ export default function ProfilePage() {
             title: '데모 일기 1',
             original_content: '오늘은 좋은 하루였다.',
             ai_content: '따스한 햇살이 내리쬐는 오늘, 마음 속 깊은 곳까지 평온함이 스며들었다.',
-            created_at: new Date().toISOString()
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
           },
           {
             id: 2,
             title: '데모 일기 2',
             original_content: '공원에서 산책했다.',
             ai_content: '공원의 싱그러운 바람과 함께 걸으며, 자연이 주는 선물 같은 시간을 만끽했다.',
-            created_at: new Date(Date.now() - 86400000).toISOString()
+            created_at: new Date(Date.now() - 86400000).toISOString(),
+            updated_at: new Date(Date.now() - 86400000).toISOString()
           }
         ]
         setDiaries(demoData)

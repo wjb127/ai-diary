@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
+import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
 import { safeDiaryOperations, Diary, isSupabaseConfigured, testSupabaseConnection } from '@/lib/supabase'
 import DiaryEditor from '@/components/DiaryEditor'
 
@@ -11,8 +11,8 @@ export default function DiaryPage() {
   const [enhancedText, setEnhancedText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [todaysDiary, setTodaysDiary] = useState<Diary | null>(null)
-  const [showCreateForm, setShowCreateForm] = useState(false)
-  const [isEditMode, setIsEditMode] = useState(false)
+  // const [showCreateForm, setShowCreateForm] = useState(false)
+  // const [isEditMode, setIsEditMode] = useState(false)
   const [title, setTitle] = useState('')
   const [isNewDiary, setIsNewDiary] = useState(true)
   const [selectedDiary, setSelectedDiary] = useState<Diary | null>(null)
@@ -141,6 +141,7 @@ export default function DiaryPage() {
       original_content: originalText,
       ai_content: enhancedText,
       created_at: selectedDate.toISOString(),
+      updated_at: new Date().toISOString(),
     }
     console.log('저장할 데이터:', diaryData)
 
@@ -153,7 +154,7 @@ export default function DiaryPage() {
       setTitle('')
       setOriginalText('')
       setEnhancedText('')
-      setShowCreateForm(false)
+      // setShowCreateForm(false)
       setIsNewDiary(false)
       loadDiaryForDate(selectedDate)
     } else {
@@ -169,16 +170,16 @@ export default function DiaryPage() {
     setSelectedDate(newDate)
   }
 
-  const resetForm = () => {
-    console.log('\n=== 폼 리셋 ===')
-    console.log('터미널 로그: 폼 리셋 실행')
-    setTitle('')
-    setOriginalText('')
-    setEnhancedText('')
-    setShowCreateForm(false)
-    setIsEditMode(false)
-    setIsNewDiary(false)
-  }
+  // const resetForm = () => {
+  //   console.log('\n=== 폼 리셋 ===')
+  //   console.log('터미널 로그: 폼 리셋 실행')
+  //   setTitle('')
+  //   setOriginalText('')
+  //   setEnhancedText('')
+  //   setShowCreateForm(false)
+  //   setIsEditMode(false)
+  //   setIsNewDiary(false)
+  // }
 
   // 일기 수정 기능
   const handleUpdateDiary = async (id: number, updates: Partial<Omit<Diary, 'id'>>) => {
