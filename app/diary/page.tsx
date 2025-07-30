@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
-import { safeDiaryOperations, Diary, isSupabaseConfigured } from '@/lib/supabase'
+import { safeDiaryOperations, Diary, isSupabaseConfigured, testSupabaseConnection } from '@/lib/supabase'
 
 export default function DiaryPage() {
   const [selectedDate, setSelectedDate] = useState(new Date())
@@ -74,6 +74,11 @@ export default function DiaryPage() {
   useEffect(() => {
     loadDiaryForDate(selectedDate)
   }, [selectedDate])
+
+  useEffect(() => {
+    // 컴포넌트 마운트 시 Supabase 연결 테스트
+    testSupabaseConnection()
+  }, [])
 
   useEffect(() => {
     // 오늘 날짜이고 일기가 없으면 자동으로 작성 모드로
