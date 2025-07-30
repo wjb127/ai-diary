@@ -18,6 +18,7 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
   const [aiContent, setAiContent] = useState(diary.ai_content)
   const [isDeleting, setIsDeleting] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const [isEnhancing, setIsEnhancing] = useState(false)
 
   const handleSave = async () => {
     console.log('일기 수정 저장 시작...')
@@ -63,6 +64,65 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
     setOriginalContent(diary.original_content)
     setAiContent(diary.ai_content)
     setIsEditing(false)
+  }
+
+  // AI 추억보정 기능
+  const enhanceDiary = async () => {
+    if (!originalContent.trim()) {
+      alert('원본 일기 내용을 입력해주세요.')
+      return
+    }
+
+    console.log('=== 일기 수정 중 AI 추억보정 시작 ===')
+    console.log('수정 중인 원본 텍스트 길이:', originalContent.length)
+    console.log('수정 중인 원본 텍스트:', originalContent)
+
+    setIsEnhancing(true)
+    try {
+      console.log('수정 모드에서 서버에 AI 보정 요청 전송...')
+      const startTime = Date.now()
+      
+      const response = await fetch('/api/enhance', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: originalContent }),
+      })
+
+      const responseTime = Date.now() - startTime
+      console.log(`수정 모드 AI 보정 응답 시간: ${responseTime}ms`)
+      console.log('수정 모드 응답 상태:', response.status)
+
+      if (!response.ok) {
+        console.error('수정 모드 AI 보정 서버 오류:', response.status, response.statusText)
+        const errorText = await response.text()
+        console.error('수정 모드 오류 상세:', errorText)
+        throw new Error(`서버 오류: ${response.status}`)
+      }
+
+      const data = await response.json()
+      console.log('수정 모드 AI 보정 응답 데이터:', data)
+      
+      if (data.enhancedText) {
+        console.log('수정 모드 AI 보정 성공!')
+        console.log('수정 모드 보정된 텍스트 길이:', data.enhancedText.length)
+        setAiContent(data.enhancedText)
+      } else {
+        console.error('수정 모드에서 보정된 텍스트가 없습니다:', data)
+        alert('AI 추억보정에 실패했습니다.')
+      }
+    } catch (error) {
+      console.error('=== 수정 모드 AI 추억보정 오류 ===')
+      console.error('오류 타입:', error instanceof Error ? error.constructor.name : typeof error)
+      console.error('오류 메시지:', error instanceof Error ? error.message : error)
+      console.error('전체 오류 객체:', error)
+      
+      alert(`AI 추억보정 중 오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`)
+    } finally {
+      console.log('=== 수정 모드 AI 추억보정 종료 ===')
+      setIsEnhancing(false)
+    }
   }
 
   return (
@@ -140,9 +200,19 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
               
               {/* AI 내용 수정 */}
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">
-                  AI 감성 일기
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-medium text-gray-600">
+                    AI 감성 일기
+                  </label>
+                  <button
+                    onClick={enhanceDiary}
+                    disabled={isEnhancing || !originalContent.trim()}
+                    className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 transition-all"
+                  >
+                    <Sparkles size={14} className="mr-1" />
+                    {isEnhancing ? '보정 중...' : 'AI 재보정'}
+                  </button>
+                </div>
                 <textarea
                   value={aiContent}
                   onChange={(e) => setAiContent(e.target.value)}
@@ -155,7 +225,7 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
               <div className="flex space-x-3 pt-4">
                 <button
                   onClick={handleSave}
-                  disabled={isSaving || !title.trim() || !originalContent.trim() || !aiContent.trim()}
+                  disabled={isSaving || isEnhancing || !title.trim() || !originalContent.trim() || !aiContent.trim()}
                   className="flex-1 flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
                 >
                   <Save size={18} className="mr-2" />
@@ -163,7 +233,7 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
                 </button>
                 <button
                   onClick={handleCancel}
-                  disabled={isSaving}
+                  disabled={isSaving || isEnhancing}
                   className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 disabled:opacity-50 transition-colors"
                 >
                   취소
