@@ -30,141 +30,145 @@ export default function SubscriptionModal({ isOpen, onClose, onSubscribe }: Subs
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="glass-strong rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto">
         {/* 헤더 */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-xl">
+        <div className="sticky top-0 glass-strong border-b border-white/20 px-8 py-6 rounded-t-3xl backdrop-blur-xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <Crown className="text-yellow-500 mr-2" size={24} />
-              <h2 className="text-xl font-bold">AI 일기장 프리미엄</h2>
+              <div className="glass-subtle rounded-2xl p-2 mr-3">
+                <Crown style={{ color: 'var(--accent-purple)' }} size={24} />
+              </div>
+              <h2 className="text-2xl font-light tracking-tight" style={{ color: 'var(--text-primary)' }}>AI 일기장 프리미엄</h2>
             </div>
             <button
               onClick={onClose}
-              className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+              className="glass-subtle p-3 rounded-2xl hover:glass transition-all duration-300 transform hover:scale-110"
             >
-              <X size={20} />
+              <X size={20} style={{ color: 'var(--text-primary)' }} />
             </button>
           </div>
         </div>
 
         {/* 내용 */}
-        <div className="p-6">
+        <div className="p-8">
           {/* 프리미엄 혜택 */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-4">프리미엄 혜택</h3>
-            <div className="space-y-3">
+          <div className="mb-8">
+            <h3 className="text-xl font-light mb-6 tracking-tight" style={{ color: 'var(--text-primary)' }}>프리미엄 혜택</h3>
+            <div className="space-y-4">
               <div className="flex items-center">
-                <div className="bg-green-100 rounded-full p-1 mr-3">
-                  <Check size={14} className="text-green-600" />
+                <div className="glass-subtle rounded-2xl p-2 mr-4">
+                  <Check size={16} style={{ color: 'var(--accent-blue)' }} />
                 </div>
-                <span className="text-gray-700">무제한 AI 추억보정</span>
+                <span className="text-lg font-light" style={{ color: 'var(--text-primary)' }}>무제한 AI 추억보정</span>
               </div>
               <div className="flex items-center">
-                <div className="bg-green-100 rounded-full p-1 mr-3">
-                  <Check size={14} className="text-green-600" />
+                <div className="glass-subtle rounded-2xl p-2 mr-4">
+                  <Check size={16} style={{ color: 'var(--accent-blue)' }} />
                 </div>
-                <span className="text-gray-700">무제한 일기 저장</span>
+                <span className="text-lg font-light" style={{ color: 'var(--text-primary)' }}>무제한 일기 저장</span>
               </div>
               <div className="flex items-center">
-                <div className="bg-green-100 rounded-full p-1 mr-3">
-                  <Check size={14} className="text-green-600" />
+                <div className="glass-subtle rounded-2xl p-2 mr-4">
+                  <Check size={16} style={{ color: 'var(--accent-blue)' }} />
                 </div>
-                <span className="text-gray-700">고급 통계 및 분석</span>
+                <span className="text-lg font-light" style={{ color: 'var(--text-primary)' }}>고급 통계 및 분석</span>
               </div>
               <div className="flex items-center">
-                <div className="bg-green-100 rounded-full p-1 mr-3">
-                  <Check size={14} className="text-green-600" />
+                <div className="glass-subtle rounded-2xl p-2 mr-4">
+                  <Check size={16} style={{ color: 'var(--accent-blue)' }} />
                 </div>
-                <span className="text-gray-700">데이터 백업 및 내보내기</span>
+                <span className="text-lg font-light" style={{ color: 'var(--text-primary)' }}>데이터 백업 및 내보내기</span>
               </div>
               <div className="flex items-center">
-                <div className="bg-green-100 rounded-full p-1 mr-3">
-                  <Check size={14} className="text-green-600" />
+                <div className="glass-subtle rounded-2xl p-2 mr-4">
+                  <Check size={16} style={{ color: 'var(--accent-blue)' }} />
                 </div>
-                <span className="text-gray-700">우선 고객 지원</span>
+                <span className="text-lg font-light" style={{ color: 'var(--text-primary)' }}>우선 고객 지원</span>
               </div>
             </div>
           </div>
 
           {/* 요금제 선택 */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-4">요금제 선택</h3>
-            <div className="space-y-3">
+          <div className="mb-8">
+            <h3 className="text-xl font-light mb-6 tracking-tight" style={{ color: 'var(--text-primary)' }}>요금제 선택</h3>
+            <div className="space-y-4">
               {/* 월간 요금제 */}
               <div
-                className={`border-2 rounded-lg p-4 cursor-pointer transition-colors ${
+                className={`glass-subtle rounded-2xl p-6 cursor-pointer transition-all duration-300 transform hover:scale-105 ${
                   selectedPlan === 'monthly'
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'glass border-2'
+                    : 'hover:glass'
                 }`}
+                style={selectedPlan === 'monthly' ? { borderColor: 'var(--accent-blue)' } : {}}
                 onClick={() => setSelectedPlan('monthly')}
               >
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center">
-                      <div className={`w-4 h-4 rounded-full border-2 mr-3 ${
+                      <div className={`w-5 h-5 rounded-full border-2 mr-4 transition-all duration-300 ${
                         selectedPlan === 'monthly' 
-                          ? 'border-blue-500 bg-blue-500' 
-                          : 'border-gray-300'
+                          ? 'border-blue-500 bg-blue-500 transform scale-110' 
+                          : 'border-gray-400'
                       }`}>
                         {selectedPlan === 'monthly' && (
                           <div className="w-full h-full rounded-full bg-blue-500 flex items-center justify-center">
-                            <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                            <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
                           </div>
                         )}
                       </div>
                       <div>
-                        <p className="font-semibold">월간 구독</p>
-                        <p className="text-sm text-gray-600">언제든 해지 가능</p>
+                        <p className="font-medium text-lg" style={{ color: 'var(--text-primary)' }}>월간 구독</p>
+                        <p className="text-sm font-light" style={{ color: 'var(--text-secondary)' }}>언제든 해지 가능</p>
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-blue-600">₩9,900</p>
-                    <p className="text-sm text-gray-500">/월</p>
+                    <p className="text-3xl font-light" style={{ color: 'var(--accent-blue)' }}>₩9,900</p>
+                    <p className="text-sm font-light" style={{ color: 'var(--text-secondary)' }}>/월</p>
                   </div>
                 </div>
               </div>
 
               {/* 연간 요금제 */}
               <div
-                className={`border-2 rounded-lg p-4 cursor-pointer transition-colors relative ${
+                className={`glass-subtle rounded-2xl p-6 cursor-pointer transition-all duration-300 transform hover:scale-105 relative ${
                   selectedPlan === 'yearly'
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'glass border-2'
+                    : 'hover:glass'
                 }`}
+                style={selectedPlan === 'yearly' ? { borderColor: 'var(--accent-purple)' } : {}}
                 onClick={() => setSelectedPlan('yearly')}
               >
                 {/* 할인 배지 */}
-                <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                <div className="absolute -top-3 -right-3 glass rounded-2xl px-3 py-1.5 text-sm font-medium" style={{ color: 'var(--accent-pink)' }}>
                   17% 할인
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center">
-                      <div className={`w-4 h-4 rounded-full border-2 mr-3 ${
+                      <div className={`w-5 h-5 rounded-full border-2 mr-4 transition-all duration-300 ${
                         selectedPlan === 'yearly' 
-                          ? 'border-blue-500 bg-blue-500' 
-                          : 'border-gray-300'
+                          ? 'border-purple-500 bg-purple-500 transform scale-110' 
+                          : 'border-gray-400'
                       }`}>
                         {selectedPlan === 'yearly' && (
-                          <div className="w-full h-full rounded-full bg-blue-500 flex items-center justify-center">
-                            <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                          <div className="w-full h-full rounded-full bg-purple-500 flex items-center justify-center">
+                            <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
                           </div>
                         )}
                       </div>
                       <div>
-                        <p className="font-semibold">연간 구독</p>
-                        <p className="text-sm text-gray-600">2개월 무료 혜택</p>
+                        <p className="font-medium text-lg" style={{ color: 'var(--text-primary)' }}>연간 구독</p>
+                        <p className="text-sm font-light" style={{ color: 'var(--text-secondary)' }}>2개월 무료 혜택</p>
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-blue-600">₩99,000</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-3xl font-light" style={{ color: 'var(--accent-purple)' }}>₩99,000</p>
+                    <p className="text-sm font-light" style={{ color: 'var(--text-secondary)' }}>
                       /년
-                      <span className="line-through text-gray-400 ml-1">₩118,800</span>
+                      <span className="line-through ml-2 opacity-60">₩118,800</span>
                     </p>
                   </div>
                 </div>
@@ -176,12 +180,13 @@ export default function SubscriptionModal({ isOpen, onClose, onSubscribe }: Subs
           <button
             onClick={handleSubscribe}
             disabled={isLoading}
-            className="w-full flex items-center justify-center px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-400 transition-all transform active:scale-95 font-semibold"
+            className="w-full flex items-center justify-center px-8 py-5 glass rounded-2xl hover:glass-strong disabled:opacity-50 transition-all duration-300 transform hover:scale-105 active:scale-95 text-lg font-medium group"
+            style={{ color: selectedPlan === 'monthly' ? 'var(--accent-blue)' : 'var(--accent-purple)' }}
           >
-            <Sparkles className="mr-2" size={20} />
+            <Sparkles className="mr-3 group-hover:rotate-12 transition-transform duration-300" size={24} />
             {isLoading ? (
               <span className="flex items-center">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 mr-3" style={{ borderColor: 'var(--text-primary)' }}></div>
                 구독 처리 중...
               </span>
             ) : (
@@ -190,11 +195,12 @@ export default function SubscriptionModal({ isOpen, onClose, onSubscribe }: Subs
           </button>
 
           {/* 안내 문구 */}
-          <div className="mt-4 text-center">
-            <p className="text-xs text-gray-500">
-              7일 무료 체험 후 자동 결제됩니다. 언제든 해지 가능합니다.
+          <div className="mt-6 text-center">
+            <p className="text-sm font-light leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              7일 무료 체험 후 자동 결제됩니다.<br />
+              언제든 해지 가능합니다.
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-sm font-light mt-2" style={{ color: 'var(--text-secondary)' }}>
               결제는 토스페이먼츠를 통해 안전하게 처리됩니다.
             </p>
           </div>

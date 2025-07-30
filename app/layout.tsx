@@ -47,8 +47,8 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <div className="min-h-screen bg-gray-50">
-          <main className="pb-16">{children}</main>
+        <div className="min-h-screen">
+          <main className="pb-20">{children}</main>
           <BottomNavigation />
         </div>
       </body>
