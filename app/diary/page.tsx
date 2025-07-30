@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import { safeDiaryOperations, Diary, isSupabaseConfigured, testSupabaseConnection } from '@/lib/supabase'
+import DiaryEditor from '@/components/DiaryEditor'
 
 export default function DiaryPage() {
   const [selectedDate, setSelectedDate] = useState(new Date())
@@ -14,6 +15,7 @@ export default function DiaryPage() {
   const [isEditMode, setIsEditMode] = useState(false)
   const [title, setTitle] = useState('')
   const [isNewDiary, setIsNewDiary] = useState(true)
+  const [selectedDiary, setSelectedDiary] = useState<Diary | null>(null)
 
   const enhanceDiary = async () => {
     if (!originalText.trim()) return
@@ -168,12 +170,39 @@ export default function DiaryPage() {
   }
 
   const resetForm = () => {
+    console.log('\n=== 폼 리셋 ===')
+    console.log('터미널 로그: 폼 리셋 실행')
     setTitle('')
     setOriginalText('')
     setEnhancedText('')
     setShowCreateForm(false)
     setIsEditMode(false)
     setIsNewDiary(false)
+  }
+
+  // 일기 수정 기능
+  const handleUpdateDiary = async (id: number, updates: Partial<Omit<Diary, 'id'>>) => {
+    console.log('\n=== 일기 수정 핸들러 ===')
+    console.log('터미널 로그: 일기 수정 요청, ID =', id)
+    const success = await safeDiaryOperations.updateDiary(id, updates)
+    if (success) {
+      console.log('터미널 로그: 일기 수정 성공, 데이터 새로고침')
+      loadDiaryForDate(selectedDate)
+    }
+    return success
+  }
+
+  // 일기 삭제 기능
+  const handleDeleteDiary = async (id: number) => {
+    console.log('\n=== 일기 삭제 핸들러 ===')
+    console.log('터미널 로그: 일기 삭제 요청, ID =', id)
+    const success = await safeDiaryOperations.deleteDiary(id)
+    if (success) {
+      console.log('터미널 로그: 일기 삭제 성공, 데이터 새로고침')
+      loadDiaryForDate(selectedDate)
+      setSelectedDiary(null)
+    }
+    return success
   }
 
   return (
@@ -279,13 +308,33 @@ export default function DiaryPage() {
         ) : todaysDiary ? (
           <div className="bg-white rounded-xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">{todaysDiary.title}</h2>
-              <span className="text-sm text-gray-500">
-                {new Date(todaysDiary.created_at).toLocaleTimeString('ko-KR', {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
-              </span>
+              <h2 
+                className="text-xl font-semibold cursor-pointer hover:text-blue-600 transition-colors"
+                onClick={() => {
+                  console.log('터미널 로그: 일기 제목 클릭, 에디터 열기')
+                  setSelectedDiary(todaysDiary)
+                }}
+                title="클릭하여 상세보기/편집"
+              >
+                {todaysDiary.title}
+              </h2>
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-500">
+                  {new Date(todaysDiary.created_at).toLocaleTimeString('ko-KR', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </span>
+                <button
+                  onClick={() => {
+                    console.log('터미널 로그: 일기 에디터 버튼 클릭')
+                    setSelectedDiary(todaysDiary)
+                  }}
+                  className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                >
+                  상세보기
+                </button>
+              </div>
             </div>
             
             <div className="space-y-4">
@@ -327,6 +376,19 @@ export default function DiaryPage() {
               </p>
             </div>
           </div>
+        )}
+
+        {/* 일기 상세보기/편집 모달 */}
+        {selectedDiary && (
+          <DiaryEditor
+            diary={selectedDiary}
+            onUpdate={handleUpdateDiary}
+            onDelete={handleDeleteDiary}
+            onClose={() => {
+              console.log('터미널 로그: 일기 에디터 닫기')
+              setSelectedDiary(null)
+            }}
+          />
         )}
       </div>
     </div>

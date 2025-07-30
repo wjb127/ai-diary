@@ -96,7 +96,7 @@ CREATE INDEX IF NOT EXISTS idx_diaries_created_at ON diaries(created_at DESC);
   }, false, 'Supabase 연결 테스트')
 }
 
-// 일기 관련 안전한 작업들
+// 일기 CRUD 작업들
 export const safeDiaryOperations = {
   // 일기 목록 조회
   async getDiaries(): Promise<Diary[]> {
@@ -134,8 +134,15 @@ export const safeDiaryOperations = {
     }, null, '날짜별 일기 조회')
   },
 
-  // 일기 저장
+  // C: 일기 생성 (Create)
   async saveDiary(diary: Omit<Diary, 'id'>): Promise<boolean> {
+    console.log('\n=== 일기 생성 (CREATE) ===')
+    console.log('터미널 로그: 일기 저장 시작')
+    console.log('터미널 로그: 제목 ="', diary.title, '"')
+    console.log('터미널 로그: 원본 길이 =', diary.original_content.length)
+    console.log('터미널 로그: AI 길이 =', diary.ai_content.length)
+    console.log('터미널 로그: 날짜 =', diary.created_at)
+    
     return safeSupabaseOperation(async () => {
       console.log('일기 저장 데이터:', diary)
       const { data, error } = await supabase
@@ -144,8 +151,79 @@ export const safeDiaryOperations = {
         .select()
 
       console.log('일기 저장 결과 - data:', data, 'error:', error)
-      if (error) throw error
+      console.log('터미널 로그: 저장 성공!', data ? `ID: ${data[0]?.id}` : '')
+      if (error) {
+        console.log('터미널 로그: 저장 실패 -', error.message)
+        throw error
+      }
       return true
-    }, false, '일기 저장')
+    }, false, '일기 생성')
+  },
+
+  // U: 일기 수정 (Update)
+  async updateDiary(id: number, updates: Partial<Omit<Diary, 'id'>>): Promise<boolean> {
+    console.log('\n=== 일기 수정 (UPDATE) ===')
+    console.log('터미널 로그: 일기 수정 시작, ID =', id)
+    console.log('터미널 로그: 수정 데이터 =', updates)
+    
+    return safeSupabaseOperation(async () => {
+      const { data, error } = await supabase
+        .from('diaries')
+        .update(updates)
+        .eq('id', id)
+        .select()
+
+      console.log('일기 수정 결과 - data:', data, 'error:', error)
+      console.log('터미널 로그: 수정 성공!', data ? `수정된 항목: ${data.length}개` : '')
+      if (error) {
+        console.log('터미널 로그: 수정 실패 -', error.message)
+        throw error
+      }
+      return true
+    }, false, '일기 수정')
+  },
+
+  // D: 일기 삭제 (Delete)
+  async deleteDiary(id: number): Promise<boolean> {
+    console.log('\n=== 일기 삭제 (DELETE) ===')
+    console.log('터미널 로그: 일기 삭제 시작, ID =', id)
+    
+    return safeSupabaseOperation(async () => {
+      const { data, error } = await supabase
+        .from('diaries')
+        .delete()
+        .eq('id', id)
+        .select()
+
+      console.log('일기 삭제 결과 - data:', data, 'error:', error)
+      console.log('터미널 로그: 삭제 성공!', data ? `삭제된 ID: ${data[0]?.id}` : '')
+      if (error) {
+        console.log('터미널 로그: 삭제 실패 -', error.message)
+        throw error
+      }
+      return true
+    }, false, '일기 삭제')
+  },
+
+  // R: 특정 일기 조회 (Read by ID)
+  async getDiaryById(id: number): Promise<Diary | null> {
+    console.log('\n=== 일기 조회 by ID (READ) ===')
+    console.log('터미널 로그: ID로 일기 조회 시작, ID =', id)
+    
+    return safeSupabaseOperation(async () => {
+      const { data, error } = await supabase
+        .from('diaries')
+        .select('*')
+        .eq('id', id)
+        .single()
+
+      console.log('ID별 일기 조회 결과 - data:', data, 'error:', error)
+      console.log('터미널 로그: 조회 결과:', data ? `찾음: "${data.title}"` : '없음')
+      if (error && error.code !== 'PGRST116') {
+        console.log('터미널 로그: 조회 실패 -', error.message)
+        throw error
+      }
+      return data || null
+    }, null, 'ID별 일기 조회')
   }
 }
