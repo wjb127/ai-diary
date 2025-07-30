@@ -1,10 +1,22 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Crown, Check, Sparkles, BookOpen, Infinity, Zap } from 'lucide-react'
+import SubscriptionModal from '@/components/SubscriptionModal'
+
+// Toss Payments 타입 정의
+declare global {
+  interface Window {
+    TossPayments: any
+  }
+}
 
 export default function SubscriptionPage() {
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('monthly')
+  const [showModal, setShowModal] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [tossPayments, setTossPayments] = useState<any>(null)
+  const [payment, setPayment] = useState<any>(null)
 
   const plans = {
     free: {
@@ -50,6 +62,70 @@ export default function SubscriptionPage() {
       return Math.round(plans.premium.yearlyPrice / 12)
     }
     return plans.premium.monthlyPrice
+  }
+
+  // Toss Payments SDK 초기화
+  useEffect(() => {
+    const loadTossPayments = async () => {
+      if (typeof window !== 'undefined' && window.TossPayments) {
+        const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY || 'test_ck_oEjb0gm23Po1pye14mKbr5vbo1mn'
+        const customerKey = `customer_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+        
+        console.log('토스페이먼츠 SDK 초기화:', { clientKey: clientKey ? '설정됨' : '없음', customerKey })
+        
+        const tossPaymentsInstance = window.TossPayments(clientKey)
+        const paymentInstance = tossPaymentsInstance.payment({ customerKey })
+        
+        setTossPayments(tossPaymentsInstance)
+        setPayment(paymentInstance)
+      }
+    }
+
+    // SDK 스크립트 로드
+    const script = document.createElement('script')
+    script.src = 'https://js.tosspayments.com/v2/standard'
+    script.onload = loadTossPayments
+    document.head.appendChild(script)
+
+    return () => {
+      const existingScript = document.querySelector('script[src="https://js.tosspayments.com/v2/standard"]')
+      if (existingScript) {
+        document.head.removeChild(existingScript)
+      }
+    }
+  }, [])
+
+  // 구독 처리 함수
+  const handleSubscribe = async (plan: 'monthly' | 'yearly') => {
+    if (!payment) {
+      alert('결제 시스템이 준비되지 않았습니다. 잠시 후 다시 시도해주세요.')
+      return
+    }
+
+    console.log('=== 구독 결제 시작 ===')
+    console.log('선택된 플랜:', plan)
+    setIsLoading(true)
+
+    try {
+      const customerKey = `customer_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+      const amount = plan === 'monthly' ? plans.premium.monthlyPrice : plans.premium.yearlyPrice
+      
+      console.log('빌링 인증 요청:', { customerKey, amount })
+      
+      // 빌링 인증 요청
+      await payment.requestBillingAuth({
+        method: 'CARD', // 카드 자동결제
+        successUrl: `${window.location.origin}/api/billing/success?plan=${plan}&amount=${amount}`,
+        failUrl: `${window.location.origin}/api/billing/fail`,
+        customerEmail: 'user@example.com',
+        customerName: '사용자',
+      })
+    } catch (error) {
+      console.error('빌링 인증 오류:', error)
+      alert('결제 인증 중 오류가 발생했습니다.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -174,8 +250,12 @@ export default function SubscriptionPage() {
             ))}
           </div>
 
-          <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors">
-            프리미엄으로 업그레이드
+          <button 
+            onClick={() => setShowModal(true)}
+            disabled={isLoading}
+            className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 disabled:bg-gray-400 transition-colors"
+          >
+            {isLoading ? '처리 중...' : '프리미엄으로 업그레이드'}
           </button>
         </div>
 
@@ -221,6 +301,13 @@ export default function SubscriptionPage() {
             </div>
           </div>
         </div>
+
+        {/* 구독 모달 */}
+        <SubscriptionModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          onSubscribe={handleSubscribe}
+        />
       </div>
     </div>
   )
