@@ -72,8 +72,13 @@ export default function DiaryPage() {
   }
 
   const saveDiary = async () => {
-    if (!title.trim() || !originalText.trim() || !enhancedText.trim()) {
-      alert('제목, 원본 일기, 변환된 일기가 모두 필요합니다.')
+    if (!title.trim() || !originalText.trim()) {
+      alert('제목과 일기 내용을 입력해주세요.')
+      return
+    }
+    
+    if (!enhancedText.trim()) {
+      alert('AI 추억보정을 먼저 실행해주세요.')
       return
     }
 
@@ -192,6 +197,14 @@ export default function DiaryPage() {
               {/* 버튼 영역 */}
               <div className="flex gap-3 pt-4">
                 <button
+                  onClick={saveDiary}
+                  disabled={!title.trim() || !originalText.trim()}
+                  className="flex-1 flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
+                >
+                  저장하기
+                </button>
+                
+                <button
                   onClick={enhanceDiary}
                   disabled={isLoading || !originalText.trim()}
                   className="flex-1 flex items-center justify-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 transition-all transform active:scale-95"
@@ -199,23 +212,13 @@ export default function DiaryPage() {
                   <Sparkles className="mr-2" size={20} />
                   {isLoading ? (
                     <span className="flex items-center">
-                      <span className="animate-pulse">추억을 아름답게 보정하는 중</span>
+                      <span className="animate-pulse">추억 보정 중</span>
                       <span className="ml-1 animate-bounce">...</span>
                     </span>
                   ) : (
                     'AI 추억보정'
                   )}
                 </button>
-                
-                {enhancedText && (
-                  <button
-                    onClick={saveDiary}
-                    disabled={!title.trim() || !originalText.trim() || !enhancedText.trim()}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
-                  >
-                    저장하기
-                  </button>
-                )}
               </div>
             </div>
           </div>
