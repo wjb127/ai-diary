@@ -9,12 +9,12 @@ export interface Diary {
 }
 
 // Supabase 설정이 없을 경우 기본값 처리
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'dummy_url'
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dummy.supabase.co'
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'dummy_key'
 
 // Supabase 연결 상태 확인
 export const isSupabaseConfigured = () => {
-  return supabaseUrl !== 'dummy_url' && supabaseAnonKey !== 'dummy_key'
+  return supabaseUrl !== 'https://dummy.supabase.co' && supabaseAnonKey !== 'dummy_key'
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Save, Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
+import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import { safeDiaryOperations, Diary, isSupabaseConfigured } from '@/lib/supabase'
 
 export default function DiaryPage() {
