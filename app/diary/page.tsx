@@ -1,15 +1,16 @@
 'use client'
 
-import { useState } from 'react'
-import { Save, Sparkles, FileText, BookOpen } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Save, Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import { supabase, Diary } from '@/lib/supabase'
 
 export default function DiaryPage() {
+  const [selectedDate, setSelectedDate] = useState(new Date())
   const [originalText, setOriginalText] = useState('')
   const [enhancedText, setEnhancedText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [diaries, setDiaries] = useState<Diary[]>([])
-  const [showSaved, setShowSaved] = useState(false)
+  const [todaysDiary, setTodaysDiary] = useState<Diary | null>(null)
+  const [showCreateForm, setShowCreateForm] = useState(false)
   const [title, setTitle] = useState('')
 
   const enhanceDiary = async () => {
@@ -37,6 +38,42 @@ export default function DiaryPage() {
     }
   }
 
+  useEffect(() => {
+    loadDiaryForDate(selectedDate)
+  }, [selectedDate])
+
+  const formatDateForDB = (date: Date) => {
+    return date.toISOString().split('T')[0]
+  }
+
+  const formatDateDisplay = (date: Date) => {
+    return date.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long'
+    })
+  }
+
+  const loadDiaryForDate = async (date: Date) => {
+    try {
+      const dateStr = formatDateForDB(date)
+      const { data, error } = await supabase
+        .from('diaries')
+        .select('*')
+        .gte('created_at', `${dateStr}T00:00:00.000Z`)
+        .lt('created_at', `${dateStr}T23:59:59.999Z`)
+        .order('created_at', { ascending: false })
+        .limit(1)
+
+      if (error) throw error
+      setTodaysDiary(data && data.length > 0 ? data[0] : null)
+    } catch (error) {
+      console.error('일기 로딩 오류:', error)
+      setTodaysDiary(null)
+    }
+  }
+
   const saveDiary = async () => {
     if (!title.trim() || !originalText.trim() || !enhancedText.trim()) {
       alert('제목, 원본 일기, 변환된 일기가 모두 필요합니다.')
@@ -50,6 +87,7 @@ export default function DiaryPage() {
           title,
           original_content: originalText,
           ai_content: enhancedText,
+          created_at: selectedDate.toISOString(),
         })
         .select()
 
@@ -59,134 +97,193 @@ export default function DiaryPage() {
       setTitle('')
       setOriginalText('')
       setEnhancedText('')
-      loadDiaries()
+      setShowCreateForm(false)
+      loadDiaryForDate(selectedDate)
     } catch (error) {
       console.error('일기 저장 오류:', error)
       alert('일기 저장 중 오류가 발생했습니다.')
     }
   }
 
-  const loadDiaries = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('diaries')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      setDiaries(data || [])
-    } catch (error) {
-      console.error('일기 로딩 오류:', error)
-    }
+  const changeDate = (days: number) => {
+    const newDate = new Date(selectedDate)
+    newDate.setDate(newDate.getDate() + days)
+    setSelectedDate(newDate)
   }
 
-  const toggleSavedDiaries = () => {
-    if (!showSaved) {
-      loadDiaries()
-    }
-    setShowSaved(!showSaved)
+  const resetForm = () => {
+    setTitle('')
+    setOriginalText('')
+    setEnhancedText('')
+    setShowCreateForm(false)
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">AI 일기장</h1>
-        <p className="text-gray-600">오늘의 소중한 순간을 AI와 함께 아름다운 추억으로 만들어보세요</p>
-      </div>
-
-      <div className="grid lg:grid-cols-2 gap-8 mb-8">
-        <div className="bg-white rounded-xl p-6 shadow-lg">
-          <div className="flex items-center mb-4">
-            <FileText className="text-blue-600 mr-2" size={20} />
-            <h2 className="text-xl font-semibold">원본 일기</h2>
+    <div className="pb-20 min-h-screen bg-gray-50">
+      {/* 날짜 선택 헤더 */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="px-4 py-4">
+          <div className="flex items-center justify-between mb-2">
+            <button
+              onClick={() => changeDate(-1)}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <ChevronLeft size={20} className="text-gray-600" />
+            </button>
+            
+            <div className="text-center">
+              <h1 className="text-lg font-bold text-gray-800">AI 일기장</h1>
+              <p className="text-sm text-gray-600">{formatDateDisplay(selectedDate)}</p>
+            </div>
+            
+            <button
+              onClick={() => changeDate(1)}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              disabled={formatDateForDB(selectedDate) >= formatDateForDB(new Date())}
+            >
+              <ChevronRight size={20} className={formatDateForDB(selectedDate) >= formatDateForDB(new Date()) ? 'text-gray-300' : 'text-gray-600'} />
+            </button>
           </div>
-          <input
-            type="text"
-            placeholder="일기 제목을 입력하세요"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <textarea
-            value={originalText}
-            onChange={(e) => setOriginalText(e.target.value)}
-            placeholder="오늘 있었던 일을 간단히 적어보세요. 어떤 형태든 괜찮습니다!"
-            className="w-full h-64 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            onClick={enhanceDiary}
-            disabled={isLoading || !originalText.trim()}
-            className="w-full mt-4 flex items-center justify-center px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-400 transition-colors"
-          >
-            <Sparkles className="mr-2" size={20} />
-            {isLoading ? '변환 중...' : 'AI로 아름답게 변환하기'}
-          </button>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-lg">
-          <div className="flex items-center mb-4">
-            <Sparkles className="text-purple-600 mr-2" size={20} />
-            <h2 className="text-xl font-semibold">AI 감성 일기</h2>
-          </div>
-          <div className="h-64 p-4 border border-gray-300 rounded-lg bg-gray-50 overflow-y-auto">
-            {enhancedText ? (
-              <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">{enhancedText}</p>
-            ) : (
-              <p className="text-gray-400 italic">
-                원본 일기를 작성하고 변환 버튼을 누르면 AI가 아름다운 일기로 만들어드립니다.
-              </p>
-            )}
-          </div>
-          <button
-            onClick={saveDiary}
-            disabled={!title.trim() || !originalText.trim() || !enhancedText.trim()}
-            className="w-full mt-4 flex items-center justify-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-400 transition-colors"
-          >
-            <Save className="mr-2" size={20} />
-            일기 저장하기
-          </button>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl p-6 shadow-lg">
-        <button
-          onClick={toggleSavedDiaries}
-          className="flex items-center mb-4 text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors"
-        >
-          <BookOpen className="mr-2" size={20} />
-          저장된 일기 {showSaved ? '숨기기' : '보기'}
-        </button>
-
-        {showSaved && (
-          <div className="space-y-4">
-            {diaries.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">저장된 일기가 없습니다.</p>
-            ) : (
-              diaries.map((diary) => (
-                <div key={diary.id} className="border border-gray-200 rounded-lg p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-semibold text-lg">{diary.title}</h3>
-                    <span className="text-sm text-gray-500">
-                      {new Date(diary.created_at).toLocaleDateString('ko-KR')}
-                    </span>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-600 mb-2">원본</h4>
-                      <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded">
-                        {diary.original_content}
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-600 mb-2">AI 변환</h4>
-                      <p className="text-sm text-gray-700 bg-purple-50 p-3 rounded">
-                        {diary.ai_content}
-                      </p>
-                    </div>
-                  </div>
+      <div className="px-4 py-6">
+        {/* 해당 날짜 일기가 있는 경우 */}
+        {todaysDiary ? (
+          <div className="bg-white rounded-xl p-6 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold">{todaysDiary.title}</h2>
+              <span className="text-sm text-gray-500">
+                {new Date(todaysDiary.created_at).toLocaleTimeString('ko-KR', {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </span>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium text-gray-600 mb-2 flex items-center">
+                  <FileText size={16} className="mr-1" />
+                  원본 일기
+                </h3>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+                    {todaysDiary.original_content}
+                  </p>
                 </div>
-              ))
-            )}
+              </div>
+              
+              <div>
+                <h3 className="text-sm font-medium text-gray-600 mb-2 flex items-center">
+                  <Sparkles size={16} className="mr-1 text-purple-600" />
+                  AI 감성 일기
+                </h3>
+                <div className="bg-purple-50 p-4 rounded-lg">
+                  <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+                    {todaysDiary.ai_content}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* 해당 날짜 일기가 없는 경우 */
+          <div className="text-center py-12">
+            <div className="bg-white rounded-xl p-8 shadow-sm">
+              <Calendar size={48} className="mx-auto text-gray-400 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                {formatDateForDB(selectedDate) === formatDateForDB(new Date()) 
+                  ? "오늘의 일기를 작성해보세요" 
+                  : "이 날의 일기가 없습니다"}
+              </h3>
+              <p className="text-gray-500 mb-6">
+                {formatDateForDB(selectedDate) === formatDateForDB(new Date())
+                  ? "오늘 있었던 특별한 순간을 기록해보세요"
+                  : "다른 날짜를 선택하거나 새 일기를 작성해보세요"}
+              </p>
+              
+              {formatDateForDB(selectedDate) <= formatDateForDB(new Date()) && (
+                <button
+                  onClick={() => setShowCreateForm(true)}
+                  className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  <Plus size={20} className="mr-2" />
+                  일기 작성하기
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* 일기 작성 폼 */}
+        {showCreateForm && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end">
+            <div className="bg-white w-full max-h-[90vh] rounded-t-2xl overflow-hidden">
+              <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-3">
+                <div className="flex items-center justify-between">
+                  <button
+                    onClick={resetForm}
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    취소
+                  </button>
+                  <h2 className="text-lg font-semibold">{formatDateDisplay(selectedDate)}</h2>
+                  <button
+                    onClick={saveDiary}
+                    disabled={!title.trim() || !originalText.trim() || !enhancedText.trim()}
+                    className="text-blue-600 hover:text-blue-700 disabled:text-gray-400 font-medium"
+                  >
+                    저장
+                  </button>
+                </div>
+              </div>
+              
+              <div className="p-4 overflow-y-auto">
+                <div className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="일기 제목을 입력하세요"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  
+                  <textarea
+                    value={originalText}
+                    onChange={(e) => setOriginalText(e.target.value)}
+                    placeholder="오늘 일을 간단히 휘갈겨 써주세요"
+                    className="w-full h-40 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  
+                  {enhancedText && (
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-600 mb-2 flex items-center">
+                        <Sparkles size={16} className="mr-1 text-purple-600" />
+                        AI 감성 일기
+                      </h3>
+                      <div className="bg-purple-50 p-4 rounded-lg">
+                        <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+                          {enhancedText}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* 하단 버튼 영역 */}
+              <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4">
+                <button
+                  onClick={enhanceDiary}
+                  disabled={isLoading || !originalText.trim()}
+                  className="w-full flex items-center justify-center px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-400 transition-colors"
+                >
+                  <Sparkles className="mr-2" size={20} />
+                  {isLoading ? '추억 보정 중...' : 'AI 추억보정'}
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
