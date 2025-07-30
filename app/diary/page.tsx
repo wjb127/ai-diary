@@ -108,29 +108,45 @@ export default function DiaryPage() {
   }
 
   const saveDiary = async () => {
+    console.log('=== 일기 저장 시작 ===')
+    console.log('제목:', title)
+    console.log('원본 텍스트 길이:', originalText.length)
+    console.log('AI 텍스트 길이:', enhancedText.length)
+    console.log('선택된 날짜:', selectedDate.toISOString())
+    console.log('Supabase 설정됨:', isSupabaseConfigured())
+    
     if (!title.trim() || !originalText.trim()) {
+      console.error('제목 또는 일기 내용이 없음')
       alert('제목과 일기 내용을 입력해주세요.')
       return
     }
     
     if (!enhancedText.trim()) {
+      console.error('AI 보정된 텍스트가 없음')
       alert('AI 추억보정을 먼저 실행해주세요.')
       return
     }
 
     if (!isSupabaseConfigured()) {
+      console.error('Supabase가 설정되지 않음')
       alert('데모 모드입니다. 실제 저장을 위해서는 Supabase 설정이 필요합니다.')
       return
     }
 
-    const success = await safeDiaryOperations.saveDiary({
+    console.log('일기 저장 데이터 준비 완료, Supabase 호출...')
+    const diaryData = {
       title,
       original_content: originalText,
       ai_content: enhancedText,
       created_at: selectedDate.toISOString(),
-    })
+    }
+    console.log('저장할 데이터:', diaryData)
+
+    const success = await safeDiaryOperations.saveDiary(diaryData)
+    console.log('저장 결과:', success)
 
     if (success) {
+      console.log('일기 저장 성공!')
       alert('일기가 저장되었습니다!')
       setTitle('')
       setOriginalText('')
@@ -139,8 +155,10 @@ export default function DiaryPage() {
       setIsNewDiary(false)
       loadDiaryForDate(selectedDate)
     } else {
+      console.error('일기 저장 실패')
       alert('일기 저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.')
     }
+    console.log('=== 일기 저장 종료 ===')
   }
 
   const changeDate = (days: number) => {

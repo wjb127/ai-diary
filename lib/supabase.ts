@@ -70,10 +70,28 @@ export const testSupabaseConnection = async (): Promise<boolean> => {
     
     console.log('테이블 존재 확인 결과 - data:', data, 'error:', error)
     if (error) {
-      console.error('테이블이 존재하지 않거나 접근할 수 없습니다:', error)
+      if (error.code === '42P01') {
+        console.error('❌ diaries 테이블이 존재하지 않습니다!')
+        console.log('🔧 해결방법:')
+        console.log('1. Supabase Dashboard (https://supabase.com/dashboard) 접속')
+        console.log('2. 프로젝트 선택')
+        console.log('3. SQL Editor에서 다음 SQL 실행:')
+        console.log(`
+CREATE TABLE IF NOT EXISTS diaries (
+  id BIGSERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  original_content TEXT NOT NULL,
+  ai_content TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_diaries_created_at ON diaries(created_at DESC);
+        `)
+      }
       throw error
     }
-    console.log('Supabase 연결 성공!')
+    console.log('✅ Supabase 연결 및 테이블 확인 성공!')
     return true
   }, false, 'Supabase 연결 테스트')
 }
