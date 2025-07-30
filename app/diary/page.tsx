@@ -131,7 +131,7 @@ export default function DiaryPage() {
 
     if (!isSupabaseConfigured()) {
       console.error('Supabase가 설정되지 않음')
-      alert('데모 모드입니다. 실제 저장을 위해서는 Supabase 설정이 필요합니다.')
+      alert('데이터베이스가 설정되지 않았습니다. 관리자에게 문의해주세요.')
       return
     }
 

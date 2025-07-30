@@ -18,14 +18,14 @@ export async function enhanceDiary(originalText: string): Promise<string> {
   // API 키가 설정되지 않은 경우 기본 응답
   if (!anthropic || !isAnthropicConfigured()) {
     console.warn('Anthropic API key is not configured. Using fallback response.')
-    return `✨ AI 추억보정 (데모 모드)
+    return `✨ AI 추억보정 (서비스 준비 중)
 
 ${originalText}
 
-오늘 하루를 돌아보니, 평범해 보이는 순간들도 나름의 의미가 있었다. 
-이런 작은 일상들이 모여 소중한 추억이 되어간다는 것을 새삼 깨닫게 된다.
+현재 AI 서비스가 준비 중입니다. 
+잠시 후 다시 시도해주세요.
 
-*참고: 실제 AI 기능을 사용하려면 Anthropic API 키를 설정해주세요.*`
+*서비스 이용에 불편을 드려 죄송합니다.*`
   }
 
   try {

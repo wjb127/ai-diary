@@ -23,28 +23,8 @@ export default function ProfilePage() {
       const diaryData = await safeDiaryOperations.getDiaries()
       setDiaries(diaryData)
 
-      if (!isSupabaseConfigured() && diaryData.length === 0) {
-        // 데모 데이터 제공
-        const demoData: Diary[] = [
-          {
-            id: 1,
-            title: '데모 일기 1',
-            original_content: '오늘은 좋은 하루였다.',
-            ai_content: '따스한 햇살이 내리쬐는 오늘, 마음 속 깊은 곳까지 평온함이 스며들었다.',
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          },
-          {
-            id: 2,
-            title: '데모 일기 2',
-            original_content: '공원에서 산책했다.',
-            ai_content: '공원의 싱그러운 바람과 함께 걸으며, 자연이 주는 선물 같은 시간을 만끽했다.',
-            created_at: new Date(Date.now() - 86400000).toISOString(),
-            updated_at: new Date(Date.now() - 86400000).toISOString()
-          }
-        ]
-        setDiaries(demoData)
-      }
+      // 데모 데이터 제거 - 이제 Supabase DB만 사용
+      console.log('터미널 로그: 프로필 페이지 일기 로드 완료, 총', diaryData.length, '개')
 
       const now = new Date()
       const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1)
@@ -199,7 +179,10 @@ export default function ProfilePage() {
                 </div>
               ))}
               {diaries.length === 0 && (
-                <p className="text-gray-500 text-center py-8 text-sm">아직 작성된 일기가 없습니다.</p>
+                <div className="text-center py-8">
+                  <p className="text-gray-500 text-sm mb-2">아직 작성된 일기가 없습니다.</p>
+                  <p className="text-gray-400 text-xs">일기 탭에서 첫 번째 일기를 작성해보세요!</p>
+                </div>
               )}
             </div>
           </div>
