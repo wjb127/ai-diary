@@ -18,8 +18,15 @@ export default function DiaryPage() {
   const enhanceDiary = async () => {
     if (!originalText.trim()) return
 
+    console.log('=== AI 추억보정 시작 ===')
+    console.log('원본 텍스트 길이:', originalText.length)
+    console.log('원본 텍스트:', originalText)
+
     setIsLoading(true)
     try {
+      console.log('서버에 요청 전송 시작...')
+      const startTime = Date.now()
+      
       const response = await fetch('/api/enhance', {
         method: 'POST',
         headers: {
@@ -28,14 +35,38 @@ export default function DiaryPage() {
         body: JSON.stringify({ text: originalText }),
       })
 
+      const responseTime = Date.now() - startTime
+      console.log(`서버 응답 시간: ${responseTime}ms`)
+      console.log('응답 상태:', response.status)
+      console.log('응답 헤더:', response.headers)
+
+      if (!response.ok) {
+        console.error('서버 오류:', response.status, response.statusText)
+        const errorText = await response.text()
+        console.error('오류 상세:', errorText)
+        throw new Error(`서버 오류: ${response.status}`)
+      }
+
       const data = await response.json()
+      console.log('서버 응답 데이터:', data)
+      
       if (data.enhancedText) {
+        console.log('AI 보정 성공!')
+        console.log('보정된 텍스트 길이:', data.enhancedText.length)
         setEnhancedText(data.enhancedText)
+      } else {
+        console.error('보정된 텍스트가 없습니다:', data)
       }
     } catch (error) {
-      console.error('일기 변환 오류:', error)
-      alert('일기 변환 중 오류가 발생했습니다.')
+      console.error('=== AI 추억보정 오류 ===')
+      console.error('오류 타입:', error instanceof Error ? error.constructor.name : typeof error)
+      console.error('오류 메시지:', error instanceof Error ? error.message : error)
+      console.error('오류 스택:', error instanceof Error ? error.stack : '')
+      console.error('전체 오류 객체:', error)
+      
+      alert(`AI 추억보정 중 오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`)
     } finally {
+      console.log('=== AI 추억보정 종료 ===')
       setIsLoading(false)
     }
   }

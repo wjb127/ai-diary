@@ -29,8 +29,12 @@ ${originalText}
   }
 
   try {
+    console.log('Anthropic API 호출 시작...')
+    console.log('사용 모델: claude-3-5-sonnet-20241022')
+    console.log('원본 텍스트 길이:', originalText.length)
+    
     const response = await anthropic.messages.create({
-      model: 'claude-3-sonnet-20240229',
+      model: 'claude-3-5-sonnet-20241022',
       max_tokens: 1000,
       messages: [
         {
@@ -47,9 +51,22 @@ ${originalText}
       ]
     })
 
+    console.log('Anthropic API 응답 받음')
+    console.log('응답 타입:', response.content[0].type)
+    console.log('보정된 텍스트 길이:', response.content[0].type === 'text' ? response.content[0].text.length : 0)
+    
     return response.content[0].type === 'text' ? response.content[0].text : '일기 변환에 실패했습니다.'
   } catch (error) {
-    console.error('AI 일기 변환 오류:', error)
+    console.error('=== Anthropic API 오류 상세 ===')
+    console.error('오류 타입:', error instanceof Error ? error.constructor.name : typeof error)
+    console.error('오류 메시지:', error instanceof Error ? error.message : error)
+    if (error instanceof Error && 'status' in error) {
+      console.error('API 상태 코드:', (error as any).status)
+    }
+    if (error instanceof Error && 'response' in error) {
+      console.error('API 응답:', (error as any).response)
+    }
+    console.error('전체 오류:', error)
     
     // API 오류 시 기본 응답
     return `✨ AI 추억보정 (오류 발생)
