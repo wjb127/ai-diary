@@ -59,7 +59,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Glassmorphism 기본 클래스 - 모바일 최적화 */
+/* 기본 glass 스타일 (테마가 적용되지 않은 경우를 위한 fallback) */
 .glass {
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
@@ -90,6 +90,85 @@ body {
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   box-shadow: 0 2px 12px var(--glass-shadow);
+}
+
+/* Glassmorphism 기본 클래스 - 모바일 최적화 */
+.theme-glassmorphism .glass,
+.theme-glassmorphism .neu-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px var(--glass-shadow);
+}
+
+.theme-glassmorphism .glass-strong {
+  background: var(--surface-primary);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 12px 32px var(--glass-shadow);
+}
+
+.theme-glassmorphism .glass-subtle {
+  background: var(--surface-secondary);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 16px var(--glass-shadow);
+}
+
+.theme-glassmorphism .glass-readable {
+  background: var(--surface-tertiary);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 2px 12px var(--glass-shadow);
+}
+
+/* Neumorphism 변환 - 기존 glass 클래스들을 뉴모피즘 스타일로 */
+.theme-neumorphism .glass {
+  background: var(--neu-bg);
+  border-radius: 20px;
+  box-shadow: 
+    9px 9px 16px var(--neu-shadow-dark),
+    -9px -9px 16px var(--neu-shadow-light);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+}
+
+.theme-neumorphism .glass-strong {
+  background: var(--neu-bg);
+  border-radius: 20px;
+  box-shadow: 
+    12px 12px 20px var(--neu-shadow-dark),
+    -12px -12px 20px var(--neu-shadow-light);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+}
+
+.theme-neumorphism .glass-subtle {
+  background: var(--neu-bg);
+  border-radius: 16px;
+  box-shadow: 
+    inset 3px 3px 6px var(--neu-shadow-dark),
+    inset -3px -3px 6px var(--neu-shadow-light);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+}
+
+.theme-neumorphism .glass-readable {
+  background: var(--neu-bg);
+  border-radius: 12px;
+  box-shadow: 
+    inset 2px 2px 4px var(--neu-shadow-dark),
+    inset -2px -2px 4px var(--neu-shadow-light);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
 }
 
 /* 모바일 전용 스타일 */
@@ -368,4 +447,17 @@ body {
 
 .theme-neumorphism .neu-text-secondary {
   color: var(--neu-text-secondary);
+}
+
+/* 뉴모피즘 테마에서 텍스트 색상 자동 조정 */
+.theme-neumorphism [style*="color: var(--text-primary)"] {
+  color: var(--neu-text) !important;
+}
+
+.theme-neumorphism [style*="color: var(--text-secondary)"] {
+  color: var(--neu-text-secondary) !important;
+}
+
+.theme-neumorphism [style*="color: var(--text-light)"] {
+  color: var(--neu-text-secondary) !important;
 }
