@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react'
 import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import { safeDiaryOperations, Diary, isSupabaseConfigured } from '@/lib/supabase'
+import { useLanguage } from '../providers/LanguageProvider'
 
 export default function DiaryPage() {
+  const { t } = useLanguage()
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [originalText, setOriginalText] = useState('')
   const [enhancedText, setEnhancedText] = useState('')
@@ -168,7 +170,7 @@ export default function DiaryPage() {
             </button>
             
             <div className="text-center">
-              <h1 className="text-lg font-bold text-gray-800">AI 일기장</h1>
+              <h1 className="text-lg font-bold text-gray-800">{t('diary.title')}</h1>
               <p className="text-sm text-gray-600">{formatDateDisplay(selectedDate)}</p>
             </div>
             
