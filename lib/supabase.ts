@@ -99,6 +99,46 @@ CREATE INDEX IF NOT EXISTS idx_diaries_created_at ON diaries(created_at DESC);
 
 // 일기 CRUD 작업들
 export const safeDiaryOperations = {
+  // 월별 일기 날짜 조회
+  async getDiaryDatesInMonth(year: number, month: number): Promise<number[]> {
+    console.log('\n=== 월별 일기 날짜 조회 ===')
+    console.log('터미널 로그: 월별 일기 날짜 조회 시작 -', year, '년', month + 1, '월')
+    
+    return safeSupabaseOperation(async () => {
+      const startDate = new Date(year, month, 1).toISOString().split('T')[0]
+      const endDate = new Date(year, month + 1, 0).toISOString().split('T')[0]
+      
+      console.log('검색 범위:', startDate, '~', endDate)
+      
+      const { data, error } = await supabase
+        .from('diaries')
+        .select('created_at')
+        .gte('created_at', `${startDate}T00:00:00.000Z`)
+        .lte('created_at', `${endDate}T23:59:59.999Z`)
+        .order('created_at', { ascending: true })
+
+      console.log('월별 일기 날짜 조회 결과 - data:', data, 'error:', error)
+      
+      if (error) {
+        console.log('터미널 로그: 월별 조회 실패 -', error.message)
+        throw error
+      }
+
+      if (!data || data.length === 0) {
+        console.log('터미널 로그: 해당 월에 일기 없음')
+        return []
+      }
+
+      // 날짜에서 일(day) 부분만 추출
+      const dates = data.map(diary => {
+        const date = new Date(diary.created_at)
+        return date.getDate()
+      })
+      
+      console.log('터미널 로그: 월별 일기 날짜들 -', dates)
+      return dates
+    }, [], '월별 일기 날짜 조회')
+  },
   // 일기 목록 조회
   async getDiaries(): Promise<Diary[]> {
     return safeSupabaseOperation(async () => {
