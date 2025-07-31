@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type Theme = 'glassmorphism' | 'neumorphism';
+export type Theme = 'glassmorphism' | 'neumorphism' | 'classic' | 'minimalism';
 
 interface ThemeContextType {
   theme: Theme;
@@ -24,7 +24,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as Theme;
-    if (savedTheme && (savedTheme === 'glassmorphism' || savedTheme === 'neumorphism')) {
+    if (savedTheme && ['glassmorphism', 'neumorphism', 'classic', 'minimalism'].includes(savedTheme)) {
       setTheme(savedTheme);
     }
   }, []);

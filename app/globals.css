@@ -602,3 +602,164 @@ body {
   background: var(--neu-bg) !important;
   background-image: none !important;
 }
+
+/* Classic 테마 - 전통적인 UI 디자인 */
+.theme-classic {
+  --classic-bg: #f8f9fa;
+  --classic-card-bg: #ffffff;
+  --classic-border: #dee2e6;
+  --classic-shadow: rgba(0, 0, 0, 0.1);
+  --classic-text: #212529;
+  --classic-text-secondary: #6c757d;
+  --classic-primary: #0d6efd;
+  --classic-secondary: #6c757d;
+  --classic-success: #198754;
+}
+
+@media (prefers-color-scheme: dark) {
+  .theme-classic {
+    --classic-bg: #212529;
+    --classic-card-bg: #343a40;
+    --classic-border: #495057;
+    --classic-shadow: rgba(0, 0, 0, 0.3);
+    --classic-text: #f8f9fa;
+    --classic-text-secondary: #adb5bd;
+    --classic-primary: #0d6efd;
+    --classic-secondary: #6c757d;
+    --classic-success: #198754;
+  }
+}
+
+.theme-classic body {
+  background: var(--classic-bg);
+  color: var(--classic-text);
+}
+
+/* Classic 테마의 glass 클래스 오버라이드 */
+.theme-classic .glass,
+.theme-classic .glass-strong,
+.theme-classic .glass-subtle,
+.theme-classic .glass-readable {
+  background: var(--classic-card-bg);
+  border: 1px solid var(--classic-border);
+  box-shadow: 0 2px 4px var(--classic-shadow);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.theme-classic .glass-strong {
+  box-shadow: 0 4px 8px var(--classic-shadow);
+}
+
+.theme-classic .glass-button {
+  background: var(--classic-primary);
+  border: 1px solid var(--classic-primary);
+  color: white;
+}
+
+.theme-classic .glass-button:hover {
+  background: #0b5ed7;
+  border-color: #0b5ed7;
+}
+
+/* Classic 테마 텍스트 색상 오버라이드 */
+.theme-classic [style*="color: var(--text-primary)"] {
+  color: var(--classic-text) !important;
+}
+
+.theme-classic [style*="color: var(--text-secondary)"] {
+  color: var(--classic-text-secondary) !important;
+}
+
+.theme-classic [style*="color: var(--text-light)"] {
+  color: var(--classic-text-secondary) !important;
+}
+
+.theme-classic [style*="color: var(--accent-blue)"],
+.theme-classic [style*="color: var(--accent-purple)"],
+.theme-classic [style*="color: var(--accent-pink)"] {
+  color: var(--classic-primary) !important;
+}
+
+/* Minimalism 테마 - 깔끔하고 단순한 디자인 */
+.theme-minimalism {
+  --minimal-bg: #ffffff;
+  --minimal-card-bg: #ffffff;
+  --minimal-border: #e5e5e5;
+  --minimal-text: #1a1a1a;
+  --minimal-text-secondary: #737373;
+  --minimal-text-light: #a3a3a3;
+  --minimal-accent: #000000;
+  --minimal-shadow: rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  .theme-minimalism {
+    --minimal-bg: #0a0a0a;
+    --minimal-card-bg: #171717;
+    --minimal-border: #262626;
+    --minimal-text: #fafafa;
+    --minimal-text-secondary: #a3a3a3;
+    --minimal-text-light: #737373;
+    --minimal-accent: #ffffff;
+    --minimal-shadow: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.theme-minimalism body {
+  background: var(--minimal-bg);
+  color: var(--minimal-text);
+}
+
+/* Minimalism 테마의 glass 클래스 오버라이드 */
+.theme-minimalism .glass,
+.theme-minimalism .glass-strong,
+.theme-minimalism .glass-subtle,
+.theme-minimalism .glass-readable {
+  background: var(--minimal-card-bg);
+  border: 1px solid var(--minimal-border);
+  box-shadow: 0 1px 3px var(--minimal-shadow);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-radius: 8px;
+}
+
+.theme-minimalism .glass-strong {
+  box-shadow: 0 2px 6px var(--minimal-shadow);
+}
+
+.theme-minimalism .glass-subtle {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.theme-minimalism .glass-button {
+  background: var(--minimal-accent);
+  border: 1px solid var(--minimal-accent);
+  color: var(--minimal-bg);
+  border-radius: 4px;
+}
+
+.theme-minimalism .glass-button:hover {
+  opacity: 0.8;
+}
+
+/* Minimalism 테마 텍스트 색상 오버라이드 */
+.theme-minimalism [style*="color: var(--text-primary)"] {
+  color: var(--minimal-text) !important;
+}
+
+.theme-minimalism [style*="color: var(--text-secondary)"] {
+  color: var(--minimal-text-secondary) !important;
+}
+
+.theme-minimalism [style*="color: var(--text-light)"] {
+  color: var(--minimal-text-light) !important;
+}
+
+.theme-minimalism [style*="color: var(--accent-blue)"],
+.theme-minimalism [style*="color: var(--accent-purple)"],
+.theme-minimalism [style*="color: var(--accent-pink)"] {
+  color: var(--minimal-accent) !important;
+}

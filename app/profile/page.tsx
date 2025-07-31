@@ -119,20 +119,20 @@ export default function ProfilePage() {
                 theme === 'glassmorphism' ? 'scale-105' : 'hover:scale-105'
               }`}
             >
-              <div className={`glass-card p-4 sm:p-5 text-center ${
+              <div className={`glass-card p-3 sm:p-4 text-center ${
                 theme === 'glassmorphism' ? 'border-2' : ''
               }`} style={{ borderColor: theme === 'glassmorphism' ? 'var(--accent-blue)' : undefined }}>
-                <div className="glass-subtle rounded-xl p-3 mb-3 inline-block">
-                  <div className="w-8 h-8 rounded-lg glass-button"></div>
+                <div className="glass-subtle rounded-lg p-2 mb-2 inline-block">
+                  <div className="w-6 h-6 rounded-lg glass-button"></div>
                 </div>
-                <h3 className="font-semibold text-sm sm:text-base mb-1" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="font-semibold text-xs sm:text-sm mb-1" style={{ color: 'var(--text-primary)' }}>
                   Glassmorphism
                 </h3>
-                <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  투명하고 현대적인 디자인
+                <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                  투명하고 현대적
                 </p>
                 {theme === 'glassmorphism' && (
-                  <div className="absolute top-2 right-2 w-3 h-3 rounded-full" style={{ background: 'var(--accent-blue)' }}></div>
+                  <div className="absolute top-2 right-2 w-2 h-2 rounded-full" style={{ background: 'var(--accent-blue)' }}></div>
                 )}
               </div>
             </button>
@@ -143,18 +143,66 @@ export default function ProfilePage() {
                 theme === 'neumorphism' ? 'scale-105' : 'hover:scale-105'
               }`}
             >
-              <div className={`${theme === 'neumorphism' ? 'neu-card border-2 border-transparent' : 'glass-card'} p-4 sm:p-5 text-center`}>
-                <div className={theme === 'neumorphism' ? 'neu-card-inset rounded-xl p-3 mb-3 inline-block' : 'glass-subtle rounded-xl p-3 mb-3 inline-block'}>
-                  <div className={`w-8 h-8 rounded-lg ${theme === 'neumorphism' ? 'neu-button' : 'glass-button'}`}></div>
+              <div className={`${theme === 'neumorphism' ? 'neu-card border-2 border-transparent' : 'glass-card'} p-3 sm:p-4 text-center`}>
+                <div className={theme === 'neumorphism' ? 'neu-card-inset rounded-lg p-2 mb-2 inline-block' : 'glass-subtle rounded-lg p-2 mb-2 inline-block'}>
+                  <div className={`w-6 h-6 rounded-lg ${theme === 'neumorphism' ? 'neu-button' : 'glass-button'}`}></div>
                 </div>
-                <h3 className="font-semibold text-sm sm:text-base mb-1" style={{ color: theme === 'neumorphism' ? 'var(--neu-text)' : 'var(--text-primary)' }}>
+                <h3 className="font-semibold text-xs sm:text-sm mb-1" style={{ color: theme === 'neumorphism' ? 'var(--neu-text)' : 'var(--text-primary)' }}>
                   Neumorphism
                 </h3>
-                <p className="text-xs sm:text-sm" style={{ color: theme === 'neumorphism' ? 'var(--neu-text)' : 'var(--text-secondary)' }}>
-                  부드럽고 입체적인 디자인
+                <p className="text-xs" style={{ color: theme === 'neumorphism' ? 'var(--neu-text)' : 'var(--text-secondary)' }}>
+                  부드럽고 입체적
                 </p>
                 {theme === 'neumorphism' && (
-                  <div className="absolute top-2 right-2 w-3 h-3 rounded-full" style={{ background: 'var(--accent-purple)' }}></div>
+                  <div className="absolute top-2 right-2 w-2 h-2 rounded-full" style={{ background: 'var(--accent-purple)' }}></div>
+                )}
+              </div>
+            </button>
+
+            <button
+              onClick={() => setTheme('classic')}
+              className={`relative group transition-all duration-300 ${
+                theme === 'classic' ? 'scale-105' : 'hover:scale-105'
+              }`}
+            >
+              <div className={`glass-card p-3 sm:p-4 text-center ${
+                theme === 'classic' ? 'border-2' : ''
+              }`} style={{ borderColor: theme === 'classic' ? 'var(--accent-blue)' : undefined }}>
+                <div className="glass-subtle rounded-lg p-2 mb-2 inline-block">
+                  <div className="w-6 h-6 rounded-lg glass-button"></div>
+                </div>
+                <h3 className="font-semibold text-xs sm:text-sm mb-1" style={{ color: 'var(--text-primary)' }}>
+                  Classic
+                </h3>
+                <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                  전통적인 UI
+                </p>
+                {theme === 'classic' && (
+                  <div className="absolute top-2 right-2 w-2 h-2 rounded-full" style={{ background: 'var(--accent-blue)' }}></div>
+                )}
+              </div>
+            </button>
+
+            <button
+              onClick={() => setTheme('minimalism')}
+              className={`relative group transition-all duration-300 ${
+                theme === 'minimalism' ? 'scale-105' : 'hover:scale-105'
+              }`}
+            >
+              <div className={`glass-card p-3 sm:p-4 text-center ${
+                theme === 'minimalism' ? 'border-2' : ''
+              }`} style={{ borderColor: theme === 'minimalism' ? 'var(--accent-blue)' : undefined }}>
+                <div className="glass-subtle rounded-lg p-2 mb-2 inline-block">
+                  <div className="w-6 h-6 rounded-lg glass-button"></div>
+                </div>
+                <h3 className="font-semibold text-xs sm:text-sm mb-1" style={{ color: 'var(--text-primary)' }}>
+                  Minimalism
+                </h3>
+                <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                  깔끔하고 단순
+                </p>
+                {theme === 'minimalism' && (
+                  <div className="absolute top-2 right-2 w-2 h-2 rounded-full" style={{ background: 'var(--accent-blue)' }}></div>
                 )}
               </div>
             </button>
