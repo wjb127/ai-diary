@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soft Glow 뉴모피즘 디자인</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at 30% 20%, #eef3f9, #e3e8f0);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* 개선된 배경 패턴 - 좌측 상단 선명도 향상 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 75% 75%, rgba(0, 0, 0, 0.03) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .card-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .style-label {
+            background: radial-gradient(circle at center, #f8fbff, #eef3f9);
+            box-shadow: 
+                6px 6px 12px rgba(174, 190, 205, 0.25),
+                -6px -6px 12px rgba(255, 255, 255, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        /* Soft Glow 뉴모피즘 스타일 */
+        .neuro-card {
+            width: 300px;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            background: radial-gradient(circle at center, #eef3f9, #e3e8f0);
+            box-shadow: 
+                12px 12px 25px rgba(174, 190, 205, 0.35),
+                -12px -12px 25px rgba(255, 255, 255, 0.9),
+                0 0 25px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7),
+                inset 0 -1px 0 rgba(174, 190, 205, 0.1);
+        }
+
+        .neuro-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                18px 18px 35px rgba(174, 190, 205, 0.4),
+                -18px -18px 35px rgba(255, 255, 255, 1),
+                0 0 35px rgba(255, 255, 255, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(174, 190, 205, 0.15);
+        }
+
+        .card-content h3 {
+            font-size: 26px;
+            margin-bottom: 18px;
+            font-weight: 800;
+            color: #475569;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+            box-shadow: 
+                4px 4px 8px rgba(174, 190, 205, 0.2),
+                -4px -4px 8px rgba(255, 255, 255, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .card-content p {
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-size: 15px;
+            color: #64748b;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        .card-button {
+            padding: 14px 28px;
+            border-radius: 25px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            color: #475569;
+            background: radial-gradient(circle at center, #f8fbff, #eef3f9);
+            box-shadow: 
+                8px 8px 16px rgba(174, 190, 205, 0.3),
+                -8px -8px 16px rgba(255, 255, 255, 0.8),
+                0 0 20px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .card-button:hover {
+            box-shadow: 
+                4px 4px 8px rgba(174, 190, 205, 0.2),
+                -4px -4px 8px rgba(255, 255, 255, 0.7),
+                0 0 25px rgba(255, 255, 255, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .card-button:active {
+            box-shadow: 
+                inset 4px 4px 8px rgba(174, 190, 205, 0.25),
+                inset -4px -4px 8px rgba(255, 255, 255, 0.7),
+                0 0 15px rgba(255, 255, 255, 0.05);
+            transform: translateY(1px);
+        }
+
+        /* 개선된 장식 요소들 */
+        .neuro-decoration {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, #f0f4f8, #e3e8f0);
+            z-index: -1;
+        }
+
+        .neuro-decoration:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 15%;
+            box-shadow: 
+                10px 10px 20px rgba(174, 190, 205, 0.3),
+                -10px -10px 20px rgba(255, 255, 255, 0.7),
+                0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .neuro-decoration:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 70%;
+            right: 20%;
+            box-shadow: 
+                inset 8px 8px 16px rgba(174, 190, 205, 0.2),
+                inset -8px -8px 16px rgba(255, 255, 255, 0.6);
+        }
+
+        .neuro-decoration:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            bottom: 30%;
+            left: 10%;
+            box-shadow: 
+                12px 12px 24px rgba(174, 190, 205, 0.35),
+                -12px -12px 24px rgba(255, 255, 255, 0.8),
+                0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .neuro-card {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .neuro-decoration {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 뉴모피즘 장식 요소들 -->
+    <div class="neuro-decoration"></div>
+    <div class="neuro-decoration"></div>
+    <div class="neuro-decoration"></div>
+
+    <div class="container">
+        <!-- Soft Glow 뉴모피즘 카드 -->
+        <div class="card-wrapper">
+            <div class="style-label">Soft Glow Neumorphism</div>
+            <div class="neuro-card">
+                <div class="card-content">
+                    <h3>Soft Glow</h3>
+                    <p>은은한 발광 효과가 있는 소프트 뉴모피즘입니다. 부드러운 빛과 텍스트 섀도우로 고급스러운 느낌을 줍니다.</p>
+                    <button class="card-button">더 보기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 추가 카드들 -->
+        <div class="card-wrapper">
+            <div class="style-label">Enhanced Design</div>
+            <div class="neuro-card">
+                <div class="card-content">
+                    <h3>Enhanced</h3>
+                    <p>개선된 soft glow 효과로 좌측 상단의 선명도를 높이고 더욱 세련된 뉴모피즘 디자인을 구현했습니다.</p>
+                    <button class="card-button">더 보기</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-wrapper">
+            <div class="style-label">Premium Quality</div>
+            <div class="neuro-card">
+                <div class="card-content">
+                    <h3>Premium</h3>
+                    <p>고급스러운 그라데이션과 정교한 그림자 효과로 프리미엄한 사용자 경험을 제공하는 디자인입니다.</p>
+                    <button class="card-button">더 보기</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-wrapper">
+            <div class="style-label">Modern Interface</div>
+            <div class="neuro-card">
+                <div class="card-content">
+                    <h3>Modern</h3>
+                    <p>현대적인 UI 트렌드를 반영한 뉴모피즘 디자인으로 직관적이고 아름다운 인터페이스를 구현합니다.</p>
+                    <button class="card-button">더 보기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
