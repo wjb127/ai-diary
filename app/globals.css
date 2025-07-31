@@ -61,7 +61,7 @@ body {
 
 /* 뉴모피즘 테마일 때 body 배경 재정의 */
 .theme-neumorphism body {
-  background: var(--neu-bg);
+  background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 50%, #f0f0f3 100%);
   color: var(--neu-text);
 }
 
@@ -368,9 +368,9 @@ body {
 
 /* Neumorphism 테마 - 개선된 버전 */
 .theme-neumorphism {
-  --neu-bg: #f0f0f3;
+  --neu-bg: #e6e6ea;
   --neu-shadow-light: #ffffff;
-  --neu-shadow-dark: #d1d1d1;
+  --neu-shadow-dark: #c8c8cc;
   --neu-text: #2d3748;
   --neu-text-secondary: #4a5568;
   --neu-accent: #667eea;
@@ -388,7 +388,7 @@ body {
 }
 
 .theme-neumorphism body {
-  background: var(--neu-bg);
+  background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 50%, #f0f0f3 100%);
   color: var(--neu-text);
 }
 
