@@ -16,10 +16,72 @@ export default function DiaryPage() {
   const [title, setTitle] = useState('')
   const [isNewDiary, setIsNewDiary] = useState(true)
   const [selectedDiary, setSelectedDiary] = useState<Diary | null>(null)
+  const [showCalendar, setShowCalendar] = useState(false)
+  const [calendarDate, setCalendarDate] = useState(new Date())
 
   // 날짜 포맷 함수 (M/D 형식)
   const formatDateForTitle = (date: Date) => {
     return `${date.getMonth() + 1}/${date.getDate()} 일기`
+  }
+
+  // 달력 관련 함수들
+  const getDaysInMonth = (date: Date) => {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+  }
+
+  const getFirstDayOfMonth = (date: Date) => {
+    return new Date(date.getFullYear(), date.getMonth(), 1).getDay()
+  }
+
+  const generateCalendar = () => {
+    const daysInMonth = getDaysInMonth(calendarDate)
+    const firstDay = getFirstDayOfMonth(calendarDate)
+    const days = []
+
+    // 빈 칸 추가 (이전 달의 마지막 날들)
+    for (let i = 0; i < firstDay; i++) {
+      days.push(null)
+    }
+
+    // 현재 달의 날들 추가
+    for (let day = 1; day <= daysInMonth; day++) {
+      days.push(day)
+    }
+
+    return days
+  }
+
+  const handleDateSelect = (day: number) => {
+    const newDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), day)
+    setSelectedDate(newDate)
+    setShowCalendar(false)
+    // 날짜가 변경되면 제목 초기화
+    setTitle('')
+    setOriginalText('')
+    setEnhancedText('')
+  }
+
+  const changeCalendarMonth = (direction: number) => {
+    const newDate = new Date(calendarDate)
+    newDate.setMonth(newDate.getMonth() + direction)
+    setCalendarDate(newDate)
+  }
+
+  const isToday = (day: number) => {
+    const today = new Date()
+    return (
+      day === today.getDate() &&
+      calendarDate.getMonth() === today.getMonth() &&
+      calendarDate.getFullYear() === today.getFullYear()
+    )
+  }
+
+  const isSelectedDate = (day: number) => {
+    return (
+      day === selectedDate.getDate() &&
+      calendarDate.getMonth() === selectedDate.getMonth() &&
+      calendarDate.getFullYear() === selectedDate.getFullYear()
+    )
   }
 
   const enhanceDiary = async () => {
@@ -99,6 +161,11 @@ export default function DiaryPage() {
       setIsNewDiary(false)
     }
   }, [selectedDate, todaysDiary])
+
+  useEffect(() => {
+    // 선택된 날짜가 변경되면 달력도 해당 월로 이동
+    setCalendarDate(new Date(selectedDate))
+  }, [selectedDate])
 
   const formatDateForDB = (date: Date) => {
     return date.toISOString().split('T')[0]
@@ -235,7 +302,13 @@ export default function DiaryPage() {
             
             <div className="text-center flex-1 mx-4">
               <h1 className="text-lg sm:text-2xl font-medium sm:font-light tracking-tight" style={{ color: 'var(--text-primary)' }}>AI 일기장</h1>
-              <p className="text-xs sm:text-sm font-normal sm:font-light mt-0.5 sm:mt-1" style={{ color: 'var(--text-secondary)' }}>{formatDateDisplay(selectedDate)}</p>
+              <button
+                onClick={() => setShowCalendar(true)}
+                className="text-xs sm:text-sm font-normal sm:font-light mt-0.5 sm:mt-1 hover:scale-105 transition-all duration-300 cursor-pointer glass-subtle px-3 py-1 rounded-lg"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                {formatDateDisplay(selectedDate)}
+              </button>
             </div>
             
             <button
@@ -247,6 +320,107 @@ export default function DiaryPage() {
           </div>
         </div>
       </div>
+
+      {/* 달력 모달 */}
+      {showCalendar && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="glass-strong rounded-3xl p-6 w-full max-w-md mx-auto">
+            {/* 달력 헤더 */}
+            <div className="flex items-center justify-between mb-6">
+              <button
+                onClick={() => changeCalendarMonth(-1)}
+                className="glass-subtle p-2 rounded-xl hover:glass transition-all duration-300"
+              >
+                <ChevronLeft size={20} style={{ color: 'var(--text-primary)' }} />
+              </button>
+              
+              <h2 className="text-xl font-medium" style={{ color: 'var(--text-primary)' }}>
+                {calendarDate.getFullYear()}년 {calendarDate.getMonth() + 1}월
+              </h2>
+              
+              <button
+                onClick={() => changeCalendarMonth(1)}
+                className="glass-subtle p-2 rounded-xl hover:glass transition-all duration-300"
+              >
+                <ChevronRight size={20} style={{ color: 'var(--text-primary)' }} />
+              </button>
+            </div>
+
+            {/* 요일 헤더 */}
+            <div className="grid grid-cols-7 gap-1 mb-2">
+              {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
+                <div
+                  key={day}
+                  className="h-10 flex items-center justify-center text-sm font-medium"
+                  style={{ 
+                    color: index === 0 ? 'var(--accent-red)' : index === 6 ? 'var(--accent-blue)' : 'var(--text-secondary)' 
+                  }}
+                >
+                  {day}
+                </div>
+              ))}
+            </div>
+
+            {/* 달력 날짜들 */}
+            <div className="grid grid-cols-7 gap-1">
+              {generateCalendar().map((day, index) => (
+                <button
+                  key={index}
+                  onClick={() => day && handleDateSelect(day)}
+                  disabled={!day}
+                  className={`h-10 flex items-center justify-center text-sm rounded-lg transition-all duration-300 ${
+                    day
+                      ? isSelectedDate(day)
+                        ? 'glass text-white'
+                        : isToday(day)
+                        ? 'glass-subtle'
+                        : 'hover:glass-subtle'
+                      : ''
+                  }`}
+                  style={{
+                    color: day
+                      ? isSelectedDate(day)
+                        ? 'white'
+                        : isToday(day)
+                        ? 'var(--accent-purple)'
+                        : 'var(--text-primary)'
+                      : 'transparent',
+                    backgroundColor: day && isSelectedDate(day) ? 'var(--accent-purple)' : 'transparent'
+                  }}
+                >
+                  {day}
+                </button>
+              ))}
+            </div>
+
+            {/* 달력 하단 버튼 */}
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => {
+                  const today = new Date()
+                  setSelectedDate(today)
+                  setCalendarDate(today)
+                  setShowCalendar(false)
+                  setTitle('')
+                  setOriginalText('')
+                  setEnhancedText('')
+                }}
+                className="flex-1 glass-subtle py-2.5 rounded-xl hover:glass transition-all duration-300 text-sm font-medium"
+                style={{ color: 'var(--accent-blue)' }}
+              >
+                오늘
+              </button>
+              <button
+                onClick={() => setShowCalendar(false)}
+                className="flex-1 glass-subtle py-2.5 rounded-xl hover:glass transition-all duration-300 text-sm font-medium"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="px-2 sm:px-6 py-6 sm:py-8">
         {/* 새 일기 작성 모드 - 모바일 최적화 */}
