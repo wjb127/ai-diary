@@ -61,7 +61,7 @@ body {
 
 /* 뉴모피즘 테마일 때 body 배경 재정의 */
 .theme-neumorphism body {
-  background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 50%, #f0f0f3 100%);
+  background: #f0f0f3;
   color: var(--neu-text);
 }
 
@@ -408,7 +408,7 @@ body {
 }
 
 .theme-neumorphism body {
-  background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 50%, #f0f0f3 100%);
+  background: #f0f0f3;
   color: var(--neu-text);
 }
 
@@ -521,10 +521,31 @@ body {
 /* 뉴모피즘에서 도형 배경 제거 */
 .theme-neumorphism .glass-subtle:has(svg) {
   background: var(--neu-bg) !important;
-  box-shadow: none !important;
+  box-shadow: 
+    -3px -3px 6px var(--neu-shadow-light),
+    3px 3px 6px var(--neu-shadow-dark) !important;
 }
 
 .theme-neumorphism .glass-readable:has(svg) {
   background: var(--neu-bg) !important;
-  box-shadow: none !important;
+  box-shadow: 
+    -2px -2px 4px var(--neu-shadow-light),
+    2px 2px 4px var(--neu-shadow-dark) !important;
+}
+
+/* 뉴모피즘에서 모든 색상 배경 강제 제거 */
+.theme-neumorphism * {
+  background-image: none !important;
+}
+
+.theme-neumorphism [style*="background-color"],
+.theme-neumorphism [style*="background:"] {
+  background: var(--neu-bg) !important;
+}
+
+/* 그라데이션 배경 강제 제거 */
+.theme-neumorphism [style*="background: linear-gradient"],
+.theme-neumorphism [style*="background-image: linear-gradient"] {
+  background: var(--neu-bg) !important;
+  background-image: none !important;
 }

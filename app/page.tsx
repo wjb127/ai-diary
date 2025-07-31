@@ -36,16 +36,16 @@ export default function Home() {
       </div>
 
       <div className="px-4 sm:px-6 py-8 sm:py-12">
-        {/* 주요 기능 - 모바일 가로 스크롤 최적화 */}
+        {/* 주요 기능 - 모바일 최적화 */}
         <div className="mb-12 sm:mb-16 max-w-6xl mx-auto">
-          <div className="flex gap-3 overflow-x-auto pb-4 sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-x-visible sm:pb-0">
-            {/* 간편한 일기 작성 */}
-            <div className="flex-shrink-0 w-72 sm:w-auto glass-readable rounded-2xl p-4 sm:p-6 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
+          <div className="grid grid-cols-3 gap-2 sm:gap-6">
+            {/* 간편한 작성 */}
+            <div className="glass-readable rounded-xl sm:rounded-2xl p-3 sm:p-6 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
               <div className="text-center">
-                <div className="glass-subtle rounded-xl p-3 mb-3 inline-block group-hover:scale-110 transition-transform duration-300">
-                  <BookOpen style={{ color: 'var(--accent-blue)' }} size={20} className="sm:w-6 sm:h-6" />
+                <div className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-2 sm:mb-3 inline-block group-hover:scale-110 transition-transform duration-300">
+                  <BookOpen style={{ color: 'var(--accent-blue)' }} size={16} className="sm:w-6 sm:h-6" />
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="text-xs sm:text-lg font-semibold mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
                   간편한 작성
                 </h3>
                 <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
@@ -55,12 +55,12 @@ export default function Home() {
             </div>
 
             {/* AI 추억보정 */}
-            <div className="flex-shrink-0 w-72 sm:w-auto glass-readable rounded-2xl p-4 sm:p-6 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
+            <div className="glass-readable rounded-xl sm:rounded-2xl p-3 sm:p-6 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
               <div className="text-center">
-                <div className="glass-subtle rounded-xl p-3 mb-3 inline-block group-hover:scale-110 transition-transform duration-300">
-                  <Sparkles style={{ color: 'var(--accent-purple)' }} size={20} className="sm:w-6 sm:h-6" />
+                <div className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-2 sm:mb-3 inline-block group-hover:scale-110 transition-transform duration-300">
+                  <Sparkles style={{ color: 'var(--accent-purple)' }} size={16} className="sm:w-6 sm:h-6" />
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="text-xs sm:text-lg font-semibold mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
                   AI 추억보정
                 </h3>
                 <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
@@ -69,13 +69,13 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 소중한 추억 보관 */}
-            <div className="flex-shrink-0 w-72 sm:w-auto glass-readable rounded-2xl p-4 sm:p-6 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
+            {/* 안전한 보관 */}
+            <div className="glass-readable rounded-xl sm:rounded-2xl p-3 sm:p-6 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
               <div className="text-center">
-                <div className="glass-subtle rounded-xl p-3 mb-3 inline-block group-hover:scale-110 transition-transform duration-300">
-                  <Heart style={{ color: 'var(--accent-pink)' }} size={20} className="sm:w-6 sm:h-6" />
+                <div className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-2 sm:mb-3 inline-block group-hover:scale-110 transition-transform duration-300">
+                  <Heart style={{ color: 'var(--accent-pink)' }} size={16} className="sm:w-6 sm:h-6" />
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                <h3 className="text-xs sm:text-lg font-semibold mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
                   안전한 보관
                 </h3>
                 <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
