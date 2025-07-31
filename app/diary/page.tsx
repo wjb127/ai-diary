@@ -269,7 +269,7 @@ export default function DiaryPage() {
                 <textarea
                   value={originalText}
                   onChange={(e) => setOriginalText(e.target.value)}
-                  placeholder="오늘 있었던 일을 자유롭게 적어주세요.\n\n예시) 오늘은 친구들과 카페에서 수다를 떨었다. 오랜만에 만나서 정말 좋았고, 맛있는 디저트도 먹었다."
+                  placeholder="오늘 있었던 일을 자유롭게 적어주세요. 예시) 오늘은 친구들과 카페에서 수다를 떨었다. 오랜만에 만나서 정말 좋았고, 맛있는 디저트도 먹었다."
                   className="w-full h-64 sm:h-80 p-4 sm:p-6 glass-readable rounded-xl sm:rounded-2xl resize-none focus:outline-none focus:glass leading-relaxed text-base sm:text-lg font-normal sm:font-light placeholder-gray-400 transition-all duration-300"
                   style={{ color: 'var(--text-primary)', backgroundColor: 'transparent' }}
                 />
