@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Crown, Check, Sparkles, BookOpen, Infinity, Zap } from 'lucide-react'
+import { useLanguage } from '../providers/LanguageProvider'
 import SubscriptionModal from '@/components/SubscriptionModal'
 
 // Toss Payments 타입 정의
@@ -26,6 +27,7 @@ declare global {
 }
 
 export default function SubscriptionPage() {
+  const { t } = useLanguage()
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('monthly')
   const [showModal, setShowModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -33,33 +35,16 @@ export default function SubscriptionPage() {
 
   const plans = {
     free: {
-      name: '무료 플랜',
+      name: t('subscription.freePlan'),
       price: 0,
-      features: [
-        '월 5회 AI 추억보정',
-        '기본 일기 저장',
-        '7일간 일기 보관',
-        '모바일 앱 사용'
-      ],
-      limitations: [
-        'AI 사용 제한',
-        '장기 보관 불가',
-        '고급 기능 제한'
-      ]
+      features: Array.isArray(t('subscription.features.freeFeatures')) ? t('subscription.features.freeFeatures') : [],
+      limitations: Array.isArray(t('subscription.features.freeLimitations')) ? t('subscription.features.freeLimitations') : []
     },
     premium: {
-      name: '프리미엄',
+      name: t('subscription.premiumPlan'),
       monthlyPrice: 9900,
       yearlyPrice: 99000,
-      features: [
-        '무제한 AI 추억보정',
-        '고급 감성 분석',
-        '무제한 일기 저장',
-        '클라우드 백업',
-        '테마 커스터마이징',
-        '통계 및 인사이트',
-        '우선 고객지원'
-      ]
+      features: Array.isArray(t('subscription.features.premiumFeatures')) ? t('subscription.features.premiumFeatures') : []
     }
   }
 
@@ -141,7 +126,7 @@ export default function SubscriptionPage() {
   }
 
   return (
-    <div className="pb-20 min-h-screen relative">
+    <div className="pb-20 sm:pb-0 min-h-screen relative">
       {/* 헤더 - 모바일 최적화 */}
       <div className="glass-strong sticky top-0 z-40 backdrop-blur-xl">
         <div className="px-4 sm:px-6 py-6 sm:py-8 text-center">
@@ -217,7 +202,7 @@ export default function SubscriptionPage() {
               }`}
               style={{ color: selectedPlan === 'monthly' ? 'var(--text-primary)' : 'var(--text-secondary)' }}
             >
-              월간 결제
+              {t('subscription.monthlyBilling')}
             </button>
             <button
               onClick={() => setSelectedPlan('yearly')}
@@ -228,9 +213,9 @@ export default function SubscriptionPage() {
               }`}
               style={{ color: selectedPlan === 'yearly' ? 'var(--text-primary)' : 'var(--text-secondary)' }}
             >
-              연간 결제
+              {t('subscription.yearlyBilling')}
               <span className="absolute -top-1 -right-1 glass-subtle px-2 py-0.5 rounded-full text-xs font-medium" style={{ color: 'var(--accent-pink)', backgroundColor: 'rgba(255, 45, 146, 0.2)' }}>
-                17% 할인
+                {t('subscription.discountBadge')}
               </span>
             </button>
           </div>
@@ -249,16 +234,16 @@ export default function SubscriptionPage() {
               <div className="flex items-baseline mb-1 sm:mb-2">
                 <span className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>₩{getCurrentPrice().toLocaleString()}</span>
                 <span className="text-base sm:text-lg font-normal ml-2" style={{ color: 'var(--text-secondary)' }}>
-                  {selectedPlan === 'monthly' ? '/월' : '/년'}
+                  {selectedPlan === 'monthly' ? t('subscription.perMonth') : t('subscription.perYear')}
                 </span>
               </div>
               {selectedPlan === 'yearly' && (
-                <p className="text-sm sm:text-base font-medium" style={{ color: 'var(--accent-purple)' }}>월 ₩{getMonthlyEquivalent().toLocaleString()} 상당</p>
+                <p className="text-sm sm:text-base font-medium" style={{ color: 'var(--accent-purple)' }}>월 ₩{getMonthlyEquivalent().toLocaleString()} {t('subscription.monthlyEquivalent')}</p>
               )}
             </div>
             <div className="glass-subtle px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
               <span className="text-sm sm:text-base font-medium" style={{ color: 'var(--accent-purple)' }}>
-                추천
+                {t('subscription.recommendedBadge')}
               </span>
             </div>
           </div>
@@ -282,11 +267,11 @@ export default function SubscriptionPage() {
           >
             {isLoading ? (
               <span className="flex items-center">
-                <span className="animate-pulse">처리 중</span>
+                <span className="animate-pulse">{t('subscription.processing')}</span>
                 <span className="ml-2 animate-bounce">...</span>
               </span>
             ) : (
-              '프리미엄으로 업그레이드'
+              t('subscription.upgradeButton')
             )}
           </button>
         </div>
@@ -297,47 +282,47 @@ export default function SubscriptionPage() {
             <div className="glass-subtle rounded-xl p-2.5 sm:p-3 inline-block mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">
               <Infinity style={{ color: 'var(--accent-blue)' }} size={20} className="sm:w-6 sm:h-6" />
             </div>
-            <h4 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>무제한 사용</h4>
-            <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>AI 변환 횟수 제한 없음</p>
+            <h4 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('subscription.highlights.unlimited.title')}</h4>
+            <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>{t('subscription.highlights.unlimited.description')}</p>
           </div>
           <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 text-center group hover:glass-strong transition-all duration-300 transform hover:scale-105">
             <div className="glass-subtle rounded-xl p-2.5 sm:p-3 inline-block mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">
               <Sparkles style={{ color: 'var(--accent-purple)' }} size={20} className="sm:w-6 sm:h-6" />
             </div>
-            <h4 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>고급 AI</h4>
-            <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>더 섬세한 감성 표현</p>
+            <h4 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('subscription.highlights.advancedAI.title')}</h4>
+            <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>{t('subscription.highlights.advancedAI.description')}</p>
           </div>
           <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 text-center group hover:glass-strong transition-all duration-300 transform hover:scale-105">
             <div className="glass-subtle rounded-xl p-2.5 sm:p-3 inline-block mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">
               <BookOpen style={{ color: 'var(--accent-blue)' }} size={20} className="sm:w-6 sm:h-6" />
             </div>
-            <h4 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>무제한 저장</h4>
-            <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>모든 추억을 영구보관</p>
+            <h4 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('subscription.highlights.unlimitedStorage.title')}</h4>
+            <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>{t('subscription.highlights.unlimitedStorage.description')}</p>
           </div>
           <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 text-center group hover:glass-strong transition-all duration-300 transform hover:scale-105">
             <div className="glass-subtle rounded-xl p-2.5 sm:p-3 inline-block mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">
               <Zap style={{ color: 'var(--accent-purple)' }} size={20} className="sm:w-6 sm:h-6" />
             </div>
-            <h4 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>빠른 처리</h4>
-            <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>우선 순위 처리</p>
+            <h4 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('subscription.highlights.fastProcessing.title')}</h4>
+            <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>{t('subscription.highlights.fastProcessing.description')}</p>
           </div>
         </div>
 
         {/* FAQ - 모바일 최적화 */}
         <div className="glass-strong rounded-xl sm:rounded-2xl p-5 sm:p-6">
-          <h3 className="font-semibold text-lg sm:text-xl mb-4 sm:mb-6 tracking-tight" style={{ color: 'var(--text-primary)' }}>자주 묻는 질문</h3>
+          <h3 className="font-semibold text-lg sm:text-xl mb-4 sm:mb-6 tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('subscription.faq.title')}</h3>
           <div className="space-y-4 sm:space-y-5">
             <div className="glass-subtle rounded-xl p-4 sm:p-5">
-              <h4 className="font-semibold text-sm sm:text-base mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>언제든 해지할 수 있나요?</h4>
-              <p className="text-sm sm:text-base font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>네, 언제든지 구독을 해지할 수 있습니다. 해지 후에도 결제 기간 끝까지 서비스를 이용할 수 있어요.</p>
+              <h4 className="font-semibold text-sm sm:text-base mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('subscription.faq.cancelAnytime.question')}</h4>
+              <p className="text-sm sm:text-base font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{t('subscription.faq.cancelAnytime.answer')}</p>
             </div>
             <div className="glass-subtle rounded-xl p-4 sm:p-5">
-              <h4 className="font-semibold text-sm sm:text-base mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>데이터는 안전한가요?</h4>
-              <p className="text-sm sm:text-base font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>모든 일기 데이터는 암호화되어 안전하게 보관됩니다. 개인정보는 절대 제3자와 공유되지 않아요.</p>
+              <h4 className="font-semibold text-sm sm:text-base mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('subscription.faq.dataSafety.question')}</h4>
+              <p className="text-sm sm:text-base font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{t('subscription.faq.dataSafety.answer')}</p>
             </div>
             <div className="glass-subtle rounded-xl p-4 sm:p-5">
-              <h4 className="font-semibold text-sm sm:text-base mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>무료 플랜으로 돌아갈 수 있나요?</h4>
-              <p className="text-sm sm:text-base font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>물론입니다. 언제든지 무료 플랜으로 다운그레이드할 수 있어요.</p>
+              <h4 className="font-semibold text-sm sm:text-base mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('subscription.faq.downgrade.question')}</h4>
+              <p className="text-sm sm:text-base font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{t('subscription.faq.downgrade.answer')}</p>
             </div>
           </div>
         </div>

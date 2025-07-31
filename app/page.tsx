@@ -4,12 +4,18 @@ import Link from 'next/link'
 import { BookOpen, Sparkles, Heart, ArrowRight } from 'lucide-react'
 import { useLanguage } from './providers/LanguageProvider'
 import LanguageSelector from '@/components/LanguageSelector'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { motion } from 'framer-motion'
 
 export default function Home() {
   const { t } = useLanguage()
   return (
-    <div className="pb-20 min-h-screen relative">
-      <LanguageSelector />
+    <div className="pb-20 sm:pb-0 min-h-screen relative">
+      {/* Mobile Language Selector */}
+      <div className="sm:hidden">
+        <LanguageSelector />
+      </div>
       {/* 히어로 섹션 - Jonathan Ive 스타일 */}
       <div className="relative overflow-hidden">
         {/* 배경 그라데이션 오버레이 */}
@@ -32,67 +38,111 @@ export default function Home() {
             </p>
           </div>
 
-          {/* CTA 버튼 - 모바일 최적화 */}
-          <Link
-            href="/diary"
-            className="group inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 glass rounded-2xl sm:rounded-full hover:glass-strong transition-all duration-300 transform hover:scale-105 active:scale-95 font-medium text-base sm:text-lg touch-target"
-            style={{ color: 'var(--accent-blue)' }}
+          {/* CTA 버튼 - shadcn Button with Framer Motion */}
+          <motion.div
+            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
           >
-            <BookOpen className="mr-2 sm:mr-3 group-hover:rotate-12 transition-transform duration-300" size={20} />
-            {t('startWriting')}
-            <ArrowRight className="ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform duration-300" size={18} />
-          </Link>
+            <Button asChild size="lg" className="group glass hover:glass-strong transition-all duration-300 text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4">
+              <Link href="/diary" style={{ color: 'var(--accent-blue)' }}>
+                <motion.div
+                  whileHover={{ rotate: 12 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <BookOpen size={20} />
+                </motion.div>
+                {t('startWriting')}
+                <motion.div
+                  whileHover={{ x: 4 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <ArrowRight size={18} />
+                </motion.div>
+              </Link>
+            </Button>
+          </motion.div>
         </div>
       </div>
 
       <div className="px-4 sm:px-6 py-8 sm:py-12">
-        {/* 주요 기능 - 모바일 최적화 */}
+        {/* 주요 기능 - shadcn Card 테스트 */}
         <div className="mb-12 sm:mb-16 max-w-6xl mx-auto">
           <div className="grid grid-cols-3 gap-2 sm:gap-6">
             {/* 간편한 작성 */}
-            <div className="glass-readable rounded-xl sm:rounded-2xl p-3 sm:p-6 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
-              <div className="text-center">
-                <div className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-2 sm:mb-3 inline-block group-hover:scale-110 transition-transform duration-300">
-                  <BookOpen style={{ color: 'var(--accent-blue)' }} size={16} className="sm:w-6 sm:h-6" />
-                </div>
-                <h3 className="text-xs sm:text-lg font-semibold mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
-                  {t('features.easyWriting.title')}
-                </h3>
-                <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
-                  {t('features.easyWriting.description')}
-                </p>
-              </div>
-            </div>
+            <motion.div
+              whileTap={{ scale: 0.98, y: 2 }}
+              whileHover={{ y: -4 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            >
+              <Card className="glass-readable group hover:glass-strong transition-all duration-500 p-3 sm:p-6 border-0">
+                <CardContent className="text-center p-0">
+                  <motion.div 
+                    className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-2 sm:mb-3 inline-block"
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                  >
+                    <BookOpen style={{ color: 'var(--accent-blue)' }} size={16} className="sm:w-6 sm:h-6" />
+                  </motion.div>
+                  <CardTitle className="text-xs sm:text-lg font-semibold mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                    {t('features.easyWriting.title')}
+                  </CardTitle>
+                  <CardDescription className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
+                    {t('features.easyWriting.description')}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </motion.div>
 
             {/* AI 추억보정 */}
-            <div className="glass-readable rounded-xl sm:rounded-2xl p-3 sm:p-6 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
-              <div className="text-center">
-                <div className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-2 sm:mb-3 inline-block group-hover:scale-110 transition-transform duration-300">
-                  <Sparkles style={{ color: 'var(--accent-purple)' }} size={16} className="sm:w-6 sm:h-6" />
-                </div>
-                <h3 className="text-xs sm:text-lg font-semibold mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
-                  {t('features.aiEnhancement.title')}
-                </h3>
-                <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
-                  {t('features.aiEnhancement.description')}
-                </p>
-              </div>
-            </div>
+            <motion.div
+              whileTap={{ scale: 0.98, y: 2 }}
+              whileHover={{ y: -4 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            >
+              <Card className="glass-readable group hover:glass-strong transition-all duration-500 p-3 sm:p-6 border-0">
+                <CardContent className="text-center p-0">
+                  <motion.div 
+                    className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-2 sm:mb-3 inline-block"
+                    whileHover={{ scale: 1.1, rotate: -5 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                  >
+                    <Sparkles style={{ color: 'var(--accent-purple)' }} size={16} className="sm:w-6 sm:h-6" />
+                  </motion.div>
+                  <CardTitle className="text-xs sm:text-lg font-semibold mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                    {t('features.aiEnhancement.title')}
+                  </CardTitle>
+                  <CardDescription className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
+                    {t('features.aiEnhancement.description')}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </motion.div>
 
             {/* 안전한 보관 */}
-            <div className="glass-readable rounded-xl sm:rounded-2xl p-3 sm:p-6 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
-              <div className="text-center">
-                <div className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-2 sm:mb-3 inline-block group-hover:scale-110 transition-transform duration-300">
-                  <Heart style={{ color: 'var(--accent-pink)' }} size={16} className="sm:w-6 sm:h-6" />
-                </div>
-                <h3 className="text-xs sm:text-lg font-semibold mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
-                  {t('features.secureStorage.title')}
-                </h3>
-                <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
-                  {t('features.secureStorage.description')}
-                </p>
-              </div>
-            </div>
+            <motion.div
+              whileTap={{ scale: 0.98, y: 2 }}
+              whileHover={{ y: -4 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            >
+              <Card className="glass-readable group hover:glass-strong transition-all duration-500 p-3 sm:p-6 border-0">
+                <CardContent className="text-center p-0">
+                  <motion.div 
+                    className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-2 sm:mb-3 inline-block"
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                  >
+                    <Heart style={{ color: 'var(--accent-pink)' }} size={16} className="sm:w-6 sm:h-6" />
+                  </motion.div>
+                  <CardTitle className="text-xs sm:text-lg font-semibold mb-1 sm:mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                    {t('features.secureStorage.title')}
+                  </CardTitle>
+                  <CardDescription className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
+                    {t('features.secureStorage.description')}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
 
@@ -141,10 +191,19 @@ export default function Home() {
             {t('recommendedFor.title')}
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-8">
-            <div className="glass-subtle rounded-xl sm:rounded-2xl p-5 sm:p-6 group hover:scale-105 transition-all duration-300">
-              <div className="text-2xl sm:text-3xl mb-3 sm:mb-4 text-center group-hover:scale-110 transition-transform duration-300">
+            <motion.div 
+              className="glass-subtle rounded-xl sm:rounded-2xl p-5 sm:p-6"
+              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            >
+              <motion.div 
+                className="text-2xl sm:text-3xl mb-3 sm:mb-4 text-center"
+                whileHover={{ scale: 1.1, rotate: 10 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              >
                 ✍️
-              </div>
+              </motion.div>
               <h4 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-center tracking-tight" style={{ color: 'var(--text-primary)' }}>
                 {t('recommendedFor.difficulty.title')}
               </h4>
@@ -156,11 +215,20 @@ export default function Home() {
                   </span>
                 ))}
               </p>
-            </div>
-            <div className="glass-subtle rounded-xl sm:rounded-2xl p-5 sm:p-6 group hover:scale-105 transition-all duration-300">
-              <div className="text-2xl sm:text-3xl mb-3 sm:mb-4 text-center group-hover:scale-110 transition-transform duration-300">
+            </motion.div>
+            <motion.div 
+              className="glass-subtle rounded-xl sm:rounded-2xl p-5 sm:p-6"
+              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            >
+              <motion.div 
+                className="text-2xl sm:text-3xl mb-3 sm:mb-4 text-center"
+                whileHover={{ scale: 1.1, rotate: -10 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              >
                 💝
-              </div>
+              </motion.div>
               <h4 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-center tracking-tight" style={{ color: 'var(--text-primary)' }}>
                 {t('recommendedFor.memories.title')}
               </h4>
@@ -172,7 +240,7 @@ export default function Home() {
                   </span>
                 ))}
               </p>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

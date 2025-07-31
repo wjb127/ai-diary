@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import BottomNavigation from "@/components/BottomNavigation";
+import TopNavigation from "@/components/TopNavigation";
 import { Viewport } from "next";
 import { ThemeProvider } from './providers/ThemeProvider';
 import { LanguageProvider } from './providers/LanguageProvider';
@@ -52,7 +53,8 @@ export default function RootLayout({
         <LanguageProvider>
           <ThemeProvider>
             <div className="min-h-screen">
-              <main className="pb-20">{children}</main>
+              <TopNavigation />
+              <main className="pb-20 sm:pt-20">{children}</main>
               <BottomNavigation />
             </div>
           </ThemeProvider>

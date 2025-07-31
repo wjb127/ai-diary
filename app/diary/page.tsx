@@ -344,7 +344,7 @@ export default function DiaryPage() {
   }
 
   return (
-    <div className="pb-20 min-h-screen relative">
+    <div className="pb-20 sm:pb-0 min-h-screen relative">
       {/* 날짜 선택 헤더 - 모바일 최적화 */}
       <div className="glass-strong sticky top-0 z-40 backdrop-blur-xl">
         <div className="px-4 sm:px-6 py-4 sm:py-6">

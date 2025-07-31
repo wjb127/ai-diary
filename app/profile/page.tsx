@@ -5,6 +5,7 @@ import { Calendar, BookOpen, Sparkles, BarChart3, Palette } from 'lucide-react'
 import { safeDiaryOperations, Diary } from '@/lib/supabase'
 import { useTheme, Theme } from '../providers/ThemeProvider'
 import { useLanguage } from '../providers/LanguageProvider'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 export default function ProfilePage() {
   const { theme, setTheme } = useTheme()
@@ -93,7 +94,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="pb-20 min-h-screen relative">
+    <div className="pb-20 sm:pb-0 min-h-screen relative">
       {/* 헤더 - 모바일 최적화 */}
       <div className="glass-strong sticky top-0 z-40 backdrop-blur-xl">
         <div className="px-4 sm:px-6 py-6 sm:py-8 text-center">
@@ -114,17 +115,17 @@ export default function ProfilePage() {
             </div>
             {t('profile.themeSettings')}
           </h2>
-          <select
-            value={theme}
-            onChange={(e) => setTheme(e.target.value as Theme)}
-            className="w-full px-4 py-3 glass-subtle rounded-xl focus:outline-none focus:glass text-base font-medium transition-all duration-300"
-            style={{ color: 'var(--text-primary)' }}
-          >
-            <option value="glassmorphism">{t('profile.transparent')}</option>
-            <option value="neumorphism">{t('profile.soft')}</option>
-            <option value="classic">{t('profile.traditional')}</option>
-            <option value="minimalism">{t('profile.clean')}</option>
-          </select>
+          <Select value={theme} onValueChange={(value) => setTheme(value as Theme)}>
+            <SelectTrigger className="glass-subtle border-0 focus:glass text-base font-medium">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="glass-strong border-0">
+              <SelectItem value="glassmorphism">{t('profile.transparent')}</SelectItem>
+              <SelectItem value="neumorphism">{t('profile.soft')}</SelectItem>
+              <SelectItem value="classic">{t('profile.traditional')}</SelectItem>
+              <SelectItem value="minimalism">{t('profile.clean')}</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* 통계 카드 - 모바일 최적화 */}

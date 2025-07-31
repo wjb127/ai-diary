@@ -143,6 +143,81 @@ export const translations = {
           description: "Writing your feelings helps AI express more emotionally"
         }
       }
+    },
+    // Subscription page
+    subscription: {
+      title: "Subscription Plans",
+      subtitle: "Keep more memories beautifully",
+      currentPlan: "Currently using free plan",
+      currentUsage: "This month AI usage: 2/5 times",
+      freePlan: "Free Plan",
+      premiumPlan: "Premium",
+      free: "Free",
+      currentPlanBadge: "Current Plan",
+      recommendedBadge: "Recommended",
+      monthlyBilling: "Monthly Billing",
+      yearlyBilling: "Yearly Billing",
+      discountBadge: "17% off",
+      upgradeButton: "Upgrade to Premium",
+      processing: "Processing",
+      perMonth: "/month",
+      perYear: "/year",
+      monthlyEquivalent: "/month equivalent",
+      features: {
+        freeFeatures: [
+          "5 AI enhancements per month",
+          "Basic diary storage",
+          "7-day diary retention",
+          "Mobile app access"
+        ],
+        freeLimitations: [
+          "Limited AI usage",
+          "No long-term storage",
+          "Limited advanced features"
+        ],
+        premiumFeatures: [
+          "Unlimited AI enhancements",
+          "Advanced emotion analysis",
+          "Unlimited diary storage",
+          "Cloud backup",
+          "Theme customization",
+          "Statistics & insights",
+          "Priority customer support"
+        ]
+      },
+      highlights: {
+        unlimited: {
+          title: "Unlimited Usage",
+          description: "No limit on AI conversions"
+        },
+        advancedAI: {
+          title: "Advanced AI",
+          description: "More delicate emotional expression"
+        },
+        unlimitedStorage: {
+          title: "Unlimited Storage",
+          description: "Store all memories permanently"
+        },
+        fastProcessing: {
+          title: "Fast Processing",
+          description: "Priority processing"
+        }
+      },
+      faq: {
+        title: "Frequently Asked Questions",
+        cancelAnytime: {
+          question: "Can I cancel anytime?",
+          answer: "Yes, you can cancel your subscription anytime. You can continue using the service until the end of your billing period after cancellation."
+        },
+        dataSafety: {
+          question: "Is my data safe?",
+          answer: "All diary data is encrypted and stored securely. Personal information is never shared with third parties."
+        },
+        downgrade: {
+          question: "Can I go back to the free plan?",
+          answer: "Of course! You can downgrade to the free plan anytime."
+        }
+      }
     }
   },
   ko: {
@@ -287,6 +362,81 @@ export const translations = {
         emotions: {
           title: "감정도 함께 적기",
           description: "그때의 기분이나 느낌을 함께 적으면 AI가 더 감성적으로 표현해줘요"
+        }
+      }
+    },
+    // Subscription page
+    subscription: {
+      title: "구독 플랜",
+      subtitle: "더 많은 추억을 아름답게 보관하세요",
+      currentPlan: "현재 무료 플랜 사용 중",
+      currentUsage: "이번 달 AI 사용: 2/5회",
+      freePlan: "무료 플랜",
+      premiumPlan: "프리미엄",
+      free: "무료",
+      currentPlanBadge: "현재 플랜",
+      recommendedBadge: "추천",
+      monthlyBilling: "월간 결제",
+      yearlyBilling: "연간 결제",
+      discountBadge: "17% 할인",
+      upgradeButton: "프리미엄으로 업그레이드",
+      processing: "처리 중",
+      perMonth: "/월",
+      perYear: "/년",
+      monthlyEquivalent: "상당",
+      features: {
+        freeFeatures: [
+          "월 5회 AI 추억보정",
+          "기본 일기 저장",
+          "7일간 일기 보관",
+          "모바일 앱 사용"
+        ],
+        freeLimitations: [
+          "AI 사용 제한",
+          "장기 보관 불가",
+          "고급 기능 제한"
+        ],
+        premiumFeatures: [
+          "무제한 AI 추억보정",
+          "고급 감성 분석",
+          "무제한 일기 저장",
+          "클라우드 백업",
+          "테마 커스터마이징",
+          "통계 및 인사이트",
+          "우선 고객지원"
+        ]
+      },
+      highlights: {
+        unlimited: {
+          title: "무제한 사용",
+          description: "AI 변환 횟수 제한 없음"
+        },
+        advancedAI: {
+          title: "고급 AI",
+          description: "더 섬세한 감성 표현"
+        },
+        unlimitedStorage: {
+          title: "무제한 저장",
+          description: "모든 추억을 영구보관"
+        },
+        fastProcessing: {
+          title: "빠른 처리",
+          description: "우선 순위 처리"
+        }
+      },
+      faq: {
+        title: "자주 묻는 질문",
+        cancelAnytime: {
+          question: "언제든 해지할 수 있나요?",
+          answer: "네, 언제든지 구독을 해지할 수 있습니다. 해지 후에도 결제 기간 끝까지 서비스를 이용할 수 있어요."
+        },
+        dataSafety: {
+          question: "데이터는 안전한가요?",
+          answer: "모든 일기 데이터는 암호화되어 안전하게 보관됩니다. 개인정보는 절대 제3자와 공유되지 않아요."
+        },
+        downgrade: {
+          question: "무료 플랜으로 돌아갈 수 있나요?",
+          answer: "물론입니다. 언제든지 무료 플랜으로 다운그레이드할 수 있어요."
         }
       }
     }
