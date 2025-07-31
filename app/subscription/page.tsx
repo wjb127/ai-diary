@@ -37,14 +37,20 @@ export default function SubscriptionPage() {
     free: {
       name: t('subscription.freePlan'),
       price: 0,
-      features: Array.isArray(t('subscription.features.freeFeatures')) ? t('subscription.features.freeFeatures') : [],
-      limitations: Array.isArray(t('subscription.features.freeLimitations')) ? t('subscription.features.freeLimitations') : []
+      features: Array.isArray(t('subscription.features.freeFeatures')) 
+        ? t('subscription.features.freeFeatures') as string[]
+        : [],
+      limitations: Array.isArray(t('subscription.features.freeLimitations')) 
+        ? t('subscription.features.freeLimitations') as string[]
+        : []
     },
     premium: {
       name: t('subscription.premiumPlan'),
       monthlyPrice: 9900,
       yearlyPrice: 99000,
-      features: Array.isArray(t('subscription.features.premiumFeatures')) ? t('subscription.features.premiumFeatures') : []
+      features: Array.isArray(t('subscription.features.premiumFeatures')) 
+        ? t('subscription.features.premiumFeatures') as string[]
+        : []
     }
   }
 
