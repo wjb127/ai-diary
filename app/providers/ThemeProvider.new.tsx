@@ -34,6 +34,12 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem('theme', newTheme);
   };
 
+  // html 요소에 테마 클래스 적용하여 CSS 우선순위 높이기
+  useEffect(() => {
+    document.documentElement.className = `theme-${theme}`;
+    document.body.className = `theme-${theme}`;
+  }, [theme]);
+
   return (
     <ThemeContext.Provider value={{ theme, setTheme: handleSetTheme }}>
       <div className={`theme-${theme}`}>
