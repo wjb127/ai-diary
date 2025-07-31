@@ -112,6 +112,37 @@ export const translations = {
       saveError: "An error occurred while saving the diary. Please try again later.",
       deleteConfirm: "Are you sure you want to delete this diary?",
       enterOriginalContent: "Please enter the original diary content."
+    },
+    // Profile page
+    profile: {
+      title: "Profile",
+      subtitle: "Check your diary writing status",
+      themeSettings: "Theme Settings",
+      transparent: "Transparent & Modern",
+      soft: "Soft & 3D",
+      traditional: "Traditional UI",
+      clean: "Clean & Simple",
+      stats: {
+        totalDiaries: "Total Diaries",
+        thisMonth: "This Month",
+        avgOriginal: "Avg Original Words",
+        avgEnhanced: "Avg AI Words"
+      },
+      monthlyStats: "Monthly Diary Stats",
+      recentDiaries: "Recent Diaries",
+      noDiaries: "No diaries yet.",
+      firstDiary: "Write your first diary in the Diary tab!",
+      tips: {
+        title: "Diary Writing Tips",
+        consistency: {
+          title: "Write Consistently",
+          description: "Writing a little every day helps create richer memories"
+        },
+        emotions: {
+          title: "Include Emotions",
+          description: "Writing your feelings helps AI express more emotionally"
+        }
+      }
     }
   },
   ko: {
@@ -227,6 +258,37 @@ export const translations = {
       saveError: "일기 저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
       deleteConfirm: "정말로 이 일기를 삭제하시겠습니까?",
       enterOriginalContent: "원본 일기 내용을 입력해주세요."
+    },
+    // Profile page
+    profile: {
+      title: "프로필",
+      subtitle: "나의 일기 작성 현황을 확인해보세요",
+      themeSettings: "테마 설정",
+      transparent: "투명하고 현대적",
+      soft: "부드럽고 입체적",
+      traditional: "전통적인 UI",
+      clean: "깔끔하고 단순",
+      stats: {
+        totalDiaries: "총 일기 수",
+        thisMonth: "이번 달",
+        avgOriginal: "평균 원본 단어",
+        avgEnhanced: "평균 AI 단어"
+      },
+      monthlyStats: "월별 일기 작성 현황",
+      recentDiaries: "최근 일기",
+      noDiaries: "아직 작성된 일기가 없습니다.",
+      firstDiary: "일기 탭에서 첫 번째 일기를 작성해보세요!",
+      tips: {
+        title: "일기 작성 팁",
+        consistency: {
+          title: "꾸준히 작성하기",
+          description: "매일 조금씩이라도 작성하면 더 풍부한 추억을 만들 수 있어요"
+        },
+        emotions: {
+          title: "감정도 함께 적기",
+          description: "그때의 기분이나 느낌을 함께 적으면 AI가 더 감성적으로 표현해줘요"
+        }
+      }
     }
   }
 }

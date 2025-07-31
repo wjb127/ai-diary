@@ -3,10 +3,12 @@
 import { useState, useEffect } from 'react'
 import { Calendar, BookOpen, Sparkles, BarChart3, Palette } from 'lucide-react'
 import { safeDiaryOperations, Diary } from '@/lib/supabase'
-import { useTheme } from '../providers/ThemeProvider'
+import { useTheme, Theme } from '../providers/ThemeProvider'
+import { useLanguage } from '../providers/LanguageProvider'
 
 export default function ProfilePage() {
   const { theme, setTheme } = useTheme()
+  const { t } = useLanguage()
   const [diaries, setDiaries] = useState<Diary[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [stats, setStats] = useState({
@@ -98,8 +100,8 @@ export default function ProfilePage() {
           <div className="glass-subtle rounded-2xl p-3 sm:p-4 inline-block mb-3 sm:mb-4">
             <BarChart3 style={{ color: 'var(--accent-blue)' }} size={28} className="sm:w-8 sm:h-8" />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-medium sm:font-light mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>프로필</h1>
-          <p className="text-base sm:text-lg font-normal sm:font-light" style={{ color: 'var(--text-secondary)' }}>나의 일기 작성 현황을 확인해보세요</p>
+          <h1 className="text-2xl sm:text-3xl font-medium sm:font-light mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('profile.title')}</h1>
+          <p className="text-base sm:text-lg font-normal sm:font-light" style={{ color: 'var(--text-secondary)' }}>{t('profile.subtitle')}</p>
         </div>
       </div>
 
@@ -110,103 +112,19 @@ export default function ProfilePage() {
             <div className="glass-subtle rounded-xl p-2 mr-3">
               <Palette style={{ color: 'var(--accent-purple)' }} size={18} className="sm:w-5 sm:h-5" />
             </div>
-            테마 설정
+            {t('profile.themeSettings')}
           </h2>
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
-            <button
-              onClick={() => setTheme('glassmorphism')}
-              className={`relative group transition-all duration-300 ${
-                theme === 'glassmorphism' ? 'scale-105' : 'hover:scale-105'
-              }`}
-            >
-              <div className={`glass-card p-3 sm:p-4 text-center ${
-                theme === 'glassmorphism' ? 'border-2' : ''
-              }`} style={{ borderColor: theme === 'glassmorphism' ? 'var(--accent-blue)' : undefined }}>
-                <div className="glass-subtle rounded-lg p-2 mb-2 inline-block">
-                  <div className="w-6 h-6 rounded-lg glass-button"></div>
-                </div>
-                <h3 className="font-semibold text-xs sm:text-sm mb-1" style={{ color: 'var(--text-primary)' }}>
-                  Glassmorphism
-                </h3>
-                <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                  투명하고 현대적
-                </p>
-                {theme === 'glassmorphism' && (
-                  <div className="absolute top-2 right-2 w-2 h-2 rounded-full" style={{ background: 'var(--accent-blue)' }}></div>
-                )}
-              </div>
-            </button>
-            
-            <button
-              onClick={() => setTheme('neumorphism')}
-              className={`relative group transition-all duration-300 ${
-                theme === 'neumorphism' ? 'scale-105' : 'hover:scale-105'
-              }`}
-            >
-              <div className={`${theme === 'neumorphism' ? 'neu-card border-2 border-transparent' : 'glass-card'} p-3 sm:p-4 text-center`}>
-                <div className={theme === 'neumorphism' ? 'neu-card-inset rounded-lg p-2 mb-2 inline-block' : 'glass-subtle rounded-lg p-2 mb-2 inline-block'}>
-                  <div className={`w-6 h-6 rounded-lg ${theme === 'neumorphism' ? 'neu-button' : 'glass-button'}`}></div>
-                </div>
-                <h3 className="font-semibold text-xs sm:text-sm mb-1" style={{ color: theme === 'neumorphism' ? 'var(--neu-text)' : 'var(--text-primary)' }}>
-                  Neumorphism
-                </h3>
-                <p className="text-xs" style={{ color: theme === 'neumorphism' ? 'var(--neu-text)' : 'var(--text-secondary)' }}>
-                  부드럽고 입체적
-                </p>
-                {theme === 'neumorphism' && (
-                  <div className="absolute top-2 right-2 w-2 h-2 rounded-full" style={{ background: 'var(--accent-purple)' }}></div>
-                )}
-              </div>
-            </button>
-
-            <button
-              onClick={() => setTheme('classic')}
-              className={`relative group transition-all duration-300 ${
-                theme === 'classic' ? 'scale-105' : 'hover:scale-105'
-              }`}
-            >
-              <div className={`glass-card p-3 sm:p-4 text-center ${
-                theme === 'classic' ? 'border-2' : ''
-              }`} style={{ borderColor: theme === 'classic' ? 'var(--accent-blue)' : undefined }}>
-                <div className="glass-subtle rounded-lg p-2 mb-2 inline-block">
-                  <div className="w-6 h-6 rounded-lg glass-button"></div>
-                </div>
-                <h3 className="font-semibold text-xs sm:text-sm mb-1" style={{ color: 'var(--text-primary)' }}>
-                  Classic
-                </h3>
-                <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                  전통적인 UI
-                </p>
-                {theme === 'classic' && (
-                  <div className="absolute top-2 right-2 w-2 h-2 rounded-full" style={{ background: 'var(--accent-blue)' }}></div>
-                )}
-              </div>
-            </button>
-
-            <button
-              onClick={() => setTheme('minimalism')}
-              className={`relative group transition-all duration-300 ${
-                theme === 'minimalism' ? 'scale-105' : 'hover:scale-105'
-              }`}
-            >
-              <div className={`glass-card p-3 sm:p-4 text-center ${
-                theme === 'minimalism' ? 'border-2' : ''
-              }`} style={{ borderColor: theme === 'minimalism' ? 'var(--accent-blue)' : undefined }}>
-                <div className="glass-subtle rounded-lg p-2 mb-2 inline-block">
-                  <div className="w-6 h-6 rounded-lg glass-button"></div>
-                </div>
-                <h3 className="font-semibold text-xs sm:text-sm mb-1" style={{ color: 'var(--text-primary)' }}>
-                  Minimalism
-                </h3>
-                <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                  깔끔하고 단순
-                </p>
-                {theme === 'minimalism' && (
-                  <div className="absolute top-2 right-2 w-2 h-2 rounded-full" style={{ background: 'var(--accent-blue)' }}></div>
-                )}
-              </div>
-            </button>
-          </div>
+          <select
+            value={theme}
+            onChange={(e) => setTheme(e.target.value as Theme)}
+            className="w-full px-4 py-3 glass-subtle rounded-xl focus:outline-none focus:glass text-base font-medium transition-all duration-300"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            <option value="glassmorphism">{t('profile.transparent')}</option>
+            <option value="neumorphism">{t('profile.soft')}</option>
+            <option value="classic">{t('profile.traditional')}</option>
+            <option value="minimalism">{t('profile.clean')}</option>
+          </select>
         </div>
 
         {/* 통계 카드 - 모바일 최적화 */}
@@ -214,7 +132,7 @@ export default function ProfilePage() {
           <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 group hover:glass-strong transition-all duration-300 transform hover:scale-105">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: 'var(--text-light)' }}>총 일기 수</p>
+                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: 'var(--text-light)' }}>{t('profile.stats.totalDiaries')}</p>
                 <p className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--accent-blue)' }}>{stats.totalDiaries}</p>
               </div>
               <div className="glass-subtle rounded-xl p-2 sm:p-2.5 group-hover:scale-110 transition-transform duration-300">
@@ -226,7 +144,7 @@ export default function ProfilePage() {
           <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 group hover:glass-strong transition-all duration-300 transform hover:scale-105">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: 'var(--text-light)' }}>이번 달</p>
+                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: 'var(--text-light)' }}>{t('profile.stats.thisMonth')}</p>
                 <p className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--accent-blue)' }}>{stats.thisMonthDiaries}</p>
               </div>
               <div className="glass-subtle rounded-xl p-2 sm:p-2.5 group-hover:scale-110 transition-transform duration-300">
@@ -238,7 +156,7 @@ export default function ProfilePage() {
           <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 group hover:glass-strong transition-all duration-300 transform hover:scale-105">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: 'var(--text-light)' }}>평균 원본 단어</p>
+                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: 'var(--text-light)' }}>{t('profile.stats.avgOriginal')}</p>
                 <p className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--accent-purple)' }}>{stats.averageWordsOriginal}</p>
               </div>
               <div className="glass-subtle rounded-xl p-2 sm:p-2.5 group-hover:scale-110 transition-transform duration-300">
@@ -250,7 +168,7 @@ export default function ProfilePage() {
           <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-5 group hover:glass-strong transition-all duration-300 transform hover:scale-105">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: 'var(--text-light)' }}>평균 AI 단어</p>
+                <p className="text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: 'var(--text-light)' }}>{t('profile.stats.avgEnhanced')}</p>
                 <p className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--accent-pink)' }}>{stats.averageWordsEnhanced}</p>
               </div>
               <div className="glass-subtle rounded-xl p-2 sm:p-2.5 group-hover:scale-110 transition-transform duration-300">
@@ -267,7 +185,7 @@ export default function ProfilePage() {
               <div className="glass-subtle rounded-xl p-2 mr-3">
                 <BarChart3 style={{ color: 'var(--accent-blue)' }} size={18} className="sm:w-5 sm:h-5" />
               </div>
-              월별 일기 작성 현황
+              {t('profile.monthlyStats')}
             </h2>
             <div className="space-y-3 sm:space-y-4">
               {getMonthlyData().map(({ month, count }) => (
@@ -295,10 +213,10 @@ export default function ProfilePage() {
               <div className="glass-subtle rounded-xl p-2 mr-3">
                 <Calendar style={{ color: 'var(--accent-blue)' }} size={18} className="sm:w-5 sm:h-5" />
               </div>
-              최근 일기
+              {t('profile.recentDiaries')}
             </h2>
             <div className="space-y-3 sm:space-y-4">
-              {diaries.slice(0, 5).map((diary) => (
+              {diaries.slice(0, 3).map((diary) => (
                 <div key={diary.id} className="glass-subtle rounded-xl sm:rounded-2xl p-3 sm:p-4 group hover:glass-strong transition-all duration-300 transform hover:scale-105" style={{ borderLeft: '4px solid var(--accent-blue)' }}>
                   <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2 truncate tracking-tight" style={{ color: 'var(--text-primary)' }}>{diary.title}</h3>
                   <p className="text-xs sm:text-sm mb-2 sm:mb-3 truncate leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{diary.original_content}</p>
@@ -313,8 +231,8 @@ export default function ProfilePage() {
                     <div className="glass-readable rounded-2xl p-4 mb-4 sm:mb-6 inline-block">
                       <BookOpen size={32} className="sm:w-10 sm:h-10" style={{ color: 'var(--text-secondary)' }} />
                     </div>
-                    <p className="text-base sm:text-lg font-medium mb-2 sm:mb-3" style={{ color: 'var(--text-primary)' }}>아직 작성된 일기가 없습니다.</p>
-                    <p className="text-sm sm:text-base font-normal" style={{ color: 'var(--text-secondary)' }}>일기 탭에서 첫 번째 일기를 작성해보세요!</p>
+                    <p className="text-base sm:text-lg font-medium mb-2 sm:mb-3" style={{ color: 'var(--text-primary)' }}>{t('profile.noDiaries')}</p>
+                    <p className="text-sm sm:text-base font-normal" style={{ color: 'var(--text-secondary)' }}>{t('profile.firstDiary')}</p>
                   </div>
                 </div>
               )}
@@ -323,7 +241,7 @@ export default function ProfilePage() {
 
           {/* 일기 작성 팁 - 모바일 최적화 */}
           <div className="glass-strong rounded-xl sm:rounded-2xl p-5 sm:p-6">
-            <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 tracking-tight" style={{ color: 'var(--text-primary)' }}>일기 작성 팁</h2>
+            <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('profile.tips.title')}</h2>
             <div className="space-y-4 sm:space-y-5">
               <div className="glass-subtle rounded-xl sm:rounded-2xl p-4 sm:p-5 group hover:glass-strong transition-all duration-300">
                 <div className="flex items-start">
@@ -331,9 +249,9 @@ export default function ProfilePage() {
                     <BookOpen style={{ color: 'var(--accent-blue)' }} size={16} className="sm:w-5 sm:h-5" />
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base tracking-tight" style={{ color: 'var(--text-primary)' }}>꾸준히 작성하기</h4>
+                    <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('profile.tips.consistency.title')}</h4>
                     <p className="text-xs sm:text-sm font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                      매일 조금씩이라도 작성하면 더 풍부한 추억을 만들 수 있어요
+                      {t('profile.tips.consistency.description')}
                     </p>
                   </div>
                 </div>
@@ -344,9 +262,9 @@ export default function ProfilePage() {
                     <Sparkles style={{ color: 'var(--accent-purple)' }} size={16} className="sm:w-5 sm:h-5" />
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base tracking-tight" style={{ color: 'var(--text-primary)' }}>감정도 함께 적기</h4>
+                    <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('profile.tips.emotions.title')}</h4>
                     <p className="text-xs sm:text-sm font-normal leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                      그때의 기분이나 느낌을 함께 적으면 AI가 더 감성적으로 표현해줘요
+                      {t('profile.tips.emotions.description')}
                     </p>
                   </div>
                 </div>
