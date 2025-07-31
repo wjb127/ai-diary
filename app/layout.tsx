@@ -4,31 +4,32 @@ import "./globals.css";
 import BottomNavigation from "@/components/BottomNavigation";
 import { Viewport } from "next";
 import { ThemeProvider } from './providers/ThemeProvider';
+import { LanguageProvider } from './providers/LanguageProvider';
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AI 일기장",
-  description: "AI가 도와주는 특별한 일기장",
+  title: "AI Diary",
+  description: "A special diary app powered by AI",
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'AI 일기장',
+    title: 'AI Diary',
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
     type: 'website',
-    siteName: 'AI 일기장',
-    title: 'AI 일기장',
-    description: 'AI와 함께 만드는 아름다운 추억 일기장',
+    siteName: 'AI Diary',
+    title: 'AI Diary',
+    description: 'Turn precious moments into beautiful memories with AI',
   },
   twitter: {
     card: 'summary',
-    title: 'AI 일기장',
-    description: 'AI와 함께 만드는 아름다운 추억 일기장',
+    title: 'AI Diary',
+    description: 'Turn precious moments into beautiful memories with AI',
   },
 };
 
@@ -46,14 +47,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider>
-          <div className="min-h-screen">
-            <main className="pb-20">{children}</main>
-            <BottomNavigation />
-          </div>
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider>
+            <div className="min-h-screen">
+              <main className="pb-20">{children}</main>
+              <BottomNavigation />
+            </div>
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

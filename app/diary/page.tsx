@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react'
 import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Edit2, Save } from 'lucide-react'
 import { safeDiaryOperations, Diary, isSupabaseConfigured, testSupabaseConnection } from '@/lib/supabase'
 import DiaryEditor from '@/components/DiaryEditor'
+import { useLanguage } from '@/app/providers/LanguageProvider'
 
 export default function DiaryPage() {
+  const { t } = useLanguage()
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [originalText, setOriginalText] = useState('')
   const [enhancedText, setEnhancedText] = useState('')
@@ -24,6 +26,9 @@ export default function DiaryPage() {
 
   // 날짜 포맷 함수 (M/D 형식)
   const formatDateForTitle = (date: Date) => {
+    if (t('diary.title') === 'AI Diary') {
+      return `${date.getMonth() + 1}/${date.getDate()} Diary`
+    }
     return `${date.getMonth() + 1}/${date.getDate()} 일기`
   }
 
@@ -98,7 +103,10 @@ export default function DiaryPage() {
   }
 
   const enhanceDiary = async () => {
-    if (!originalText.trim()) return
+    if (!originalText.trim()) {
+      alert(t('messages.enterOriginalContent'))
+      return
+    }
 
     console.log('=== AI 추억보정 시작 ===')
     console.log('원본 텍스트 길이:', originalText.length)
@@ -146,7 +154,7 @@ export default function DiaryPage() {
       console.error('오류 스택:', error instanceof Error ? error.stack : '')
       console.error('전체 오류 객체:', error)
       
-      alert(`AI 추억보정 중 오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`)
+      alert(`${t('messages.aiEnhanceFailed')}: ${error instanceof Error ? error.message : 'Unknown error'}`)
     } finally {
       console.log('=== AI 추억보정 종료 ===')
       setIsLoading(false)
@@ -227,19 +235,19 @@ export default function DiaryPage() {
     
     if (!title.trim() || !originalText.trim()) {
       console.error('제목 또는 일기 내용이 없음')
-      alert('제목과 일기 내용을 입력해주세요.')
+      alert(t('messages.fillRequired'))
       return
     }
     
     if (!enhancedText.trim()) {
       console.error('AI 보정된 텍스트가 없음')
-      alert('AI 추억보정을 먼저 실행해주세요.')
+      alert(t('messages.aiEnhanceFirst'))
       return
     }
 
     if (!isSupabaseConfigured()) {
       console.error('Supabase가 설정되지 않음')
-      alert('데이터베이스가 설정되지 않았습니다. 관리자에게 문의해주세요.')
+      alert(t('messages.dbNotConfigured'))
       return
     }
 
@@ -276,13 +284,13 @@ export default function DiaryPage() {
 
     if (success) {
       console.log('일기 저장/수정 성공!')
-      alert(isNewDiary ? '일기가 저장되었습니다!' : '일기가 수정되었습니다!')
+      alert(isNewDiary ? t('messages.diarySaved') : t('messages.diaryUpdated'))
       setIsNewDiary(false)
       setIsEditingExisting(false)
       loadDiaryForDate(selectedDate)
     } else {
       console.error('일기 저장/수정 실패')
-      alert('일기 저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.')
+      alert(t('messages.saveError'))
     }
     console.log('=== 일기 저장 종료 ===')
   }
@@ -346,7 +354,7 @@ export default function DiaryPage() {
             </button>
             
             <div className="text-center flex-1 mx-4">
-              <h1 className="text-lg sm:text-2xl font-medium sm:font-light tracking-tight" style={{ color: 'var(--text-primary)' }}>AI 일기장</h1>
+              <h1 className="text-lg sm:text-2xl font-medium sm:font-light tracking-tight" style={{ color: 'var(--text-primary)' }}>{t('diary.title')}</h1>
               <button
                 onClick={() => setShowCalendar(true)}
                 className="text-xs sm:text-sm font-normal sm:font-light mt-0.5 sm:mt-1 hover:scale-105 transition-all duration-300 cursor-pointer glass-subtle px-3 py-1 rounded-lg"
@@ -380,7 +388,10 @@ export default function DiaryPage() {
               </button>
               
               <h2 className="text-xl font-medium" style={{ color: 'var(--text-primary)' }}>
-                {calendarDate.getFullYear()}년 {calendarDate.getMonth() + 1}월
+                {t('diary.title') === 'AI Diary' 
+                  ? `${calendarDate.toLocaleString('en', { month: 'long' })} ${calendarDate.getFullYear()}`
+                  : `${calendarDate.getFullYear()}년 ${calendarDate.getMonth() + 1}월`
+                }
               </h2>
               
               <button
@@ -393,7 +404,10 @@ export default function DiaryPage() {
 
             {/* 요일 헤더 */}
             <div className="grid grid-cols-7 gap-1 mb-2">
-              {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
+              {(t('diary.title') === 'AI Diary' 
+                ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+                : ['일', '월', '화', '수', '목', '금', '토']
+              ).map((day, index) => (
                 <div
                   key={day}
                   className="h-10 flex items-center justify-center text-sm font-medium"
@@ -464,14 +478,14 @@ export default function DiaryPage() {
                 className="flex-1 glass-subtle py-2.5 rounded-xl hover:glass transition-all duration-300 text-sm font-medium"
                 style={{ color: 'var(--accent-blue)' }}
               >
-                오늘
+                {t('diary.calendar.today')}
               </button>
               <button
                 onClick={() => setShowCalendar(false)}
                 className="flex-1 glass-subtle py-2.5 rounded-xl hover:glass transition-all duration-300 text-sm font-medium"
                 style={{ color: 'var(--text-secondary)' }}
               >
-                닫기
+                {t('diary.calendar.close')}
               </button>
             </div>
           </div>
@@ -486,7 +500,7 @@ export default function DiaryPage() {
               {/* 제목 입력 */}
               <input
                 type="text"
-                placeholder="일기 제목을 입력하세요"
+                placeholder={t('diary.newEntry.titlePlaceholder')}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full p-3 sm:p-4 glass-readable rounded-xl sm:rounded-2xl focus:outline-none focus:glass text-base sm:text-lg font-normal sm:font-light placeholder-gray-400 transition-all duration-300"
@@ -499,12 +513,12 @@ export default function DiaryPage() {
                 <textarea
                   value={originalText}
                   onChange={(e) => setOriginalText(e.target.value)}
-                  placeholder="오늘 있었던 일을 자유롭게 적어주세요. 예시) 오늘은 친구들과 카페에서 수다를 떨었다. 오랜만에 만나서 정말 좋았고, 맛있는 디저트도 먹었다."
+                  placeholder={t('diary.newEntry.contentPlaceholder')}
                   className="w-full h-64 sm:h-80 p-4 sm:p-6 glass-readable rounded-xl sm:rounded-2xl resize-none focus:outline-none focus:glass leading-relaxed text-base sm:text-lg font-normal sm:font-light placeholder-gray-400 transition-all duration-300"
                   style={{ color: 'var(--text-primary)', backgroundColor: 'transparent' }}
                 />
                 <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 text-xs sm:text-sm font-normal sm:font-light" style={{ color: 'var(--text-secondary)' }}>
-                  {originalText.length}자
+                  {originalText.length}{t('common.characters')}
                 </div>
               </div>
               
@@ -516,7 +530,7 @@ export default function DiaryPage() {
                       <Sparkles size={20} style={{ color: 'var(--accent-purple)' }} />
                     </div>
                     <h3 className="text-lg font-medium tracking-tight" style={{ color: 'var(--text-primary)' }}>
-                      AI가 보정한 추억
+                      {t('diary.newEntry.aiEnhanced')}
                     </h3>
                   </div>
                   <div className="glass rounded-2xl p-4 sm:p-6" style={{ border: '2px solid rgba(175, 82, 222, 0.3)' }}>
@@ -538,11 +552,11 @@ export default function DiaryPage() {
                   <Sparkles className="mr-2 sm:mr-3 group-hover:rotate-12 transition-transform duration-300" size={20} />
                   {isLoading ? (
                     <span className="flex items-center">
-                      <span className="animate-pulse">추억 보정 중</span>
+                      <span className="animate-pulse">{t('diary.newEntry.enhancing')}</span>
                       <span className="ml-2 animate-bounce">...</span>
                     </span>
                   ) : (
-                    'AI 추억보정'
+                    t('diary.newEntry.aiEnhance')
                   )}
                 </button>
                 
@@ -552,7 +566,7 @@ export default function DiaryPage() {
                   className="w-full flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 glass rounded-xl sm:rounded-2xl hover:glass-strong disabled:opacity-50 transition-all duration-300 transform hover:scale-105 active:scale-95 text-base sm:text-lg font-medium btn-mobile touch-target"
                   style={{ color: 'var(--accent-blue)' }}
                 >
-                  저장하기
+                  {t('diary.newEntry.save')}
                 </button>
               </div>
             </div>
@@ -563,7 +577,7 @@ export default function DiaryPage() {
               {/* 제목 입력 - 수정 가능 */}
               <input
                 type="text"
-                placeholder="일기 제목을 입력하세요"
+                placeholder={t('diary.newEntry.titlePlaceholder')}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full p-3 sm:p-4 glass-readable rounded-xl sm:rounded-2xl focus:outline-none focus:glass text-base sm:text-lg font-normal sm:font-light placeholder-gray-400 transition-all duration-300"
@@ -577,19 +591,19 @@ export default function DiaryPage() {
                     <FileText size={20} style={{ color: 'var(--accent-blue)' }} />
                   </div>
                   <h3 className="text-lg font-medium tracking-tight" style={{ color: 'var(--text-primary)' }}>
-                    원본 일기
+                    {t('diary.existing.originalDiary')}
                   </h3>
                 </div>
                 <div className="relative">
                   <textarea
                     value={originalText}
                     onChange={(e) => setOriginalText(e.target.value)}
-                    placeholder="오늘 있었던 일을 자유롭게 적어주세요."
+                    placeholder={t('diary.newEntry.contentPlaceholder')}
                     className="w-full h-64 sm:h-80 p-4 sm:p-6 glass-readable rounded-xl sm:rounded-2xl resize-none focus:outline-none focus:glass leading-relaxed text-base sm:text-lg font-normal sm:font-light placeholder-gray-400 transition-all duration-300"
                     style={{ color: 'var(--text-primary)', backgroundColor: 'transparent' }}
                   />
                   <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 text-xs sm:text-sm font-normal sm:font-light" style={{ color: 'var(--text-secondary)' }}>
-                    {originalText.length}자
+                    {originalText.length}{t('common.characters')}
                   </div>
                 </div>
               </div>
@@ -602,7 +616,7 @@ export default function DiaryPage() {
                       <Sparkles size={20} style={{ color: 'var(--accent-purple)' }} />
                     </div>
                     <h3 className="text-lg font-medium tracking-tight" style={{ color: 'var(--text-primary)' }}>
-                      AI 감성 일기
+                      {t('diary.existing.aiDiary')}
                     </h3>
                   </div>
                   <button
@@ -612,7 +626,7 @@ export default function DiaryPage() {
                     style={{ color: 'var(--accent-purple)' }}
                   >
                     <Sparkles className="mr-1" size={16} />
-                    {isLoading ? '보정 중...' : 'AI 재보정'}
+                    {isLoading ? t('diary.existing.enhancing') : t('diary.existing.reEnhance')}
                   </button>
                 </div>
                 <div className="relative">
@@ -628,7 +642,7 @@ export default function DiaryPage() {
                     }}
                   />
                   <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 text-xs sm:text-sm font-normal sm:font-light" style={{ color: 'var(--text-secondary)' }}>
-                    {enhancedText.length}자
+                    {enhancedText.length}{t('common.characters')}
                   </div>
                 </div>
               </div>
@@ -644,11 +658,11 @@ export default function DiaryPage() {
                   <Sparkles className="mr-2 sm:mr-3 group-hover:rotate-12 transition-transform duration-300" size={20} />
                   {isLoading ? (
                     <span className="flex items-center">
-                      <span className="animate-pulse">추억 보정 중</span>
+                      <span className="animate-pulse">{t('diary.newEntry.enhancing')}</span>
                       <span className="ml-2 animate-bounce">...</span>
                     </span>
                   ) : (
-                    'AI 추억보정'
+                    t('diary.newEntry.aiEnhance')
                   )}
                 </button>
                 
@@ -661,11 +675,11 @@ export default function DiaryPage() {
                   <Save className="mr-2 sm:mr-3" size={20} />
                   {isSaving ? (
                     <span className="flex items-center">
-                      <span className="animate-pulse">저장 중</span>
+                      <span className="animate-pulse">{t('diary.newEntry.saving')}</span>
                       <span className="ml-2 animate-bounce">...</span>
                     </span>
                   ) : (
-                    '저장하기'
+                    t('diary.newEntry.save')
                   )}
                 </button>
               </div>
@@ -673,10 +687,10 @@ export default function DiaryPage() {
               {/* 작성/수정 시간 표시 */}
               <div className="text-center pt-4">
                 <span className="text-sm font-light" style={{ color: 'var(--text-secondary)' }}>
-                  작성: {new Date(todaysDiary.created_at).toLocaleString('ko-KR')}
+                  {t('diary.existing.created')}: {new Date(todaysDiary.created_at).toLocaleString('ko-KR')}
                   {todaysDiary.updated_at !== todaysDiary.created_at && (
                     <span className="block mt-1">
-                      수정: {new Date(todaysDiary.updated_at).toLocaleString('ko-KR')}
+                      ({t('diary.existing.modified')}: {new Date(todaysDiary.updated_at).toLocaleString('ko-KR')})
                     </span>
                   )}
                 </span>
@@ -692,17 +706,17 @@ export default function DiaryPage() {
               </div>
               <h3 className="text-2xl font-light mb-4 tracking-tight" style={{ color: 'var(--text-primary)' }}>
                 {formatDateForDB(selectedDate) === formatDateForDB(new Date()) 
-                  ? "오늘의 일기를 작성해보세요" 
+                  ? t('diary.empty.today')
                   : formatDateForDB(selectedDate) > formatDateForDB(new Date())
-                    ? "미래의 일기를 미리 작성해보세요"
-                    : "이 날의 일기를 작성해보세요"}
+                    ? t('diary.empty.future')
+                    : t('diary.empty.past')}
               </h3>
               <p className="text-lg font-light leading-relaxed mb-8" style={{ color: 'var(--text-secondary)' }}>
                 {formatDateForDB(selectedDate) === formatDateForDB(new Date())
-                  ? "오늘 있었던 특별한 순간을 기록해보세요"
+                  ? t('diary.empty.todayDescription')
                   : formatDateForDB(selectedDate) > formatDateForDB(new Date())
-                    ? "계획이나 기대를 미리 적어보는 것도 좋아요"
-                    : "그날의 기억을 되살려 일기로 남겨보세요"}
+                    ? t('diary.empty.futureDescription')
+                    : t('diary.empty.pastDescription')}
               </p>
               
               <button
@@ -714,7 +728,7 @@ export default function DiaryPage() {
                 className="glass rounded-2xl px-8 py-4 hover:glass-strong transition-all duration-300 transform hover:scale-105 text-lg font-medium"
                 style={{ color: 'var(--accent-blue)' }}
               >
-                일기 작성하기
+                {t('diary.empty.startWriting')}
               </button>
             </div>
           </div>
