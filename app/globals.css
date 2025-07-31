@@ -855,4 +855,29 @@ html.theme-glassmorphism body,
   min-height: 100vh !important;
 }
 
+/* 기존 팝업 배경 스타일 */
+.popup-backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* 뉴모피즘 테마 팝업 배경 - 흰색 */
+.theme-neumorphism .popup-backdrop {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* 글래스모피즘 테마 팝업 배경 - 연보라색 */
+.theme-glassmorphism .popup-backdrop {
+  background: rgba(200, 170, 255, 0.3) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* 클래식/미니멀리즘 테마는 기본 검은색 유지 */
+.theme-classic .popup-backdrop,
+.theme-minimalism .popup-backdrop {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
 
