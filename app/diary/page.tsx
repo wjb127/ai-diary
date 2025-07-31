@@ -20,6 +20,7 @@ export default function DiaryPage() {
   const [calendarDate, setCalendarDate] = useState(new Date())
   const [isEditingExisting, setIsEditingExisting] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const [diaryDatesInMonth, setDiaryDatesInMonth] = useState<number[]>([])
 
   // 날짜 포맷 함수 (M/D 형식)
   const formatDateForTitle = (date: Date) => {
@@ -69,6 +70,12 @@ export default function DiaryPage() {
     setCalendarDate(newDate)
   }
 
+  // 달력 월이 변경될 때 해당 월의 일기 날짜들을 로드
+  const loadDiaryDatesForMonth = async (date: Date) => {
+    const dates = await safeDiaryOperations.getDiaryDatesInMonth(date.getFullYear(), date.getMonth())
+    setDiaryDatesInMonth(dates)
+  }
+
   const isToday = (day: number) => {
     const today = new Date()
     return (
@@ -84,6 +91,10 @@ export default function DiaryPage() {
       calendarDate.getMonth() === selectedDate.getMonth() &&
       calendarDate.getFullYear() === selectedDate.getFullYear()
     )
+  }
+
+  const hasDiary = (day: number) => {
+    return diaryDatesInMonth.includes(day)
   }
 
   const enhanceDiary = async () => {
@@ -176,6 +187,16 @@ export default function DiaryPage() {
     // 선택된 날짜가 변경되면 달력도 해당 월로 이동
     setCalendarDate(new Date(selectedDate))
   }, [selectedDate])
+
+  useEffect(() => {
+    // 달력 월이 변경될 때마다 해당 월의 일기 날짜들을 로드
+    loadDiaryDatesForMonth(calendarDate)
+  }, [calendarDate])
+
+  useEffect(() => {
+    // 컴포넌트 마운트 시 현재 월의 일기 날짜들을 로드
+    loadDiaryDatesForMonth(new Date())
+  }, [])
 
   const formatDateForDB = (date: Date) => {
     return date.toISOString().split('T')[0]
@@ -392,12 +413,14 @@ export default function DiaryPage() {
                   key={index}
                   onClick={() => day && handleDateSelect(day)}
                   disabled={!day}
-                  className={`h-10 flex items-center justify-center text-sm rounded-lg transition-all duration-300 ${
+                  className={`h-10 flex items-center justify-center text-sm rounded-lg transition-all duration-300 relative ${
                     day
                       ? isSelectedDate(day)
                         ? 'glass text-white'
                         : isToday(day)
                         ? 'glass-subtle'
+                        : hasDiary(day)
+                        ? 'glass-subtle border border-purple-300'
                         : 'hover:glass-subtle'
                       : ''
                   }`}
@@ -407,12 +430,21 @@ export default function DiaryPage() {
                         ? 'white'
                         : isToday(day)
                         ? 'var(--accent-purple)'
+                        : hasDiary(day)
+                        ? 'var(--accent-purple)'
                         : 'var(--text-primary)'
                       : 'transparent',
                     backgroundColor: day && isSelectedDate(day) ? 'var(--accent-purple)' : 'transparent'
                   }}
                 >
                   {day}
+                  {/* 일기가 있는 날짜에 작은 점 표시 */}
+                  {day && hasDiary(day) && !isSelectedDate(day) && (
+                    <div 
+                      className="absolute bottom-1 w-1 h-1 rounded-full"
+                      style={{ backgroundColor: 'var(--accent-purple)' }}
+                    />
+                  )}
                 </button>
               ))}
             </div>
