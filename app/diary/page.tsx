@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Edit2, X } from 'lucide-react'
+import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Edit2 } from 'lucide-react'
 import { safeDiaryOperations, Diary, isSupabaseConfigured, testSupabaseConnection } from '@/lib/supabase'
 import DiaryEditor from '@/components/DiaryEditor'
 
@@ -385,7 +385,7 @@ export default function DiaryPage() {
                         ? 'var(--accent-purple)'
                         : 'var(--text-primary)'
                       : 'transparent',
-                    backgroundColor: isSelectedDate(day) ? 'var(--accent-purple)' : 'transparent'
+                    backgroundColor: day && isSelectedDate(day) ? 'var(--accent-purple)' : 'transparent'
                   }}
                 >
                   {day}
