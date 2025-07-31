@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
+import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Plus, Edit2, Trash2 } from 'lucide-react'
 import { safeDiaryOperations, Diary, isSupabaseConfigured } from '@/lib/supabase'
 import { useLanguage } from '../providers/LanguageProvider'
+import DiaryEditor from '@/components/DiaryEditor'
 
 export default function DiaryPage() {
   const { t } = useLanguage()
@@ -19,6 +20,9 @@ export default function DiaryPage() {
   const [showCalendar, setShowCalendar] = useState(false)
   const [calendarDate, setCalendarDate] = useState(new Date())
   const [diaryDatesInMonth, setDiaryDatesInMonth] = useState<number[]>([])
+  const [selectedDiary, setSelectedDiary] = useState<Diary | null>(null)
+  const [isEditingExisting, setIsEditingExisting] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   // 날짜 포맷 함수 (M/D 형식)
   const formatDateForTitle = (date: Date) => {
@@ -205,6 +209,28 @@ export default function DiaryPage() {
     setTodaysDiary(diary)
   }
 
+  const handleUpdateDiary = async (id: number, updates: Partial<Omit<Diary, 'id'>>) => {
+    const success = await safeDiaryOperations.updateDiary(id, updates)
+    if (success) {
+      // 수정 후 해당 날짜의 일기를 다시 로드
+      await loadDiaryForDate(selectedDate)
+      setSelectedDiary(null)
+    }
+    return success
+  }
+
+  const handleDeleteDiary = async (id: number) => {
+    const success = await safeDiaryOperations.deleteDiary(id)
+    if (success) {
+      // 삭제 후 해당 날짜의 일기를 다시 로드
+      await loadDiaryForDate(selectedDate)
+      // 달력의 일기 날짜들도 다시 로드
+      await loadDiaryDatesForMonth(calendarDate)
+      setSelectedDiary(null)
+    }
+    return success
+  }
+
   const saveDiary = async () => {
     if (!title.trim() || !originalText.trim()) {
       alert('제목과 일기 내용을 입력해주세요.')
@@ -248,25 +274,25 @@ export default function DiaryPage() {
     setSelectedDate(newDate)
   }
 
-
   return (
-    <div className="pb-20 min-h-screen bg-gray-50">
+    <div className="pb-20 sm:pb-0 min-h-screen relative">
       {/* 날짜 선택 헤더 */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="px-4 py-4">
+      <div className="glass-strong sticky top-0 z-40 backdrop-blur-xl">
+        <div className="px-4 sm:px-6 py-4 sm:py-6">
           <div className="flex items-center justify-between mb-2">
             <button
               onClick={() => changeDate(-1)}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="glass-subtle p-2 rounded-xl hover:glass transition-all duration-300"
             >
-              <ChevronLeft size={20} className="text-gray-600" />
+              <ChevronLeft size={20} style={{ color: 'var(--text-primary)' }} />
             </button>
             
             <div className="text-center">
-              <h1 className="text-lg font-bold text-gray-800">{t('diary.title')}</h1>
+              <h1 className="text-lg sm:text-xl font-medium tracking-tight mb-1" style={{ color: 'var(--text-primary)' }}>{t('diary.title')}</h1>
               <button
                 onClick={() => setShowCalendar(true)}
-                className="text-sm text-gray-600 hover:text-gray-800 transition-colors flex items-center justify-center mx-auto"
+                className="text-sm hover:glass-subtle transition-all duration-300 flex items-center justify-center mx-auto px-3 py-1 rounded-lg"
+                style={{ color: 'var(--text-secondary)' }}
               >
                 <Calendar size={16} className="mr-1" />
                 {formatDateDisplay(selectedDate)}
@@ -275,10 +301,10 @@ export default function DiaryPage() {
             
             <button
               onClick={() => changeDate(1)}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="glass-subtle p-2 rounded-xl hover:glass transition-all duration-300 disabled:opacity-50"
               disabled={formatDateForDB(selectedDate) >= formatDateForDB(new Date())}
             >
-              <ChevronRight size={20} className={formatDateForDB(selectedDate) >= formatDateForDB(new Date()) ? 'text-gray-300' : 'text-gray-600'} />
+              <ChevronRight size={20} style={{ color: formatDateForDB(selectedDate) >= formatDateForDB(new Date()) ? 'var(--text-light)' : 'var(--text-primary)' }} />
             </button>
           </div>
         </div>
@@ -396,18 +422,19 @@ export default function DiaryPage() {
         </div>
       )}
 
-      <div className="px-4 py-6">
+      <div className="px-4 sm:px-6 py-6 sm:py-8">
         {/* 새 일기 작성 모드 */}
         {isNewDiary && !todaysDiary ? (
-          <div className="bg-white rounded-xl p-6 shadow-sm">
-            <div className="space-y-4">
+          <div className="glass-strong rounded-2xl sm:rounded-3xl p-4 sm:p-8">
+            <div className="space-y-5 sm:space-y-6">
               {/* 제목 입력 */}
               <input
                 type="text"
-                placeholder="일기 제목을 입력하세요"
+                placeholder={t('diary.newEntry.titlePlaceholder')}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg font-medium"
+                className="w-full p-3 sm:p-4 glass-readable rounded-xl sm:rounded-2xl focus:outline-none focus:glass text-base sm:text-lg font-normal sm:font-light placeholder-gray-400 transition-all duration-300"
+                style={{ color: 'var(--text-primary)', backgroundColor: 'transparent' }}
                 autoFocus
               />
               
@@ -416,23 +443,28 @@ export default function DiaryPage() {
                 <textarea
                   value={originalText}
                   onChange={(e) => setOriginalText(e.target.value)}
-                  placeholder="오늘 있었던 일을 자유롭게 적어주세요. 예시) 오늘은 친구들과 카페에서 수다를 떨었다. 오랜만에 만나서 정말 좋았고, 맛있는 디저트도 먹었다."
-                  className="w-full h-64 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 leading-relaxed"
-                />ㄴ
-                <div className="absolute bottom-2 right-2 text-sm text-gray-400">
-                  {originalText.length}자
+                  placeholder={t('diary.newEntry.contentPlaceholder')}
+                  className="w-full h-64 sm:h-80 p-4 sm:p-6 glass-readable rounded-xl sm:rounded-2xl resize-none focus:outline-none focus:glass leading-relaxed text-base sm:text-lg font-normal sm:font-light placeholder-gray-400 transition-all duration-300"
+                  style={{ color: 'var(--text-primary)', backgroundColor: 'transparent' }}
+                />
+                <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 text-xs sm:text-sm font-normal sm:font-light" style={{ color: 'var(--text-secondary)' }}>
+                  {originalText.length}{t('common.characters')}
                 </div>
               </div>
               
               {/* AI 보정된 일기 표시 */}
               {enhancedText && (
                 <div className="animate-fade-in">
-                  <h3 className="text-sm font-medium text-gray-600 mb-2 flex items-center">
-                    <Sparkles size={16} className="mr-1 text-purple-600" />
-                    AI가 보정한 추억
-                  </h3>
-                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-lg border border-purple-100">
-                    <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+                  <div className="flex items-center mb-4">
+                    <div className="glass-subtle rounded-2xl p-2 mr-3">
+                      <Sparkles size={20} style={{ color: 'var(--accent-purple)' }} />
+                    </div>
+                    <h3 className="text-lg font-medium tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                      {t('diary.newEntry.aiEnhanced')}
+                    </h3>
+                  </div>
+                  <div className="glass rounded-2xl p-4 sm:p-6" style={{ border: '2px solid rgba(175, 82, 222, 0.3)' }}>
+                    <p className="leading-relaxed whitespace-pre-wrap text-lg font-light" style={{ color: 'var(--text-primary)' }}>
                       {enhancedText}
                     </p>
                   </div>
@@ -440,65 +472,88 @@ export default function DiaryPage() {
               )}
               
               {/* 버튼 영역 */}
-              <div className="flex gap-3 pt-4">
-                <button
-                  onClick={saveDiary}
-                  disabled={!title.trim() || !originalText.trim()}
-                  className="flex-1 flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
-                >
-                  저장하기
-                </button>
-                
+              <div className="flex flex-col gap-3 sm:gap-4 pt-4 sm:pt-6">
                 <button
                   onClick={enhanceDiary}
                   disabled={isLoading || !originalText.trim()}
-                  className="flex-1 flex items-center justify-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 transition-all transform active:scale-95"
+                  className="w-full flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 glass rounded-xl sm:rounded-2xl hover:glass-strong disabled:opacity-50 transition-all duration-300 transform hover:scale-105 active:scale-95 text-base sm:text-lg font-medium group"
+                  style={{ color: 'var(--accent-purple)' }}
                 >
-                  <Sparkles className="mr-2" size={20} />
+                  <Sparkles className="mr-2 sm:mr-3 group-hover:rotate-12 transition-transform duration-300" size={20} />
                   {isLoading ? (
                     <span className="flex items-center">
-                      <span className="animate-pulse">추억 보정 중</span>
-                      <span className="ml-1 animate-bounce">...</span>
+                      <span className="animate-pulse">{t('diary.newEntry.enhancing')}</span>
+                      <span className="ml-2 animate-bounce">...</span>
                     </span>
                   ) : (
-                    'AI 추억보정'
+                    t('diary.newEntry.aiEnhance')
                   )}
+                </button>
+                
+                <button
+                  onClick={saveDiary}
+                  disabled={!title.trim() || !originalText.trim()}
+                  className="w-full flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 glass rounded-xl sm:rounded-2xl hover:glass-strong disabled:opacity-50 transition-all duration-300 transform hover:scale-105 active:scale-95 text-base sm:text-lg font-medium"
+                  style={{ color: 'var(--accent-blue)' }}
+                >
+                  {t('diary.newEntry.save')}
                 </button>
               </div>
             </div>
           </div>
         ) : todaysDiary ? (
-          <div className="bg-white rounded-xl p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">{todaysDiary.title}</h2>
-              <span className="text-sm text-gray-500">
-                {new Date(todaysDiary.created_at).toLocaleTimeString('ko-KR', {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
-              </span>
+          <div className="glass-strong rounded-2xl sm:rounded-3xl p-4 sm:p-8">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-medium tracking-tight" style={{ color: 'var(--text-primary)' }}>{todaysDiary.title}</h2>
+                <div className="text-sm sm:text-base font-light mt-1" style={{ color: 'var(--text-secondary)' }}>
+                  {t('diary.existing.created')}: {new Date(todaysDiary.created_at).toLocaleString('ko-KR')}
+                  {todaysDiary.updated_at !== todaysDiary.created_at && (
+                    <span className="ml-2">
+                      ({t('diary.existing.modified')}: {new Date(todaysDiary.updated_at).toLocaleString('ko-KR')})
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setSelectedDiary(todaysDiary)}
+                  className="glass-subtle p-2 rounded-xl hover:glass transition-all duration-300"
+                  title={t('diary.editor.edit')}
+                >
+                  <Edit2 size={18} style={{ color: 'var(--accent-blue)' }} />
+                </button>
+              </div>
             </div>
             
-            <div className="space-y-4">
+            <div className="space-y-5 sm:space-y-6">
               <div>
-                <h3 className="text-sm font-medium text-gray-600 mb-2 flex items-center">
-                  <FileText size={16} className="mr-1" />
-                  원본 일기
-                </h3>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+                <div className="flex items-center mb-4">
+                  <div className="glass-subtle rounded-2xl p-2 mr-3">
+                    <FileText size={20} style={{ color: 'var(--accent-blue)' }} />
+                  </div>
+                  <h3 className="text-lg font-medium tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                    {t('diary.existing.originalDiary')}
+                  </h3>
+                </div>
+                <div className="glass-readable rounded-xl sm:rounded-2xl p-4 sm:p-6">
+                  <p className="leading-relaxed whitespace-pre-wrap text-base sm:text-lg font-light" style={{ color: 'var(--text-primary)' }}>
                     {todaysDiary.original_content}
                   </p>
                 </div>
               </div>
               
               <div>
-                <h3 className="text-sm font-medium text-gray-600 mb-2 flex items-center">
-                  <Sparkles size={16} className="mr-1 text-purple-600" />
-                  AI 감성 일기
-                </h3>
-                <div className="bg-purple-50 p-4 rounded-lg">
-                  <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+                <div className="flex items-center mb-4">
+                  <div className="glass-subtle rounded-2xl p-2 mr-3">
+                    <Sparkles size={20} style={{ color: 'var(--accent-purple)' }} />
+                  </div>
+                  <h3 className="text-lg font-medium tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                    {t('diary.existing.aiDiary')}
+                  </h3>
+                </div>
+                <div className="glass rounded-2xl p-4 sm:p-6" style={{ border: '2px solid rgba(175, 82, 222, 0.3)' }}>
+                  <p className="leading-relaxed whitespace-pre-wrap text-base sm:text-lg font-light" style={{ color: 'var(--text-primary)' }}>
                     {todaysDiary.ai_content}
                   </p>
                 </div>
@@ -506,20 +561,32 @@ export default function DiaryPage() {
             </div>
           </div>
         ) : (
-            /* 일기가 없는 경우 */
+          /* 일기가 없는 경우 */
           <div className="text-center py-12">
-            <div className="bg-white rounded-xl p-8 shadow-sm">
-              <Calendar size={48} className="mx-auto text-gray-400 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+            <div className="glass-strong rounded-2xl sm:rounded-3xl p-6 sm:p-8">
+              <div className="glass-subtle rounded-2xl p-4 inline-block mb-4">
+                <Calendar size={48} style={{ color: 'var(--text-light)' }} />
+              </div>
+              <h3 className="text-lg sm:text-xl font-medium tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
                 이 날의 일기가 없습니다
               </h3>
-              <p className="text-gray-500">
+              <p className="text-base font-light" style={{ color: 'var(--text-secondary)' }}>
                 다른 날짜를 선택해주세요
               </p>
             </div>
           </div>
         )}
       </div>
+
+      {/* 일기 편집 모달 */}
+      {selectedDiary && (
+        <DiaryEditor
+          diary={selectedDiary}
+          onUpdate={handleUpdateDiary}
+          onDelete={handleDeleteDiary}
+          onClose={() => setSelectedDiary(null)}
+        />
+      )}
     </div>
   )
 }

@@ -127,17 +127,17 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
 
   return (
     <div className="fixed inset-0 popup-backdrop z-50 flex items-center justify-center p-2 sm:p-4">
-      <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="glass-strong rounded-2xl sm:rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* 헤더 */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-4 sm:px-6 py-4">
+        <div className="sticky top-0 glass-strong backdrop-blur-xl border-b border-white/20 px-4 sm:px-6 py-4 rounded-t-2xl sm:rounded-t-3xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               {isEditing ? (
-                <Edit3 size={20} className="text-blue-600" />
+                <Edit3 size={20} style={{ color: 'var(--accent-blue)' }} />
               ) : (
-                <Sparkles size={20} className="text-purple-600" />
+                <Sparkles size={20} style={{ color: 'var(--accent-purple)' }} />
               )}
-              <h2 className="text-lg font-semibold">
+              <h2 className="text-lg font-medium tracking-tight" style={{ color: 'var(--text-primary)' }}>
                 {isEditing ? '일기 수정' : '일기 보기'}
               </h2>
             </div>
@@ -147,26 +147,26 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
                 <>
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                    className="glass-subtle p-2 rounded-xl hover:glass transition-all duration-300"
                     title="수정"
                   >
-                    <Edit3 size={18} />
+                    <Edit3 size={18} style={{ color: 'var(--accent-blue)' }} />
                   </button>
                   <button
                     onClick={handleDelete}
                     disabled={isDeleting}
-                    className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                    className="glass-subtle p-2 rounded-xl hover:glass transition-all duration-300 disabled:opacity-50"
                     title="삭제"
                   >
-                    <Trash2 size={18} />
+                    <Trash2 size={18} style={{ color: 'var(--accent-red)' }} />
                   </button>
                 </>
               )}
               <button
                 onClick={onClose}
-                className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+                className="glass-subtle p-2 rounded-xl hover:glass transition-all duration-300"
               >
-                <X size={18} />
+                <X size={18} style={{ color: 'var(--text-secondary)' }} />
               </button>
             </div>
           </div>
@@ -181,19 +181,21 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                className="w-full p-3 glass-readable rounded-xl focus:outline-none focus:glass font-medium transition-all duration-300"
+                style={{ color: 'var(--text-primary)', backgroundColor: 'transparent' }}
                 placeholder="일기 제목"
               />
               
               {/* 원본 내용 수정 */}
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
                   원본 일기
                 </label>
                 <textarea
                   value={originalContent}
                   onChange={(e) => setOriginalContent(e.target.value)}
-                  className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full h-32 p-3 glass-readable rounded-xl resize-none focus:outline-none focus:glass transition-all duration-300"
+                  style={{ color: 'var(--text-primary)', backgroundColor: 'transparent' }}
                   placeholder="원본 일기 내용"
                 />
               </div>
@@ -201,13 +203,14 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
               {/* AI 내용 수정 */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-sm font-medium text-gray-600">
+                  <label className="block text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
                     AI 감성 일기
                   </label>
                   <button
                     onClick={enhanceDiary}
                     disabled={isEnhancing || !originalContent.trim()}
-                    className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 transition-all"
+                    className="inline-flex items-center px-3 py-1 glass text-sm rounded-lg hover:glass-strong disabled:opacity-50 transition-all duration-300"
+                    style={{ color: 'var(--accent-purple)' }}
                   >
                     <Sparkles size={14} className="mr-1" />
                     {isEnhancing ? '보정 중...' : 'AI 재보정'}
@@ -216,7 +219,8 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
                 <textarea
                   value={aiContent}
                   onChange={(e) => setAiContent(e.target.value)}
-                  className="w-full h-40 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full h-40 p-3 glass-readable rounded-xl resize-none focus:outline-none focus:glass transition-all duration-300"
+                  style={{ color: 'var(--text-primary)', backgroundColor: 'transparent' }}
                   placeholder="AI 보정된 일기 내용"
                 />
               </div>
@@ -226,7 +230,8 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
                 <button
                   onClick={handleSave}
                   disabled={isSaving || isEnhancing || !title.trim() || !originalContent.trim() || !aiContent.trim()}
-                  className="flex-1 flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
+                  className="flex-1 flex items-center justify-center px-4 py-2 glass rounded-xl hover:glass-strong disabled:opacity-50 transition-all duration-300"
+                  style={{ color: 'var(--accent-blue)' }}
                 >
                   <Save size={18} className="mr-2" />
                   {isSaving ? '저장 중...' : '저장'}
@@ -234,7 +239,8 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
                 <button
                   onClick={handleCancel}
                   disabled={isSaving || isEnhancing}
-                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 disabled:opacity-50 transition-colors"
+                  className="px-4 py-2 glass-subtle rounded-xl hover:glass disabled:opacity-50 transition-all duration-300"
+                  style={{ color: 'var(--text-secondary)' }}
                 >
                   취소
                 </button>
@@ -244,8 +250,8 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
             <div className="space-y-6">
               {/* 제목 */}
               <div>
-                <h1 className="text-2xl font-bold text-gray-800 mb-2">{diary.title}</h1>
-                <div className="text-sm text-gray-500">
+                <h1 className="text-2xl font-medium tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>{diary.title}</h1>
+                <div className="text-sm font-light" style={{ color: 'var(--text-secondary)' }}>
                   작성: {new Date(diary.created_at).toLocaleString('ko-KR')}
                   {diary.updated_at !== diary.created_at && (
                     <span className="ml-2">
@@ -257,12 +263,16 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
               
               {/* 원본 일기 */}
               <div>
-                <h3 className="text-sm font-medium text-gray-600 mb-2 flex items-center">
-                  <Edit3 size={16} className="mr-1" />
-                  원본 일기
-                </h3>
-                <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
-                  <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+                <div className="flex items-center mb-4">
+                  <div className="glass-subtle rounded-2xl p-2 mr-3">
+                    <Edit3 size={16} style={{ color: 'var(--accent-blue)' }} />
+                  </div>
+                  <h3 className="text-lg font-medium tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                    원본 일기
+                  </h3>
+                </div>
+                <div className="glass-readable rounded-xl p-3 sm:p-4">
+                  <p className="leading-relaxed whitespace-pre-wrap" style={{ color: 'var(--text-primary)' }}>
                     {diary.original_content}
                   </p>
                 </div>
@@ -270,12 +280,16 @@ export default function DiaryEditor({ diary, onUpdate, onDelete, onClose }: Diar
               
               {/* AI 감성 일기 */}
               <div>
-                <h3 className="text-sm font-medium text-gray-600 mb-2 flex items-center">
-                  <Sparkles size={16} className="mr-1 text-purple-600" />
-                  AI 감성 일기
-                </h3>
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-3 sm:p-4 rounded-lg border border-purple-100">
-                  <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+                <div className="flex items-center mb-4">
+                  <div className="glass-subtle rounded-2xl p-2 mr-3">
+                    <Sparkles size={16} style={{ color: 'var(--accent-purple)' }} />
+                  </div>
+                  <h3 className="text-lg font-medium tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                    AI 감성 일기
+                  </h3>
+                </div>
+                <div className="glass rounded-xl p-3 sm:p-4" style={{ border: '2px solid rgba(175, 82, 222, 0.3)' }}>
+                  <p className="leading-relaxed whitespace-pre-wrap" style={{ color: 'var(--text-primary)' }}>
                     {diary.ai_content}
                   </p>
                 </div>
