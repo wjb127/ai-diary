@@ -438,14 +438,14 @@ html.theme-glassmorphism body,
 
 /* 글래스모피즘 텍스트 가독성 개선 */
 .theme-glassmorphism .glass-text-primary {
-  color: rgba(0, 0, 0, 0.9);
-  text-shadow: none;
+  color: rgba(255, 255, 255, 1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   font-weight: 500;
 }
 
 .theme-glassmorphism .glass-text-secondary {
-  color: rgba(0, 0, 0, 0.7);
-  text-shadow: none;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 /* 글래스모피즘에서 기본 텍스트 색상 오버라이드 */
@@ -459,29 +459,29 @@ html.theme-glassmorphism body,
 .theme-glassmorphism p,
 .theme-glassmorphism span,
 .theme-glassmorphism div {
-  color: rgba(0, 0, 0, 0.9) !important;
-  text-shadow: none;
+  color: rgba(255, 255, 255, 1) !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .theme-glassmorphism [style*="color: var(--text-secondary)"] {
-  color: rgba(0, 0, 0, 0.7) !important;
-  text-shadow: none;
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .theme-glassmorphism [style*="color: var(--text-light)"] {
-  color: rgba(0, 0, 0, 0.6) !important;
-  text-shadow: none;
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* 글래스모피즘 전역 텍스트 스타일 */
 .theme-glassmorphism * {
-  color: rgba(0, 0, 0, 0.9) !important;
-  text-shadow: none;
+  color: rgba(255, 255, 255, 1) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
-/* 아이콘 그림자 제거 */
+/* 아이콘은 텍스트 쉐도우 제거 */
 .theme-glassmorphism svg {
-  filter: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
 }
 
 /* 글래스모피즘 다크 배경에서 */
