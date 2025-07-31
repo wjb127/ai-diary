@@ -17,6 +17,11 @@ export default function DiaryPage() {
   const [isNewDiary, setIsNewDiary] = useState(true)
   const [selectedDiary, setSelectedDiary] = useState<Diary | null>(null)
 
+  // 날짜 포맷 함수 (M/D 형식)
+  const formatDateForTitle = (date: Date) => {
+    return `${date.getMonth() + 1}/${date.getDate()} 일기`
+  }
+
   const enhanceDiary = async () => {
     if (!originalText.trim()) return
 
@@ -87,6 +92,8 @@ export default function DiaryPage() {
     if (!todaysDiary) {
       console.log('터미널 로그: 일기 없음, 작성 모드 활성화 -', formatDateForDB(selectedDate))
       setIsNewDiary(true)
+      // 새 일기일 때 제목 기본값 설정
+      setTitle(formatDateForTitle(selectedDate))
     } else {
       console.log('터미널 로그: 일기 존재, 일기 보기 모드 -', todaysDiary.title)
       setIsNewDiary(false)
@@ -171,6 +178,10 @@ export default function DiaryPage() {
     newDate.setDate(newDate.getDate() + days)
     console.log('터미널 로그: 날짜 변경 -', formatDateForDB(newDate))
     setSelectedDate(newDate)
+    // 날짜가 변경되면 제목 초기화
+    setTitle('')
+    setOriginalText('')
+    setEnhancedText('')
   }
 
   // const resetForm = () => {
