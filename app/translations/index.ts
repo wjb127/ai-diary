@@ -6,8 +6,8 @@ export const translations = {
     startWriting: "Start Writing",
     features: {
       easyWriting: {
-        title: "Easy Writing",
-        description: "Write freely"
+        title: "Easy Writing", 
+        description: "Write freely\nand naturally"
       },
       aiEnhancement: {
         title: "AI Enhancement",
@@ -28,11 +28,13 @@ export const translations = {
       title: "Recommended For",
       difficulty: {
         title: "Writing Difficulty",
-        description: "AI turns simple notes\ninto beautiful entries"
+        description: "AI turns simple notes\ninto beautiful entries",
+        mobileDescription: "Simple → Beautiful"
       },
       memories: {
         title: "Memory Treasurers",
-        description: "Make ordinary moments\nspecial memories"
+        description: "Make ordinary moments\nspecial memories",
+        mobileDescription: "Special Moments"
       }
     },
     // Navigation
@@ -228,7 +230,7 @@ export const translations = {
     features: {
       easyWriting: {
         title: "간편한 작성",
-        description: "자유롭게 써보세요"
+        description: "자유롭게\n편안하게 써보세요"
       },
       aiEnhancement: {
         title: "AI 추억보정",
@@ -249,11 +251,13 @@ export const translations = {
       title: "이런 분들께 추천해요",
       difficulty: {
         title: "글쓰기 어려운 분",
-        description: "간단 메모로도\nAI가 예쁘게 변환"
+        description: "간단 메모로도\nAI가 예쁘게 변환",
+        mobileDescription: "메모 → 예쁜글"
       },
       memories: {
         title: "추억 소중한 분",
-        description: "평범한 순간을\n특별한 추억으로"
+        description: "평범한 순간을\n특별한 추억으로",
+        mobileDescription: "특별한 추억"
       }
     },
     // Navigation

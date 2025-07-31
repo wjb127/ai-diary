@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { BookOpen, Sparkles, Heart, ArrowRight } from 'lucide-react'
+import { BookOpen, Sparkles, Heart, ArrowRight, PenTool, Gift } from 'lucide-react'
 import { useLanguage } from './providers/LanguageProvider'
 import LanguageSelector from '@/components/LanguageSelector'
 import { Button } from '@/components/ui/button'
@@ -75,10 +75,10 @@ export default function Home() {
               whileHover={{ y: -4 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             >
-              <Card className="glass-readable group hover:glass-strong transition-all duration-500 p-3 sm:p-6 border-0">
-                <CardContent className="text-center p-0">
+              <Card className="glass-readable group hover:glass-strong transition-all duration-500 p-3 sm:p-6 border-0 h-36 sm:h-auto">
+                <CardContent className="text-center p-0 flex flex-col justify-center h-full">
                   <motion.div 
-                    className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-2 sm:mb-3 inline-block"
+                    className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-3 sm:mb-3 inline-block"
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ type: "spring", stiffness: 400, damping: 20 }}
                   >
@@ -88,7 +88,12 @@ export default function Home() {
                     {t('features.easyWriting.title')}
                   </CardTitle>
                   <CardDescription className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
-                    {t('features.easyWriting.description')}
+                    {t('features.easyWriting.description').split('\n').map((line, index) => (
+                      <span key={index}>
+                        {line}
+                        {index < t('features.easyWriting.description').split('\n').length - 1 && <br />}
+                      </span>
+                    ))}
                   </CardDescription>
                 </CardContent>
               </Card>
@@ -100,10 +105,10 @@ export default function Home() {
               whileHover={{ y: -4 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             >
-              <Card className="glass-readable group hover:glass-strong transition-all duration-500 p-3 sm:p-6 border-0">
-                <CardContent className="text-center p-0">
+              <Card className="glass-readable group hover:glass-strong transition-all duration-500 p-3 sm:p-6 border-0 h-36 sm:h-auto">
+                <CardContent className="text-center p-0 flex flex-col justify-center h-full">
                   <motion.div 
-                    className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-2 sm:mb-3 inline-block"
+                    className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-3 sm:mb-3 inline-block"
                     whileHover={{ scale: 1.1, rotate: -5 }}
                     transition={{ type: "spring", stiffness: 400, damping: 20 }}
                   >
@@ -125,10 +130,10 @@ export default function Home() {
               whileHover={{ y: -4 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             >
-              <Card className="glass-readable group hover:glass-strong transition-all duration-500 p-3 sm:p-6 border-0">
-                <CardContent className="text-center p-0">
+              <Card className="glass-readable group hover:glass-strong transition-all duration-500 p-3 sm:p-6 border-0 h-36 sm:h-auto">
+                <CardContent className="text-center p-0 flex flex-col justify-center h-full">
                   <motion.div 
-                    className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-2 sm:mb-3 inline-block"
+                    className="glass-subtle rounded-lg sm:rounded-xl p-2 sm:p-3 mb-3 sm:mb-3 inline-block"
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ type: "spring", stiffness: 400, damping: 20 }}
                   >
@@ -198,22 +203,27 @@ export default function Home() {
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             >
               <motion.div 
-                className="text-2xl sm:text-3xl mb-3 sm:mb-4 text-center"
+                className="mb-3 sm:mb-4 text-center"
                 whileHover={{ scale: 1.1, rotate: 10 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
               >
-                ✍️
+                <div className="glass-subtle rounded-xl p-3 sm:p-4 inline-block">
+                  <PenTool style={{ color: 'var(--accent-blue)' }} size={24} className="sm:w-8 sm:h-8" />
+                </div>
               </motion.div>
               <h4 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-center tracking-tight" style={{ color: 'var(--text-primary)' }}>
                 {t('recommendedFor.difficulty.title')}
               </h4>
               <p className="text-sm sm:text-base text-center font-normal sm:font-light leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                {t('recommendedFor.difficulty.description').split('\n').map((line, index) => (
-                  <span key={index}>
-                    {line}
-                    {index < t('recommendedFor.difficulty.description').split('\n').length - 1 && <br />}
-                  </span>
-                ))}
+                <span className="sm:hidden">{t('recommendedFor.difficulty.mobileDescription')}</span>
+                <span className="hidden sm:inline">
+                  {t('recommendedFor.difficulty.description').split('\n').map((line, index) => (
+                    <span key={index}>
+                      {line}
+                      {index < t('recommendedFor.difficulty.description').split('\n').length - 1 && <br />}
+                    </span>
+                  ))}
+                </span>
               </p>
             </motion.div>
             <motion.div 
@@ -223,22 +233,27 @@ export default function Home() {
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             >
               <motion.div 
-                className="text-2xl sm:text-3xl mb-3 sm:mb-4 text-center"
+                className="mb-3 sm:mb-4 text-center"
                 whileHover={{ scale: 1.1, rotate: -10 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
               >
-                💝
+                <div className="glass-subtle rounded-xl p-3 sm:p-4 inline-block">
+                  <Gift style={{ color: 'var(--accent-pink)' }} size={24} className="sm:w-8 sm:h-8" />
+                </div>
               </motion.div>
               <h4 className="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-center tracking-tight" style={{ color: 'var(--text-primary)' }}>
                 {t('recommendedFor.memories.title')}
               </h4>
               <p className="text-sm sm:text-base text-center font-normal sm:font-light leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                {t('recommendedFor.memories.description').split('\n').map((line, index) => (
-                  <span key={index}>
-                    {line}
-                    {index < t('recommendedFor.memories.description').split('\n').length - 1 && <br />}
-                  </span>
-                ))}
+                <span className="sm:hidden">{t('recommendedFor.memories.mobileDescription')}</span>
+                <span className="hidden sm:inline">
+                  {t('recommendedFor.memories.description').split('\n').map((line, index) => (
+                    <span key={index}>
+                      {line}
+                      {index < t('recommendedFor.memories.description').split('\n').length - 1 && <br />}
+                    </span>
+                  ))}
+                </span>
               </p>
             </motion.div>
           </div>

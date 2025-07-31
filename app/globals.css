@@ -212,17 +212,15 @@ body {
   animation: float 25s ease-in-out infinite, dreamyPulse 40s ease-in-out infinite;
 }
 
-/* 뉴모피즘 테마일 때 body 배경 재정의 */
+/* 뉴모피즘 테마일 때 body 배경 재정의 (흰색-회색 그라데이션) */
 .theme-neumorphism body {
-  background: #f0f0f3 !important;
-  background-image: none !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f3 100%) !important;
   color: var(--neu-text);
 }
 
-/* 뉴모피즘 테마 전체 컨테이너 배경도 강제 적용 */
+/* 뉴모피즘 테마 전체 컨테이너 배경도 강제 적용 (흰색-회색 그라데이션) */
 .theme-neumorphism {
-  background: #f0f0f3 !important;
-  background-image: none !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f3 100%) !important;
 }
 
 /* 뉴모피즘에서 모든 장식 요소 제거 */
@@ -565,11 +563,11 @@ html.theme-glassmorphism body,
   }
 }
 
-/* Neumorphism 테마 - 개선된 버전 */
+/* Neumorphism 테마 - 개선된 버전 (그라데이션 배경) */
 .theme-neumorphism {
-  --neu-bg: #e6e6ea;
+  --neu-bg: #f6f6f8;
   --neu-shadow-light: #ffffff;
-  --neu-shadow-dark: #c8c8cc;
+  --neu-shadow-dark: #e0e0e4;
   --neu-text: #2d3748;
   --neu-text-secondary: #4a5568;
   --neu-accent: #667eea;
