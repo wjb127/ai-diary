@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Calendar, BookOpen, Sparkles, BarChart3 } from 'lucide-react'
+import { Calendar, BookOpen, Sparkles, BarChart3, Palette } from 'lucide-react'
 import { safeDiaryOperations, Diary } from '@/lib/supabase'
+import { useTheme } from '../providers/ThemeProvider'
 
 export default function ProfilePage() {
+  const { theme, setTheme } = useTheme()
   const [diaries, setDiaries] = useState<Diary[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [stats, setStats] = useState({
@@ -102,6 +104,62 @@ export default function ProfilePage() {
       </div>
 
       <div className="px-4 sm:px-6 py-6 sm:py-8">
+        {/* 테마 선택 카드 */}
+        <div className="glass-strong rounded-xl sm:rounded-2xl p-5 sm:p-6 mb-6 sm:mb-8">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center tracking-tight" style={{ color: 'var(--text-primary)' }}>
+            <div className="glass-subtle rounded-xl p-2 mr-3">
+              <Palette style={{ color: 'var(--accent-purple)' }} size={18} className="sm:w-5 sm:h-5" />
+            </div>
+            테마 설정
+          </h2>
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            <button
+              onClick={() => setTheme('glassmorphism')}
+              className={`relative group transition-all duration-300 ${
+                theme === 'glassmorphism' ? 'scale-105' : 'hover:scale-105'
+              }`}
+            >
+              <div className={`glass-card p-4 sm:p-5 text-center ${
+                theme === 'glassmorphism' ? 'border-2' : ''
+              }`} style={{ borderColor: theme === 'glassmorphism' ? 'var(--accent-blue)' : undefined }}>
+                <div className="glass-subtle rounded-xl p-3 mb-3 inline-block">
+                  <div className="w-8 h-8 rounded-lg glass-button"></div>
+                </div>
+                <h3 className="font-semibold text-sm sm:text-base mb-1" style={{ color: 'var(--text-primary)' }}>
+                  Glassmorphism
+                </h3>
+                <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  투명하고 현대적인 디자인
+                </p>
+                {theme === 'glassmorphism' && (
+                  <div className="absolute top-2 right-2 w-3 h-3 rounded-full" style={{ background: 'var(--accent-blue)' }}></div>
+                )}
+              </div>
+            </button>
+            
+            <button
+              onClick={() => setTheme('neumorphism')}
+              className={`relative group transition-all duration-300 ${
+                theme === 'neumorphism' ? 'scale-105' : 'hover:scale-105'
+              }`}
+            >
+              <div className={`${theme === 'neumorphism' ? 'neu-card border-2 border-transparent' : 'glass-card'} p-4 sm:p-5 text-center`}>
+                <div className={theme === 'neumorphism' ? 'neu-card-inset rounded-xl p-3 mb-3 inline-block' : 'glass-subtle rounded-xl p-3 mb-3 inline-block'}>
+                  <div className={`w-8 h-8 rounded-lg ${theme === 'neumorphism' ? 'neu-button' : 'glass-button'}`}></div>
+                </div>
+                <h3 className="font-semibold text-sm sm:text-base mb-1" style={{ color: theme === 'neumorphism' ? 'var(--neu-text)' : 'var(--text-primary)' }}>
+                  Neumorphism
+                </h3>
+                <p className="text-xs sm:text-sm" style={{ color: theme === 'neumorphism' ? 'var(--neu-text)' : 'var(--text-secondary)' }}>
+                  부드럽고 입체적인 디자인
+                </p>
+                {theme === 'neumorphism' && (
+                  <div className="absolute top-2 right-2 w-3 h-3 rounded-full" style={{ background: 'var(--accent-purple)' }}></div>
+                )}
+              </div>
+            </button>
+          </div>
+        </div>
 
         {/* 통계 카드 - 모바일 최적화 */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">

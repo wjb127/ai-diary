@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import BottomNavigation from "@/components/BottomNavigation";
 import { Viewport } from "next";
+import { ThemeProvider } from './providers/ThemeProvider';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,10 +48,12 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <div className="min-h-screen">
-          <main className="pb-20">{children}</main>
-          <BottomNavigation />
-        </div>
+        <ThemeProvider>
+          <div className="min-h-screen">
+            <main className="pb-20">{children}</main>
+            <BottomNavigation />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
