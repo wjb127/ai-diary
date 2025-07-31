@@ -5,8 +5,8 @@
   --foreground: #171717;
   
   /* Jonathan Ive 스타일 컬러 팔레트 - 모바일 최적화 */
-  --glass-bg: rgba(255, 255, 255, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.25);
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.3);
   --glass-shadow: rgba(0, 0, 0, 0.1);
   --accent-blue: #007AFF;
   --accent-purple: #AF52DE;
@@ -17,10 +17,10 @@
   --text-secondary: #4A4A4A;
   --text-light: #6B6B6B;
   
-  /* 모바일 최적화된 glassmorphism */
-  --surface-primary: rgba(255, 255, 255, 0.9);
-  --surface-secondary: rgba(255, 255, 255, 0.75);
-  --surface-tertiary: rgba(255, 255, 255, 0.6);
+  /* 모바일 최적화된 glassmorphism - 투명도 증가 */
+  --surface-primary: rgba(255, 255, 255, 0.7);
+  --surface-secondary: rgba(255, 255, 255, 0.5);
+  --surface-tertiary: rgba(255, 255, 255, 0.3);
 }
 
 @theme inline {
@@ -101,35 +101,35 @@ body {
 /* Glassmorphism 기본 클래스 - 모바일 최적화 */
 .theme-glassmorphism .glass,
 .theme-glassmorphism .neu-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px var(--glass-shadow);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 .theme-glassmorphism .glass-strong {
-  background: var(--surface-primary);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 12px 32px var(--glass-shadow);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
 .theme-glassmorphism .glass-subtle {
-  background: var(--surface-secondary);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 4px 16px var(--glass-shadow);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .theme-glassmorphism .glass-readable {
-  background: var(--surface-tertiary);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 2px 12px var(--glass-shadow);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
 
 /* Neumorphism 변환 - 기존 glass 클래스들을 뉴모피즘 스타일로 */
@@ -297,41 +297,56 @@ body {
 /* 테마별 스타일 */
 /* Glassmorphism 테마 - 개선된 버전 */
 .theme-glassmorphism .glass-card {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   border-radius: 16px;
   transition: all 0.3s ease;
-  color: white;
 }
 
 .theme-glassmorphism .glass-button {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 12px;
   transition: all 0.3s ease;
-  color: white;
 }
 
 .theme-glassmorphism .glass-button:hover {
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.15);
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
 /* 글래스모피즘 텍스트 가독성 개선 */
 .theme-glassmorphism .glass-text-primary {
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  font-weight: 500;
 }
 
 .theme-glassmorphism .glass-text-secondary {
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* 글래스모피즘에서 기본 텍스트 색상 오버라이드 */
+.theme-glassmorphism [style*="color: var(--text-primary)"] {
+  color: rgba(255, 255, 255, 1) !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.theme-glassmorphism [style*="color: var(--text-secondary)"] {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.theme-glassmorphism [style*="color: var(--text-light)"] {
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* 글래스모피즘 다크 배경에서 */

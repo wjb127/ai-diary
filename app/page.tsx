@@ -36,57 +36,50 @@ export default function Home() {
       </div>
 
       <div className="px-4 sm:px-6 py-8 sm:py-12">
-        {/* 주요 기능 - 모바일 최적화 카드 */}
-        <div className="space-y-4 sm:space-y-6 mb-12 sm:mb-16 max-w-4xl mx-auto">
-          {/* 간편한 일기 작성 */}
-          <div className="glass-readable rounded-2xl p-6 sm:p-8 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
-            <div className="flex items-start space-x-4 sm:space-x-5">
-              <div className="glass-subtle rounded-xl sm:rounded-2xl p-3 sm:p-4 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                <BookOpen style={{ color: 'var(--accent-blue)' }} size={24} className="sm:w-7 sm:h-7" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>
-                  간편한 일기 작성
+        {/* 주요 기능 - 모바일 가로 스크롤 최적화 */}
+        <div className="mb-12 sm:mb-16 max-w-6xl mx-auto">
+          <div className="flex gap-3 overflow-x-auto pb-4 sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-x-visible sm:pb-0">
+            {/* 간편한 일기 작성 */}
+            <div className="flex-shrink-0 w-72 sm:w-auto glass-readable rounded-2xl p-4 sm:p-6 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
+              <div className="text-center">
+                <div className="glass-subtle rounded-xl p-3 mb-3 inline-block group-hover:scale-110 transition-transform duration-300">
+                  <BookOpen style={{ color: 'var(--accent-blue)' }} size={20} className="sm:w-6 sm:h-6" />
+                </div>
+                <h3 className="text-base sm:text-lg font-semibold mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                  간편한 작성
                 </h3>
-                <p className="text-sm sm:text-base leading-relaxed font-normal sm:font-light" style={{ color: 'var(--text-secondary)' }}>
-                  오늘 있었던 일을 간단히 휘갈겨 써보세요.<br className="hidden sm:block" />
-                  <span className="sm:hidden"> </span>어떤 형태든 괜찮습니다. 완벽하지 않아도 됩니다.
+                <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
+                  자유롭게 써보세요
                 </p>
               </div>
             </div>
-          </div>
 
-          {/* AI 추억보정 */}
-          <div className="glass-readable rounded-2xl p-6 sm:p-8 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
-            <div className="flex items-start space-x-4 sm:space-x-5">
-              <div className="glass-subtle rounded-xl sm:rounded-2xl p-3 sm:p-4 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                <Sparkles style={{ color: 'var(--accent-purple)' }} size={24} className="sm:w-7 sm:h-7" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>
+            {/* AI 추억보정 */}
+            <div className="flex-shrink-0 w-72 sm:w-auto glass-readable rounded-2xl p-4 sm:p-6 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
+              <div className="text-center">
+                <div className="glass-subtle rounded-xl p-3 mb-3 inline-block group-hover:scale-110 transition-transform duration-300">
+                  <Sparkles style={{ color: 'var(--accent-purple)' }} size={20} className="sm:w-6 sm:h-6" />
+                </div>
+                <h3 className="text-base sm:text-lg font-semibold mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
                   AI 추억보정
                 </h3>
-                <p className="text-sm sm:text-base leading-relaxed font-normal sm:font-light" style={{ color: 'var(--text-secondary)' }}>
-                  AI가 여러분의 일상을 아름답고 감성적인 문장으로<br className="hidden sm:block" />
-                  <span className="sm:hidden"> </span>세심하게 다시 써드립니다.
+                <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
+                  감성적으로 변환
                 </p>
               </div>
             </div>
-          </div>
 
-          {/* 소중한 추억 보관 */}
-          <div className="glass-readable rounded-2xl p-6 sm:p-8 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
-            <div className="flex items-start space-x-4 sm:space-x-5">
-              <div className="glass-subtle rounded-xl sm:rounded-2xl p-3 sm:p-4 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                <Heart style={{ color: 'var(--accent-pink)' }} size={24} className="sm:w-7 sm:h-7" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>
-                  소중한 추억 보관
+            {/* 소중한 추억 보관 */}
+            <div className="flex-shrink-0 w-72 sm:w-auto glass-readable rounded-2xl p-4 sm:p-6 group hover:glass-strong transition-all duration-500 transform hover:-translate-y-1 sm:hover:-translate-y-2">
+              <div className="text-center">
+                <div className="glass-subtle rounded-xl p-3 mb-3 inline-block group-hover:scale-110 transition-transform duration-300">
+                  <Heart style={{ color: 'var(--accent-pink)' }} size={20} className="sm:w-6 sm:h-6" />
+                </div>
+                <h3 className="text-base sm:text-lg font-semibold mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                  안전한 보관
                 </h3>
-                <p className="text-sm sm:text-base leading-relaxed font-normal sm:font-light" style={{ color: 'var(--text-secondary)' }}>
-                  변환된 일기를 안전하게 저장하고<br className="hidden sm:block" />
-                  <span className="sm:hidden"> </span>언제든지 다시 읽어보며 추억을 되새겨보세요.
+                <p className="text-xs sm:text-sm font-normal" style={{ color: 'var(--text-secondary)' }}>
+                  추억을 간직하세요
                 </p>
               </div>
             </div>
