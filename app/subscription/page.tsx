@@ -38,10 +38,10 @@ export default function SubscriptionPage() {
       name: t('subscription.freePlan'),
       price: 0,
       features: Array.isArray(t('subscription.features.freeFeatures')) 
-        ? t('subscription.features.freeFeatures') as string[]
+        ? t('subscription.features.freeFeatures') as unknown as string[]
         : [],
       limitations: Array.isArray(t('subscription.features.freeLimitations')) 
-        ? t('subscription.features.freeLimitations') as string[]
+        ? t('subscription.features.freeLimitations') as unknown as string[]
         : []
     },
     premium: {
@@ -49,7 +49,7 @@ export default function SubscriptionPage() {
       monthlyPrice: 9900,
       yearlyPrice: 99000,
       features: Array.isArray(t('subscription.features.premiumFeatures')) 
-        ? t('subscription.features.premiumFeatures') as string[]
+        ? t('subscription.features.premiumFeatures') as unknown as string[]
         : []
     }
   }
