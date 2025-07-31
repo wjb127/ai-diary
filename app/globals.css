@@ -347,11 +347,12 @@ body {
 
 /* Neumorphism 테마 - 개선된 버전 */
 .theme-neumorphism {
-  --neu-bg: #e0e5ec;
-  --neu-shadow-light: rgba(255, 255, 255, 0.5);
-  --neu-shadow-dark: rgba(163, 177, 198, 0.6);
+  --neu-bg: #ffffff;
+  --neu-shadow-light: rgba(255, 255, 255, 0.9);
+  --neu-shadow-dark: rgba(200, 200, 200, 0.35);
   --neu-text: #2d3748;
   --neu-text-secondary: #4a5568;
+  --neu-accent: #667eea;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -361,6 +362,7 @@ body {
     --neu-shadow-dark: rgba(0, 0, 0, 0.7);
     --neu-text: #e0e0e0;
     --neu-text-secondary: #a0a0a0;
+    --neu-accent: #818cf8;
   }
 }
 
@@ -460,4 +462,28 @@ body {
 
 .theme-neumorphism [style*="color: var(--text-light)"] {
   color: var(--neu-text-secondary) !important;
+}
+
+/* 뉴모피즘 테마에서 아이콘 색상만 유지 */
+.theme-neumorphism [style*="color: var(--accent-blue)"] {
+  color: var(--neu-accent) !important;
+}
+
+.theme-neumorphism [style*="color: var(--accent-purple)"] {
+  color: var(--neu-accent) !important;
+}
+
+.theme-neumorphism [style*="color: var(--accent-pink)"] {
+  color: var(--neu-accent) !important;
+}
+
+/* 뉴모피즘에서 도형 배경 제거 */
+.theme-neumorphism .glass-subtle:has(svg) {
+  background: var(--neu-bg) !important;
+  box-shadow: none !important;
+}
+
+.theme-neumorphism .glass-readable:has(svg) {
+  background: var(--neu-bg) !important;
+  box-shadow: none !important;
 }
