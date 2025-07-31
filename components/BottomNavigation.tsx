@@ -3,15 +3,17 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Home, BookOpen, User, Crown } from 'lucide-react'
+import { useLanguage } from '@/app/providers/LanguageProvider'
 
 export default function BottomNavigation() {
   const pathname = usePathname()
+  const { t } = useLanguage()
 
   const navItems = [
-    { href: '/', label: '홈', icon: Home },
-    { href: '/diary', label: 'AI 일기장', icon: BookOpen },
-    { href: '/profile', label: '프로필', icon: User },
-    { href: '/subscription', label: '구독', icon: Crown },
+    { href: '/', label: t('navigation.home'), icon: Home },
+    { href: '/diary', label: t('navigation.diary'), icon: BookOpen },
+    { href: '/profile', label: t('navigation.profile'), icon: User },
+    { href: '/subscription', label: t('navigation.subscription'), icon: Crown },
   ]
 
   return (
