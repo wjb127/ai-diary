@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Edit2 } from 'lucide-react'
 import { safeDiaryOperations, Diary, isSupabaseConfigured, testSupabaseConnection } from '@/lib/supabase'
 import DiaryEditor from '@/components/DiaryEditor'
 
@@ -329,9 +329,9 @@ export default function DiaryPage() {
           </div>
         ) : todaysDiary ? (
           <div className="glass-strong rounded-3xl p-8">
-            <div className="flex items-center justify-between mb-6">
+            <div className="mb-6">
               <h2 
-                className="text-2xl font-light cursor-pointer hover:scale-105 transition-all duration-300 tracking-tight"
+                className="text-2xl font-light cursor-pointer hover:scale-105 transition-all duration-300 tracking-tight mb-3"
                 style={{ color: 'var(--text-primary)' }}
                 onClick={() => {
                   console.log('터미널 로그: 일기 제목 클릭, 에디터 열기')
@@ -341,7 +341,7 @@ export default function DiaryPage() {
               >
                 {todaysDiary.title}
               </h2>
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center justify-between">
                 <span className="text-sm font-light" style={{ color: 'var(--text-secondary)' }}>
                   {new Date(todaysDiary.created_at).toLocaleTimeString('ko-KR', {
                     hour: '2-digit',
@@ -353,10 +353,11 @@ export default function DiaryPage() {
                     console.log('터미널 로그: 일기 에디터 버튼 클릭')
                     setSelectedDiary(todaysDiary)
                   }}
-                  className="glass-subtle px-4 py-2 rounded-2xl hover:glass transition-all duration-300 transform hover:scale-105 font-medium"
+                  className="glass-subtle p-2.5 rounded-xl hover:glass transition-all duration-300 transform hover:scale-110 hover:rotate-12"
                   style={{ color: 'var(--accent-blue)' }}
+                  title="편집하기"
                 >
-                  상세보기
+                  <Edit2 size={18} />
                 </button>
               </div>
             </div>
