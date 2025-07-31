@@ -248,10 +248,10 @@ export default function DiaryPage() {
         </div>
       </div>
 
-      <div className="px-4 sm:px-6 py-6 sm:py-8">
+      <div className="px-2 sm:px-6 py-6 sm:py-8">
         {/* 새 일기 작성 모드 - 모바일 최적화 */}
         {isNewDiary && !todaysDiary ? (
-          <div className="glass-strong rounded-2xl sm:rounded-3xl p-6 sm:p-8">
+          <div className="glass-strong rounded-2xl sm:rounded-3xl p-4 sm:p-8">
             <div className="space-y-5 sm:space-y-6">
               {/* 제목 입력 */}
               <input
@@ -289,7 +289,7 @@ export default function DiaryPage() {
                       AI가 보정한 추억
                     </h3>
                   </div>
-                  <div className="glass rounded-2xl p-6" style={{ border: '2px solid rgba(175, 82, 222, 0.3)' }}>
+                  <div className="glass rounded-2xl p-4 sm:p-6" style={{ border: '2px solid rgba(175, 82, 222, 0.3)' }}>
                     <p className="leading-relaxed whitespace-pre-wrap text-lg font-light" style={{ color: 'var(--text-primary)' }}>
                       {enhancedText}
                     </p>
@@ -328,7 +328,7 @@ export default function DiaryPage() {
             </div>
           </div>
         ) : todaysDiary ? (
-          <div className="glass-strong rounded-3xl p-8">
+          <div className="glass-strong rounded-3xl p-4 sm:p-8">
             <div className="mb-6">
               <h2 
                 className="text-2xl font-light cursor-pointer hover:scale-105 transition-all duration-300 tracking-tight mb-3"
@@ -372,7 +372,7 @@ export default function DiaryPage() {
                     원본 일기
                   </h3>
                 </div>
-                <div className="glass-subtle p-6 rounded-2xl">
+                <div className="glass-subtle p-4 sm:p-6 rounded-2xl">
                   <p className="leading-relaxed whitespace-pre-wrap text-lg font-light" style={{ color: 'var(--text-primary)' }}>
                     {todaysDiary.original_content}
                   </p>
@@ -388,7 +388,7 @@ export default function DiaryPage() {
                     AI 감성 일기
                   </h3>
                 </div>
-                <div className="glass-subtle p-6 rounded-2xl" style={{ border: '2px solid rgba(175, 82, 222, 0.3)' }}>
+                <div className="glass-subtle p-4 sm:p-6 rounded-2xl" style={{ border: '2px solid rgba(175, 82, 222, 0.3)' }}>
                   <p className="leading-relaxed whitespace-pre-wrap text-lg font-light" style={{ color: 'var(--text-primary)' }}>
                     {todaysDiary.ai_content}
                   </p>
@@ -399,7 +399,7 @@ export default function DiaryPage() {
         ) : (
           /* 선택된 날짜에 일기가 없는 경우 - 모든 날짜에 작성 가능 */
           <div className="text-center py-16">
-            <div className="glass-strong rounded-3xl p-12 max-w-md mx-auto">
+            <div className="glass-strong rounded-3xl p-6 sm:p-12 max-w-md mx-auto">
               <div className="glass-subtle rounded-3xl p-6 mb-8 inline-block">
                 <Calendar size={64} style={{ color: 'var(--text-secondary)' }} />
               </div>
