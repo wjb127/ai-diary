@@ -140,7 +140,7 @@ export default function Home() {
           <h2 className="text-2xl sm:text-3xl font-medium sm:font-light text-center mb-8 sm:mb-12 tracking-tight" style={{ color: 'var(--text-primary)' }}>
             {t('recommendedFor.title')}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-8">
             <div className="glass-subtle rounded-xl sm:rounded-2xl p-5 sm:p-6 group hover:scale-105 transition-all duration-300">
               <div className="text-2xl sm:text-3xl mb-3 sm:mb-4 text-center group-hover:scale-110 transition-transform duration-300">
                 ✍️

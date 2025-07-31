@@ -27,12 +27,12 @@ export const translations = {
     recommendedFor: {
       title: "Recommended For",
       difficulty: {
-        title: "Those who find writing difficult",
-        description: "Even with simple notes, AI will\nturn them into beautiful diary entries"
+        title: "Writing Difficulty",
+        description: "AI turns simple notes\ninto beautiful entries"
       },
       memories: {
-        title: "Those who treasure memories",
-        description: "Turn ordinary moments\ninto special memories"
+        title: "Memory Treasurers",
+        description: "Make ordinary moments\nspecial memories"
       }
     },
     // Navigation
@@ -142,12 +142,12 @@ export const translations = {
     recommendedFor: {
       title: "이런 분들께 추천해요",
       difficulty: {
-        title: "글쓰기가 어려운 분",
-        description: "간단한 메모만 적어도 AI가\n아름다운 일기로 만들어드려요"
+        title: "글쓰기 어려운 분",
+        description: "간단 메모로도\nAI가 예쁘게 변환"
       },
       memories: {
-        title: "추억을 소중히 하는 분",
-        description: "일상의 평범한 순간도\n특별한 추억으로 만들어보세요"
+        title: "추억 소중한 분",
+        description: "평범한 순간을\n특별한 추억으로"
       }
     },
     // Navigation

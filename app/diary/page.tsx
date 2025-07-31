@@ -211,12 +211,15 @@ export default function DiaryPage() {
   }
 
   const formatDateDisplay = (date: Date) => {
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      weekday: 'long'
-    })
+    const weekdays = ['SU', 'M', 'T', 'W', 'TH', 'F', 'S']
+    const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+    
+    const year = date.getFullYear()
+    const month = months[date.getMonth()]
+    const day = date.getDate()
+    const weekday = weekdays[date.getDay()]
+    
+    return `${year}.${month}.${day} ${weekday}`
   }
 
   const loadDiaryForDate = async (date: Date) => {
