@@ -61,7 +61,9 @@ ${originalText}
     console.log('응답 타입:', response.content[0].type)
     console.log('보정된 텍스트 길이:', response.content[0].type === 'text' ? response.content[0].text.length : 0)
     
-    return response.content[0].type === 'text' ? response.content[0].text : '일기 변환에 실패했습니다.'
+    const text = response.content[0].type === 'text' ? response.content[0].text : '일기 변환에 실패했습니다.'
+    // 이스케이프된 줄바꿈 문자를 실제 줄바꿈으로 변환
+    return text.replace(/\\n/g, '\n')
   } catch (error) {
     console.error('=== Anthropic API 오류 상세 ===')
     console.error('오류 타입:', error instanceof Error ? error.constructor.name : typeof error)
