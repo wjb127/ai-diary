@@ -52,7 +52,7 @@
 }
 
 body {
-  background: #f0f0f3;
+  background: transparent;
   color: var(--foreground);
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
   min-height: 100vh;
@@ -61,16 +61,28 @@ body {
 }
 
 /* 글래스모피즘 전용 배경 - 몽환적인 짙은 보라색 계열 */
+.theme-glassmorphism {
+  background: 
+    radial-gradient(circle at 25% 75%, rgba(88, 28, 135, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 75% 25%, rgba(67, 56, 202, 0.3) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(109, 40, 217, 0.2) 0%, transparent 40%),
+    linear-gradient(135deg, #2d1b69 0%, #6b46c1 50%, #7c3aed 100%) !important;
+  min-height: 100vh;
+}
+
+.theme-glassmorphism html,
 .theme-glassmorphism body {
   background: 
     radial-gradient(circle at 25% 75%, rgba(88, 28, 135, 0.4) 0%, transparent 50%),
     radial-gradient(circle at 75% 25%, rgba(67, 56, 202, 0.3) 0%, transparent 45%),
     radial-gradient(circle at 50% 50%, rgba(109, 40, 217, 0.2) 0%, transparent 40%),
-    linear-gradient(135deg, #2d1b69 0%, #6b46c1 50%, #7c3aed 100%);
+    linear-gradient(135deg, #2d1b69 0%, #6b46c1 50%, #7c3aed 100%) !important;
+  background-attachment: fixed !important;
 }
 
 /* 글래스모피즘 전용 장식 요소들 - 몽환적인 패턴 */
-.theme-glassmorphism body::before {
+.theme-glassmorphism body::before,
+.theme-glassmorphism::before {
   content: '';
   position: fixed;
   top: 0;
@@ -86,7 +98,8 @@ body {
   z-index: -1;
 }
 
-.theme-glassmorphism body::after {
+.theme-glassmorphism body::after,
+.theme-glassmorphism::after {
   content: '';
   position: fixed;
   top: 0;
@@ -130,7 +143,8 @@ body {
 }
 
 /* 글래스모피즘 전용 배경에 추가 패턴 레이어 */
-.theme-glassmorphism body::after {
+.theme-glassmorphism body::after,
+.theme-glassmorphism::after {
   animation: float 25s ease-in-out infinite, dreamyPulse 40s ease-in-out infinite;
 }
 
@@ -141,10 +155,29 @@ body {
   color: var(--neu-text);
 }
 
+/* 뉴모피즘 테마 전체 컨테이너 배경도 강제 적용 */
+.theme-neumorphism {
+  background: #f0f0f3 !important;
+  background-image: none !important;
+}
+
 /* 뉴모피즘에서 모든 장식 요소 제거 */
 .theme-neumorphism body::before,
 .theme-neumorphism body::after {
   display: none !important;
+}
+
+/* 글래스모피즘 배경 강제 적용 - 최고 우선순위 */
+html.theme-glassmorphism,
+html.theme-glassmorphism body,
+.theme-glassmorphism,
+.theme-glassmorphism body {
+  background: 
+    radial-gradient(circle at 25% 75%, rgba(88, 28, 135, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 75% 25%, rgba(67, 56, 202, 0.3) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(109, 40, 217, 0.2) 0%, transparent 40%),
+    linear-gradient(135deg, #2d1b69 0%, #6b46c1 50%, #7c3aed 100%) !important;
+  background-attachment: fixed !important;
 }
 
 /* 기본 glass 스타일 (테마가 적용되지 않은 경우를 위한 fallback) */
@@ -805,4 +838,70 @@ body {
 .theme-minimalism [style*="color: var(--accent-purple)"],
 .theme-minimalism [style*="color: var(--accent-pink)"] {
   color: var(--minimal-accent) !important;
+}
+
+/* 글래스모피즘 배경 강제 적용 - 최고 우선순위 */
+html.theme-glassmorphism,
+html.theme-glassmorphism body,
+.theme-glassmorphism,
+.theme-glassmorphism body {
+  background: 
+    radial-gradient(circle at 25% 75%, rgba(88, 28, 135, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 75% 25%, rgba(67, 56, 202, 0.3) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(109, 40, 217, 0.2) 0%, transparent 40%),
+    linear-gradient(135deg, #2d1b69 0%, #6b46c1 50%, #7c3aed 100%) !important;
+  background-attachment: fixed !important;
+}
+
+/* 글래스모피즘 배경 강제 적용 - 최고 우선순위 */
+html.theme-glassmorphism,
+html.theme-glassmorphism body,
+.theme-glassmorphism,
+.theme-glassmorphism body {
+  background: 
+    radial-gradient(circle at 25% 75%, rgba(88, 28, 135, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 75% 25%, rgba(67, 56, 202, 0.3) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(109, 40, 217, 0.2) 0%, transparent 40%),
+    linear-gradient(135deg, #2d1b69 0%, #6b46c1 50%, #7c3aed 100%) !important;
+  background-attachment: fixed !important;
+}
+
+/* 기본 body 배경 수정 - 글래스모피즘 지원 */
+body:not(.theme-neumorphism) {
+  background: transparent !important;
+}
+
+/* 뉴모피즘 전용 배경 강화 */
+html.theme-neumorphism,
+html.theme-neumorphism body,
+body.theme-neumorphism {
+  background: #f0f0f3 !important;
+  background-image: none !important;
+}
+
+/* 글래스모피즘 배경 강제 적용 - 최고 우선순위 */
+html.theme-glassmorphism,
+html.theme-glassmorphism body,
+.theme-glassmorphism,
+.theme-glassmorphism body {
+  background: 
+    radial-gradient(circle at 25% 75%, rgba(88, 28, 135, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 75% 25%, rgba(67, 56, 202, 0.3) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(109, 40, 217, 0.2) 0%, transparent 40%),
+    linear-gradient(135deg, #2d1b69 0%, #6b46c1 50%, #7c3aed 100%) !important;
+  background-attachment: fixed !important;
+  min-height: 100vh !important;
+}
+
+/* 기본 body 배경 조건부 설정 */
+body:not(.theme-neumorphism) {
+  background: transparent !important;
+}
+
+/* 뉴모피즘 배경 강화 */
+html.theme-neumorphism,
+html.theme-neumorphism body,
+body.theme-neumorphism {
+  background: #f0f0f3 !important;
+  background-image: none !important;
 }
