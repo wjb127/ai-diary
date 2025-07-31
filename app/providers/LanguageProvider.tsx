@@ -39,13 +39,13 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   // Translation function
   const t = (key: string): string => {
     const keys = key.split('.')
-    let value: any = translations[language]
+    let value: unknown = translations[language]
     
     for (const k of keys) {
-      value = value?.[k]
+      value = (value as Record<string, unknown>)?.[k]
     }
     
-    return value || key
+    return (typeof value === 'string' ? value : key)
   }
 
   return (

@@ -1,6 +1,6 @@
 'use client'
 
-import { useLanguage, Language } from '@/app/providers/LanguageProvider'
+import { useLanguage } from '@/app/providers/LanguageProvider'
 import { Globe } from 'lucide-react'
 
 export default function LanguageSelector() {

@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Edit2, Save } from 'lucide-react'
+import { useState, useEffect, useCallback } from 'react'
+import { Sparkles, FileText, Calendar, ChevronLeft, ChevronRight, Save } from 'lucide-react'
 import { safeDiaryOperations, Diary, isSupabaseConfigured, testSupabaseConnection } from '@/lib/supabase'
 import DiaryEditor from '@/components/DiaryEditor'
 import { useLanguage } from '@/app/providers/LanguageProvider'
@@ -20,17 +20,17 @@ export default function DiaryPage() {
   const [selectedDiary, setSelectedDiary] = useState<Diary | null>(null)
   const [showCalendar, setShowCalendar] = useState(false)
   const [calendarDate, setCalendarDate] = useState(new Date())
-  const [isEditingExisting, setIsEditingExisting] = useState(false)
+  // const [isEditingExisting, setIsEditingExisting] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [diaryDatesInMonth, setDiaryDatesInMonth] = useState<number[]>([])
 
   // 날짜 포맷 함수 (M/D 형식)
-  const formatDateForTitle = (date: Date) => {
+  const formatDateForTitle = useCallback((date: Date) => {
     if (t('diary.title') === 'AI Diary') {
       return `${date.getMonth() + 1}/${date.getDate()} Diary`
     }
     return `${date.getMonth() + 1}/${date.getDate()} 일기`
-  }
+  }, [t])
 
   // 달력 관련 함수들
   const getDaysInMonth = (date: Date) => {
@@ -175,7 +175,7 @@ export default function DiaryPage() {
     if (!todaysDiary) {
       console.log('터미널 로그: 일기 없음, 작성 모드 활성화 -', formatDateForDB(selectedDate))
       setIsNewDiary(true)
-      setIsEditingExisting(false)
+      // setIsEditingExisting(false)
       // 새 일기일 때 제목 기본값 설정
       setTitle(formatDateForTitle(selectedDate))
       setOriginalText('')
@@ -183,13 +183,13 @@ export default function DiaryPage() {
     } else {
       console.log('터미널 로그: 일기 존재, 편집 가능 모드 -', todaysDiary.title)
       setIsNewDiary(false)
-      setIsEditingExisting(false)
+      // setIsEditingExisting(false)
       // 기존 일기 데이터 로드
       setTitle(todaysDiary.title)
       setOriginalText(todaysDiary.original_content)
       setEnhancedText(todaysDiary.ai_content)
     }
-  }, [selectedDate, todaysDiary])
+  }, [selectedDate, todaysDiary, formatDateForTitle])
 
   useEffect(() => {
     // 선택된 날짜가 변경되면 달력도 해당 월로 이동
@@ -286,7 +286,7 @@ export default function DiaryPage() {
       console.log('일기 저장/수정 성공!')
       alert(isNewDiary ? t('messages.diarySaved') : t('messages.diaryUpdated'))
       setIsNewDiary(false)
-      setIsEditingExisting(false)
+      // setIsEditingExisting(false)
       loadDiaryForDate(selectedDate)
     } else {
       console.error('일기 저장/수정 실패')
@@ -301,7 +301,7 @@ export default function DiaryPage() {
     console.log('터미널 로그: 날짜 변경 -', formatDateForDB(newDate))
     setSelectedDate(newDate)
     // 날짜가 변경되면 편집 모드 해제
-    setIsEditingExisting(false)
+    // setIsEditingExisting(false)
   }
 
   // const resetForm = () => {
