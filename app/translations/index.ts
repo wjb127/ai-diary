@@ -10,7 +10,7 @@ export const translations = {
         description: "Write freely\nand naturally"
       },
       aiEnhancement: {
-        title: "AI Enhancement",
+        title: "AI Function",
         description: "Emotional transformation"
       },
       secureStorage: {

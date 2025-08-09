@@ -301,10 +301,9 @@ export default function DiaryPage() {
             
             <button
               onClick={() => changeDate(1)}
-              className="glass-subtle p-2 rounded-xl hover:glass transition-all duration-300 disabled:opacity-50"
-              disabled={formatDateForDB(selectedDate) >= formatDateForDB(new Date())}
+              className="glass-subtle p-2 rounded-xl hover:glass transition-all duration-300"
             >
-              <ChevronRight size={20} style={{ color: formatDateForDB(selectedDate) >= formatDateForDB(new Date()) ? 'var(--text-light)' : 'var(--text-primary)' }} />
+              <ChevronRight size={20} style={{ color: 'var(--text-primary)' }} />
             </button>
           </div>
         </div>
